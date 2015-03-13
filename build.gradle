@@ -35,6 +35,7 @@ repositories { mavenCentral() }
 dependencies {
 	compile(
 			'jmagick:jmagick:6.6.9',
+			'org.liquibase:liquibase-core:3.3.2',
 			'org.mybatis.caches:mybatis-ehcache:1.0.3',
 			'org.javassist:javassist:3.17.1-GA',
 			'org.freemarker:freemarker:2.3.22',
