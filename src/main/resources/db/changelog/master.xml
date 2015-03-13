@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<!-- ！！！！为了保持良好的可读性，此文件请不要格式化！！！！ -->
+	
+	<!--
+		以下字段类型在各数据库中均可用
+
+		CLOB	->	nvarchar(MAX)	(Microsoft SQL Server)
+		CLOB	->	CLOB			(Oracle)
+		CLOB	->	LONGTEXT		(MySQL)
+
+		BIGINT	->	bigint			(Microsoft SQL Server)
+		BIGINT	->	NUMBER(38)		(Oracle)
+		BIGINT	->	BIGINT(20)		(MySQL)
+
+		INT		->	int				(Microsoft SQL Server)
+		INT		->	INTEGER			(Oracle)
+		INT		->	INT(11)			(MySQL)
+
+		TINYINT	->	tinyint			(Microsoft SQL Server)
+		TINYINT	->	NUMBER(3)		(Oracle)
+		TINYINT	->	TINYINT(4)		(MySQL)
+
+		DOUBLE	->	float			(Microsoft SQL Server)
+		DOUBLE	->	FLOAT(24)		(Oracle)
+		DOUBLE	->	DOUBLE			(MySQL)
+
+		NVARCHAR(n)	->	nvarchar(n)			(Microsoft SQL Server)
+		NVARCHAR(n)	->	NVARCHAR2(n)		(Oracle)	n勿超过2000，如超过，请使用CLOB
+		NVARCHAR(n)	->	VARCHAR(n)			(MySQL)
+		
+		DATETIME	->	datetime			(Microsoft SQL Server)
+		DATETIME	->	TIMESTAMP(6)		(Oracle)
+		DATETIME	->	DATETIME			(MySQL)
+	-->
+	<changeSet id="createTable2015-3-13" author="Miaojinliang" context="production" failOnError="true" runInTransaction="true">
+		<createTable tableName="e_user">
+			<column name="id" type="BIGINT" autoIncrement="true"><constraints nullable="false" primaryKey="true" primaryKeyName="PK_EUSER"/></column>
+			<column name="user_name" type="NVARCHAR(64)" />
+			<column name="password" type="NVARCHAR(200)" />
+			<column name="email" type="NVARCHAR(200)" />
+			<column name="is_mobile_verified" type="TINYINT" />
+			<column name="is_email_verified" type="TINYINT" />
+			<column name="nike_name" type="TINYINT" />
+			<column name="is_activated" type="TINYINT" />
+			<column name="avatar" type="NVARCHAR(255)" />
+			<column name="follower" type="INT" />
+			<column name="attention" type="INT" />
+			<column name="rank" type="NVARCHAR(11)" />
+			<column name="last_login_ip" type="NVARCHAR(50)" />
+			<column name="last_login_time" type="DATETIME" />
+			<column name="experience" type="INT" />
+			<column name="reputation" type="INT" />
+			<column name="score" type="INT" />
+			<column name="s_photo" type="NVARCHAR(128)" />
+			<column name="m_photo" type="NVARCHAR(128)" />
+			<column name="l_photo" type="NVARCHAR(128)" />
+			<column name="certify_code" type="NVARCHAR(32)" />
+			<column name="reg_time" type="DATETIME" />
+			<column name="t_photo" type="NVARCHAR(255)" />
+			<column name="source" type="TINYINT" />
+			<column name="source_name" type="NVARCHAR(255)" />
+		</createTable>
+		<insert tableName="e_user">
+			<column name="user_name">admin123</column>
+			<column name="password">8ed-76A3b35-c3-558c08dc19fd922A8</column>
+		</insert>
+		<insert tableName="e_user">
+			<column name="user_name">khiker</column>
+			<column name="password">8ed-76A3b35-c3-558c08dc19fd922A8</column>
+		</insert>
+	</changeSet>
+</databaseChangeLog>

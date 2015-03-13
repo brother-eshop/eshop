@@ -169,5 +169,13 @@
 		<property name="defaultStatusCode" value="500"></property>    
 	</bean>    
 	<!-- 全局异常配置 end --> 
-    
+	
+	
+	<!-- 初始化数据库 -->
+    <bean class="liquibase.integration.spring.SpringLiquibase">
+		<property name="dataSource" ref="readWriteDataSource" />
+		<property name="changeLog"
+			value="classpath:/db/changelog/master.xml" />
+		<property name="contexts" value="production" />
+	</bean>
 </beans>
