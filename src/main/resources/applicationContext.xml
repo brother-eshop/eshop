@@ -202,5 +202,6 @@
 	<bean class="com.eshop.frameworks.core.intercepters.CascadingMongoEventListener" />
 	<!--<bean class="com.eshop.web.listeners.InitKeywodListener" init-method="init" lazy-init="false"/>-->
 	
-	<import resource="memcached.xml" />
+	<bean id="sessionProvider" class="com.eshop.cache.session.Sessions" />
+	<!--<import resource="memcached.xml" />-->
 </beans>
