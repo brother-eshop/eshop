@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="2.0">
+	<wb-module deploy-name="eshop-all-in-one">
+		<property name="context-root" value="eshop-all-in-one"/>
+		<wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/resources"/>
+		<wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/java"/>
+		<wb-resource deploy-path="/" source-path="WebContent"/>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/jmagick/jmagick/6.6.9/2e1e0ef51398de53f2c84e488dacbf3bc4e0ef12/jmagick-6.6.9.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.6/ce1edb914c94ebc388f086c6827e8bdeec71ac2/commons-lang-2.6.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.velocity/velocity/1.7/2ceb567b8f3f21118ecdec129fe1271dbc09aa7a/velocity-1.7.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.velocity/velocity-tools/2.0/69936384de86857018b023a8c56ae0635c56b6a0/velocity-tools-2.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/net.sourceforge.htmlcleaner/htmlcleaner/2.2/57fa6883b2f299d04a769d0daaa0c4ebf20ed4/htmlcleaner-2.2.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.8/af3be3f74d25fc5163b54f56a0d394b462dafafd/commons-codec-1.8.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/log4j/log4j/1.2.17/5af35056b4d257e4b64b9e8069c0746e8b08629f/log4j-1.2.17.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.10/5b338f206827d88acd890739f400a9b7664e5984/slf4j-api-1.7.10.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.beetl/beetl-core/2.0.11/e6bdb555c0e96872c73777acb42530d9ab79a3ec/beetl-core-2.0.11.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/com.alibaba/druid/1.0.12/53d882047437a2e3ecb56c6ac078dfd6f14482da/druid-1.0.12.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-mongodb/1.6.2.RELEASE/a0292bffe73a65b73fde8420dffcef16c83a7c5e/spring-data-mongodb-1.6.2.RELEASE.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/redis.clients/jedis/2.4.2/1daf838f454ede86d04a52f32b4aa2df0c45fcf1/jedis-2.4.2.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/com.googlecode.xmemcached/xmemcached/2.0.0/ea40216a659cf5c6df82e03af906afab08e26257/xmemcached-2.0.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.springframework/spring-core/4.1.5.RELEASE/4f9af02bca3066ea0d5ac450332ca210c5de1957/spring-core-4.1.5.RELEASE.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/4.1.5.RELEASE/5f82fae5c6359ff883e5e06c2c56169286b7e137/spring-beans-4.1.5.RELEASE.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/4.1.5.RELEASE/8df7ebc3bec108e1e71370e4dae1c8591966f622/spring-jdbc-4.1.5.RELEASE.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.springframework/spring-web/4.1.5.RELEASE/8e542f560b65c920bf60cbc5db5b1097610fa94a/spring-web-4.1.5.RELEASE.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/4.1.5.RELEASE/71b10b2ba7f6f0cce690d55e4bc8afc823d16628/spring-webmvc-4.1.5.RELEASE.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queryparser/4.9.0/435a49f632a3df0615cd52e10731a5a274e2cf18/lucene-queryparser-4.9.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-highlighter/4.9.0/e01d3fb2cd23846769d5cfa4a68bfce587e3de89/lucene-highlighter-4.9.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-core/4.9.0/e64f0305a31b4d27d70ec3065558783efa7cef08/lucene-core-4.9.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.7.3/a1efcd30e7c12f0c0d5b0df412c7304c735035ed/aspectjrt-1.7.3.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/com.google.guava/guava/18.0/cce0823396aa693798f8882e64213b1772032b09/guava-18.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/com.github.httl/httl-springmvc/1.0.11/9719769e894987f04514386fe3da4f5efb297bd6/httl-springmvc-1.0.11.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.mybatis/mybatis/3.2.8/7b6bf82cea13570b5290d6ed841283a1fcce170/mybatis-3.2.8.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.mybatis/mybatis-spring/1.2.1/c33ba121ab141e8a99812b975207db8bf8d65a66/mybatis-spring-1.2.1.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.12.4/87cff683a77d5cfc7b1af009f0b7df720248755a/lombok-1.12.4.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.7.3/4086c62f257ab411f28ef75b9c2608a71fadbd24/aspectjweaver-1.7.3.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/5.1.24/a7d599d73b86a928303909b9be7573a4ea0ed28e/mysql-connector-java-5.1.24.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/commons-beanutils/commons-beanutils/1.7.0/5675fd96b29656504b86029551973d60fb41339b/commons-beanutils-1.7.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/commons-digester/commons-digester/1.8/dc6a73fdbd1fa3f0944e8497c6c872fa21dca37e/commons-digester-1.8.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/commons-chain/commons-chain/1.1/3038bd41dcdb2b63b8c6dcc8c15f0fdf3f389012/commons-chain-1.1.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/commons-validator/commons-validator/1.3.1/d1fd6b1510f25e827adffcf17de3c85fa00e9391/commons-validator-1.3.1.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/dom4j/dom4j/1.1/690b3108a502c8f033ea87e7278aec309ffa668/dom4j-1.1.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/oro/oro/2.0.8/5592374f834645c4ae250f4c9fbb314c9369d698/oro-2.0.8.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/sslext/sslext/1.2-0/c86a7db4ac0bc450e675f3d44b3d64cdc934361b/sslext-1.2-0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.struts/struts-core/1.3.8/66178d4a9279ebb1cd1eb79c10dc204b4199f061/struts-core-1.3.8.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.struts/struts-taglib/1.3.8/e87e9817bdf03c2367fb5f6d5ead953db2df4c21/struts-taglib-1.3.8.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.struts/struts-tiles/1.3.8/6d212f8ea5d908bc9906e669428b7694dff60785/struts-tiles-1.3.8.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.jdom/jdom/1.1/1d04c0f321ea337f3661cf7ede8f4c6f653a8fdd/jdom-1.1.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.ant/ant/1.7.0/9746af1a485e50cf18dcb232489032a847067066/ant-1.7.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.antlr/antlr4-runtime/4.2/bceca6c6c5a45280745e42e4bb72ae51f2777657/antlr4-runtime-4.2.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.9.2.RELEASE/6f92f93d9f837ea8a97a99e9bb850d3a08974c99/spring-data-commons-1.9.2.RELEASE.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/2.12.5/8e53a39f2a5b2755ecc394d48d18026460f5da58/mongo-java-driver-2.12.5.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.slf4j/jcl-over-slf4j/1.7.10/ce49a188721bc39cb9710b346ae9b7ec27b0f36b/jcl-over-slf4j-1.7.10.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.commons/commons-pool2/2.0/4f8826f7a470c31f5089d73e3afa0d6761dc1b79/commons-pool2-2.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/4.1.5.RELEASE/f370549f6e84fe25671963c3f1c3f0e90d8b4cac/spring-aop-4.1.5.RELEASE.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-queries/4.9.0/71d3a087d53af92108e447b889c27857b3406bfb/lucene-queries-4.9.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-sandbox/4.9.0/6d2a3da3ed5d06f2473a80b96e5abc8f022f5be9/lucene-sandbox-4.9.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.lucene/lucene-memory/4.9.0/61327a491f97dc4f09ad46ead8565947fbb1f5ab/lucene-memory-4.9.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/com.github.httl/httl/1.0.11/c02c7a9f2da44feeeca2106a16d57e801f9cb311/httl-1.0.11.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/antlr/antlr/2.7.2/546b5220622c4d9b2da45ad1899224b6ce1c8830/antlr-2.7.2.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.ant/ant-launcher/1.7.0/e7e30789211e074aa70ef3eaea59bd5b22a7fa7a/ant-launcher-1.7.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.abego.treelayout/org.abego.treelayout.core/1.0.1/e31e79cba7a5414cf18fa69f3f0a2cf9ee997b61/org.abego.treelayout.core-1.0.1.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.antlr/antlr4-annotations/4.2/9088dfc5442f7cecda94887013392a020d94a9e3/antlr4-annotations-4.2.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/aopalliance/aopalliance/1.0/235ba8b489512805ac13a8f9ea77a1ca5ebe3e8/aopalliance-1.0.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2.1/761ea405b9b37ced573d2df0d1e3a4e0f9edc668/commons-collections-3.2.1.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/90a3822c38ec8c996e84c16a3477ef632cbc87a3/commons-lang3-3.3.2.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.springframework/spring-tx/4.1.5.RELEASE/258d04c25cdae15dce060e93bb9646f3a153475d/spring-tx-4.1.5.RELEASE.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.springframework/spring-context/4.1.5.RELEASE/483e58e37120c008df917abda73cd81f68d269/spring-context-4.1.5.RELEASE.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/4.1.5.RELEASE/e55a83a99260973099833cae425716ecb4b77850/spring-expression-4.1.5.RELEASE.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/F:/360云盘/ROOT/gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+	</wb-module>
+</project-modules>
