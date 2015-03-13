@@ -156,9 +156,9 @@
 		<!-- 显式指定Mapper文件位置 -->
 		<property name="configLocation"  value="classpath:/SqlMapConfig.xml"/>
 		<!-- 通配符指定Mapper.xml -->
-		<property name="mapperLocations" value="classpath*:/com/cloud/sns/mappers/**/*Mapper.xml" />
+		<property name="mapperLocations" value="classpath*:/com/eshop/mappers/**/*Mapper.xml" />
 		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
-		<property name="typeAliasesPackage" value="com.cloud.sns.model.system" />
+		<property name="typeAliasesPackage" value="com.eshop.model.manager" />
 		<!---->
 	</bean>
 	<bean id="readWriteSqlSession" class="org.mybatis.spring.SqlSessionTemplate">

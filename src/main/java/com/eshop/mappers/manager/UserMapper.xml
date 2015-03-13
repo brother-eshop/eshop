@@ -1,0 +1,968 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eshop.model.manager.UserMapper">
+ 	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 -->  
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>  -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+    <resultMap id="UserResult" type="com.eshop.model.manager.User">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="mobile" column="mobile"/>
+        <result property="isMobileVerified" column="is_mobile_verified"/>
+        <result property="isEmailVerified" column="is_email_verified"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="isActivated" column="is_activated"/>
+        <result property="avatar" column="avatar"/>
+        <result property="follower" column="follower"/>
+        <result property="attention" column="attention"/>
+        <result property="rank" column="rank"/>
+        <result property="lastLoginIp" column="last_login_ip"/>
+        <result property="lastLoginTime" column="last_login_time"/>
+        <result property="experience" column="experience"/>
+        <result property="reputation" column="reputation"/>
+        <result property="score" column="score"/>
+        <result property="sPhoto" column="s_photo"/>
+        <result property="mPhoto" column="m_photo"/>
+        <result property="lPhoto" column="l_photo"/>
+        <result property="certifyCode" column="certify_code"/>
+        <result property="regTime" column="reg_time"/>
+        <result property="tPhoto" column="t_photo"/>
+        <result property="source" column="source"/>
+        <result property="sourceName" column="source_name"/>
+    </resultMap>
+
+    <sql id="e_user_columns">
+        e_user.id,
+        e_user.user_name,
+        e_user.password,
+        e_user.email,
+        e_user.mobile,
+        e_user.is_mobile_verified,
+        e_user.is_email_verified,
+        e_user.nick_name,
+        e_user.is_activated,
+        e_user.avatar,
+        e_user.follower,
+        e_user.attention,
+        e_user.rank,
+        e_user.last_login_ip,
+        e_user.last_login_time,
+        e_user.experience,
+        e_user.reputation,
+        e_user.score,
+        e_user.s_photo,
+        e_user.m_photo,
+        e_user.l_photo,
+        e_user.certify_code,
+        e_user.reg_time,
+        e_user.t_photo,
+        e_user.source,
+        e_user.source_name
+    </sql>
+    
+    <sql id="e_user_where_conditions">
+    	<where>
+        <if test="id != null">
+        	id=#{id} AND 
+        </if>
+        <if test="userName != null">
+        	user_name=#{userName} AND 
+        </if>
+        <if test="password != null">
+        	password=#{password} AND 
+        </if>
+        <if test="email != null">
+        	email=#{email} AND 
+        </if>
+        <if test="mobile != null">
+        	mobile=#{mobile} AND 
+        </if>
+        <if test="isMobileVerified != null">
+        	is_mobile_verified=#{isMobileVerified} AND 
+        </if>
+        <if test="isEmailVerified != null">
+        	is_email_verified=#{isEmailVerified} AND 
+        </if>
+        <if test="nickName != null">
+        	nick_name=#{nickName} AND 
+        </if>
+        <if test="isActivated != null">
+        	is_activated=#{isActivated} AND 
+        </if>
+        <if test="avatar != null">
+        	avatar=#{avatar} AND 
+        </if>
+        <if test="follower != null">
+        	follower=#{follower} AND 
+        </if>
+        <if test="attention != null">
+        	attention=#{attention} AND 
+        </if>
+        <if test="rank != null">
+        	rank=#{rank} AND 
+        </if>
+        <if test="lastLoginIp != null">
+        	last_login_ip=#{lastLoginIp} AND 
+        </if>
+        <if test="lastLoginTime != null">
+        	last_login_time=#{lastLoginTime} AND 
+        </if>
+        <if test="experience != null">
+        	experience=#{experience} AND 
+        </if>
+        <if test="reputation != null">
+        	reputation=#{reputation} AND 
+        </if>
+        <if test="score != null">
+        	score=#{score} AND 
+        </if>
+        <if test="sPhoto != null">
+        	s_photo=#{sPhoto} AND 
+        </if>
+        <if test="mPhoto != null">
+        	m_photo=#{mPhoto} AND 
+        </if>
+        <if test="lPhoto != null">
+        	l_photo=#{lPhoto} AND 
+        </if>
+        <if test="certifyCode != null">
+        	certify_code=#{certifyCode} AND 
+        </if>
+        <if test="regTime != null">
+        	reg_time=#{regTime} AND 
+        </if>
+        <if test="tPhoto != null">
+        	t_photo=#{tPhoto} AND 
+        </if>
+        <if test="source != null">
+        	source=#{source} AND 
+        </if>
+        <if test="sourceName != null">
+        	source_name=#{sourceName} AND 
+        </if>
+        (1=1)
+        </where>
+    </sql>
+    
+    <sql id="e_user_set_conditions">
+    	<set>
+        <if test="id != null">
+        	id=#{id},
+        </if>
+        <if test="userName != null">
+        	user_name=#{userName},
+        </if>
+        <if test="password != null">
+        	password=#{password},
+        </if>
+        <if test="email != null">
+        	email=#{email},
+        </if>
+        <if test="mobile != null">
+        	mobile=#{mobile},
+        </if>
+        <if test="isMobileVerified != null">
+        	is_mobile_verified=#{isMobileVerified},
+        </if>
+        <if test="isEmailVerified != null">
+        	is_email_verified=#{isEmailVerified},
+        </if>
+        <if test="nickName != null">
+        	nick_name=#{nickName},
+        </if>
+        <if test="isActivated != null">
+        	is_activated=#{isActivated},
+        </if>
+        <if test="avatar != null">
+        	avatar=#{avatar},
+        </if>
+        <if test="follower != null">
+        	follower=#{follower},
+        </if>
+        <if test="attention != null">
+        	attention=#{attention},
+        </if>
+        <if test="rank != null">
+        	rank=#{rank},
+        </if>
+        <if test="lastLoginIp != null">
+        	last_login_ip=#{lastLoginIp},
+        </if>
+        <if test="lastLoginTime != null">
+        	last_login_time=#{lastLoginTime},
+        </if>
+        <if test="experience != null">
+        	experience=#{experience},
+        </if>
+        <if test="reputation != null">
+        	reputation=#{reputation},
+        </if>
+        <if test="score != null">
+        	score=#{score},
+        </if>
+        <if test="sPhoto != null">
+        	s_photo=#{sPhoto},
+        </if>
+        <if test="mPhoto != null">
+        	m_photo=#{mPhoto},
+        </if>
+        <if test="lPhoto != null">
+        	l_photo=#{lPhoto},
+        </if>
+        <if test="certifyCode != null">
+        	certify_code=#{certifyCode},
+        </if>
+        <if test="regTime != null">
+        	reg_time=#{regTime},
+        </if>
+        <if test="tPhoto != null">
+        	t_photo=#{tPhoto},
+        </if>
+        <if test="source != null">
+        	source=#{source},
+        </if>
+        <if test="sourceName != null">
+        	source_name=#{sourceName},
+        </if>
+            id = id
+        </set>
+    </sql>
+
+    <sql id="e_user_properties">
+        #{id},
+        #{userName},
+        #{password},
+        #{email},
+        #{mobile},
+        #{isMobileVerified},
+        #{isEmailVerified},
+        #{nickName},
+        #{isActivated},
+        #{avatar},
+        #{follower},
+        #{attention},
+        #{rank},
+        #{lastLoginIp},
+        #{lastLoginTime},
+        #{experience},
+        #{reputation},
+        #{score},
+        #{sPhoto},
+        #{mPhoto},
+        #{lPhoto},
+        #{certifyCode},
+        #{regTime},
+        #{tPhoto},
+        #{source},
+        #{sourceName}
+    </sql>
+
+    <insert id="createUser" parameterType="com.eshop.model.manager.User" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+        insert INTO e_user (<include refid="e_user_columns"/>) VALUES (<include refid="e_user_properties"/>)
+    </insert>
+	
+	<insert id="insertUser" parameterType="com.eshop.model.manager.User" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    	insert into e_user
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+    			<if test="id != null" >
+        			id,
+    			</if>
+    			<if test="userName != null" >
+        			user_name,
+    			</if>
+    			<if test="password != null" >
+        			password,
+    			</if>
+    			<if test="email != null" >
+        			email,
+    			</if>
+    			<if test="mobile != null" >
+        			mobile,
+    			</if>
+    			<if test="isMobileVerified != null" >
+        			is_mobile_verified,
+    			</if>
+    			<if test="isEmailVerified != null" >
+        			is_email_verified,
+    			</if>
+    			<if test="nickName != null" >
+        			nick_name,
+    			</if>
+    			<if test="isActivated != null" >
+        			is_activated,
+    			</if>
+    			<if test="avatar != null" >
+        			avatar,
+    			</if>
+    			<if test="follower != null" >
+        			follower,
+    			</if>
+    			<if test="attention != null" >
+        			attention,
+    			</if>
+    			<if test="rank != null" >
+        			rank,
+    			</if>
+    			<if test="lastLoginIp != null" >
+        			last_login_ip,
+    			</if>
+    			<if test="lastLoginTime != null" >
+        			last_login_time,
+    			</if>
+    			<if test="experience != null" >
+        			experience,
+    			</if>
+    			<if test="reputation != null" >
+        			reputation,
+    			</if>
+    			<if test="score != null" >
+        			score,
+    			</if>
+    			<if test="sPhoto != null" >
+        			s_photo,
+    			</if>
+    			<if test="mPhoto != null" >
+        			m_photo,
+    			</if>
+    			<if test="lPhoto != null" >
+        			l_photo,
+    			</if>
+    			<if test="certifyCode != null" >
+        			certify_code,
+    			</if>
+    			<if test="regTime != null" >
+        			reg_time,
+    			</if>
+    			<if test="tPhoto != null" >
+        			t_photo,
+    			</if>
+    			<if test="source != null" >
+        			source,
+    			</if>
+    			<if test="sourceName != null" >
+        			source_name
+    			</if>
+    	</trim>
+    	<trim prefix="values (" suffix=")" suffixOverrides="," >
+    			<if test="id != null" >
+        		#{id},
+    		</if>
+    			<if test="userName != null" >
+        		#{userName},
+    		</if>
+    			<if test="password != null" >
+        		#{password},
+    		</if>
+    			<if test="email != null" >
+        		#{email},
+    		</if>
+    			<if test="mobile != null" >
+        		#{mobile},
+    		</if>
+    			<if test="isMobileVerified != null" >
+        		#{isMobileVerified},
+    		</if>
+    			<if test="isEmailVerified != null" >
+        		#{isEmailVerified},
+    		</if>
+    			<if test="nickName != null" >
+        		#{nickName},
+    		</if>
+    			<if test="isActivated != null" >
+        		#{isActivated},
+    		</if>
+    			<if test="avatar != null" >
+        		#{avatar},
+    		</if>
+    			<if test="follower != null" >
+        		#{follower},
+    		</if>
+    			<if test="attention != null" >
+        		#{attention},
+    		</if>
+    			<if test="rank != null" >
+        		#{rank},
+    		</if>
+    			<if test="lastLoginIp != null" >
+        		#{lastLoginIp},
+    		</if>
+    			<if test="lastLoginTime != null" >
+        		#{lastLoginTime},
+    		</if>
+    			<if test="experience != null" >
+        		#{experience},
+    		</if>
+    			<if test="reputation != null" >
+        		#{reputation},
+    		</if>
+    			<if test="score != null" >
+        		#{score},
+    		</if>
+    			<if test="sPhoto != null" >
+        		#{sPhoto},
+    		</if>
+    			<if test="mPhoto != null" >
+        		#{mPhoto},
+    		</if>
+    			<if test="lPhoto != null" >
+        		#{lPhoto},
+    		</if>
+    			<if test="certifyCode != null" >
+        		#{certifyCode},
+    		</if>
+    			<if test="regTime != null" >
+        		#{regTime},
+    		</if>
+    			<if test="tPhoto != null" >
+        		#{tPhoto},
+    		</if>
+    			<if test="source != null" >
+        		#{source},
+    		</if>
+    			<if test="sourceName != null" >
+        		#{sourceName}
+    		</if>
+    	</trim>
+  	</insert>
+	
+    <delete id="deleteUserById" parameterType="Long">
+        delete from e_user
+        where
+            		id = #{            			value
+            		}
+    </delete>
+    
+    <delete id="deleteUserByObj" parameterType="com.eshop.model.manager.User">
+        delete from e_user
+        <include refid="e_user_where_conditions"/>
+    </delete>
+    
+  	<delete id="deleteUserByIdList" parameterType="java.util.List">
+    	delete from e_user 
+        	where
+            id
+    		IN 
+    		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+    </delete>
+
+    <update id="updateUser" parameterType="com.eshop.model.manager.User">
+        update e_user SET
+            id = #{id},
+            user_name = #{userName},
+            password = #{password},
+            email = #{email},
+            mobile = #{mobile},
+            is_mobile_verified = #{isMobileVerified},
+            is_email_verified = #{isEmailVerified},
+            nick_name = #{nickName},
+            is_activated = #{isActivated},
+            avatar = #{avatar},
+            follower = #{follower},
+            attention = #{attention},
+            rank = #{rank},
+            last_login_ip = #{lastLoginIp},
+            last_login_time = #{lastLoginTime},
+            experience = #{experience},
+            reputation = #{reputation},
+            score = #{score},
+            s_photo = #{sPhoto},
+            m_photo = #{mPhoto},
+            l_photo = #{lPhoto},
+            certify_code = #{certifyCode},
+            reg_time = #{regTime},
+            t_photo = #{tPhoto},
+            source = #{source},
+            source_name = #{sourceName}
+        where
+            id = #{id}
+    </update>
+    
+    <update id="updateUserByObj" parameterType="com.eshop.model.manager.User">
+        update e_user 
+        <include refid="e_user_set_conditions"/>
+        where
+            id = #{id}
+    </update>
+    
+    <update id="updateUserByObjAndConditions" parameterType="java.util.HashMap">
+        update e_user 
+        <set>
+        <if test="s.id != null">
+        	id=#{s.id},
+        </if>
+        <if test="s.userName != null">
+        	user_name=#{s.userName},
+        </if>
+        <if test="s.password != null">
+        	password=#{s.password},
+        </if>
+        <if test="s.email != null">
+        	email=#{s.email},
+        </if>
+        <if test="s.mobile != null">
+        	mobile=#{s.mobile},
+        </if>
+        <if test="s.isMobileVerified != null">
+        	is_mobile_verified=#{s.isMobileVerified},
+        </if>
+        <if test="s.isEmailVerified != null">
+        	is_email_verified=#{s.isEmailVerified},
+        </if>
+        <if test="s.nickName != null">
+        	nick_name=#{s.nickName},
+        </if>
+        <if test="s.isActivated != null">
+        	is_activated=#{s.isActivated},
+        </if>
+        <if test="s.avatar != null">
+        	avatar=#{s.avatar},
+        </if>
+        <if test="s.follower != null">
+        	follower=#{s.follower},
+        </if>
+        <if test="s.attention != null">
+        	attention=#{s.attention},
+        </if>
+        <if test="s.rank != null">
+        	rank=#{s.rank},
+        </if>
+        <if test="s.lastLoginIp != null">
+        	last_login_ip=#{s.lastLoginIp},
+        </if>
+        <if test="s.lastLoginTime != null">
+        	last_login_time=#{s.lastLoginTime},
+        </if>
+        <if test="s.experience != null">
+        	experience=#{s.experience},
+        </if>
+        <if test="s.reputation != null">
+        	reputation=#{s.reputation},
+        </if>
+        <if test="s.score != null">
+        	score=#{s.score},
+        </if>
+        <if test="s.sPhoto != null">
+        	s_photo=#{s.sPhoto},
+        </if>
+        <if test="s.mPhoto != null">
+        	m_photo=#{s.mPhoto},
+        </if>
+        <if test="s.lPhoto != null">
+        	l_photo=#{s.lPhoto},
+        </if>
+        <if test="s.certifyCode != null">
+        	certify_code=#{s.certifyCode},
+        </if>
+        <if test="s.regTime != null">
+        	reg_time=#{s.regTime},
+        </if>
+        <if test="s.tPhoto != null">
+        	t_photo=#{s.tPhoto},
+        </if>
+        <if test="s.source != null">
+        	source=#{s.source},
+        </if>
+        <if test="s.sourceName != null">
+        	source_name=#{s.sourceName},
+        </if>
+        </set>
+        <where>
+        <if test="c.id != null">
+        	id=#{c.id} AND 
+        </if>
+        <if test="c.userName != null">
+        	user_name=#{c.userName} AND 
+        </if>
+        <if test="c.password != null">
+        	password=#{c.password} AND 
+        </if>
+        <if test="c.email != null">
+        	email=#{c.email} AND 
+        </if>
+        <if test="c.mobile != null">
+        	mobile=#{c.mobile} AND 
+        </if>
+        <if test="c.isMobileVerified != null">
+        	is_mobile_verified=#{c.isMobileVerified} AND 
+        </if>
+        <if test="c.isEmailVerified != null">
+        	is_email_verified=#{c.isEmailVerified} AND 
+        </if>
+        <if test="c.nickName != null">
+        	nick_name=#{c.nickName} AND 
+        </if>
+        <if test="c.isActivated != null">
+        	is_activated=#{c.isActivated} AND 
+        </if>
+        <if test="c.avatar != null">
+        	avatar=#{c.avatar} AND 
+        </if>
+        <if test="c.follower != null">
+        	follower=#{c.follower} AND 
+        </if>
+        <if test="c.attention != null">
+        	attention=#{c.attention} AND 
+        </if>
+        <if test="c.rank != null">
+        	rank=#{c.rank} AND 
+        </if>
+        <if test="c.lastLoginIp != null">
+        	last_login_ip=#{c.lastLoginIp} AND 
+        </if>
+        <if test="c.lastLoginTime != null">
+        	last_login_time=#{c.lastLoginTime} AND 
+        </if>
+        <if test="c.experience != null">
+        	experience=#{c.experience} AND 
+        </if>
+        <if test="c.reputation != null">
+        	reputation=#{c.reputation} AND 
+        </if>
+        <if test="c.score != null">
+        	score=#{c.score} AND 
+        </if>
+        <if test="c.sPhoto != null">
+        	s_photo=#{c.sPhoto} AND 
+        </if>
+        <if test="c.mPhoto != null">
+        	m_photo=#{c.mPhoto} AND 
+        </if>
+        <if test="c.lPhoto != null">
+        	l_photo=#{c.lPhoto} AND 
+        </if>
+        <if test="c.certifyCode != null">
+        	certify_code=#{c.certifyCode} AND 
+        </if>
+        <if test="c.regTime != null">
+        	reg_time=#{c.regTime} AND 
+        </if>
+        <if test="c.tPhoto != null">
+        	t_photo=#{c.tPhoto} AND 
+        </if>
+        <if test="c.source != null">
+        	source=#{c.source} AND 
+        </if>
+        <if test="c.sourceName != null">
+        	source_name=#{c.sourceName} AND 
+        </if>
+       (1=1)
+        </where>
+    </update>
+    
+    <update id="batchUpdateUser" parameterType="java.util.List">
+		update e_user
+		<trim prefix="set" suffixOverrides=",">
+      	 	<trim prefix="id=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.id!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.id}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="user_name=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.userName!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.userName}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="password=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.password!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.password}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="email=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.email!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.email}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="mobile=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.mobile!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.mobile}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="is_mobile_verified=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.isMobileVerified!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.isMobileVerified}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="is_email_verified=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.isEmailVerified!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.isEmailVerified}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="nick_name=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.nickName!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.nickName}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="is_activated=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.isActivated!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.isActivated}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="avatar=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.avatar!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.avatar}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="follower=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.follower!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.follower}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="attention=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.attention!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.attention}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="rank=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.rank!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.rank}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="last_login_ip=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.lastLoginIp!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.lastLoginIp}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="last_login_time=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.lastLoginTime!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.lastLoginTime}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="experience=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.experience!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.experience}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="reputation=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.reputation!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.reputation}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="score=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.score!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.score}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="s_photo=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.sPhoto!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.sPhoto}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="m_photo=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.mPhoto!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.mPhoto}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="l_photo=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.lPhoto!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.lPhoto}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="certify_code=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.certifyCode!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.certifyCode}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="reg_time=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.regTime!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.regTime}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="t_photo=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.tPhoto!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.tPhoto}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="source=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.source!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.source}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="source_name=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.sourceName!=null">
+						WHEN 
+            			id = #{i.id}
+        				 THEN #{i.sourceName}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		where
+		<foreach collection="list" separator="or" item="i" index="index">
+            	(id = #{i.id})
+		</foreach>
+	</update>
+    
+    
+
+    <select id="getUserById" resultMap="UserResult" parameterType="Long">
+        select
+        <include refid="e_user_columns"/>
+        from e_user
+        where
+            id = #{value}
+    </select>
+    
+    <select id="getUserByObj" resultMap="UserResult" parameterType="com.eshop.model.manager.User">
+        select
+        <include refid="e_user_columns"/>
+        from e_user
+        <include refid="e_user_where_conditions"/>
+    </select>
+	
+    <select id="getUserList" resultMap="UserResult" parameterType="com.eshop.model.manager.User">
+        select
+        <include refid="e_user_columns"/>
+        from e_user where 1=1 
+        id = #{value}
+    </select>
+    
+    <select id="getUserListByObj" resultMap="UserResult"  parameterType="com.eshop.model.manager.User">
+        select
+        <include refid="e_user_columns"/>
+        from e_user 
+        <include refid="e_user_where_conditions"/>
+    </select>
+    
+    <select id="getUserListByMap" resultMap="UserResult"  parameterType="java.util.HashMap">
+        select
+        <include refid="e_user_columns"/>
+        from e_user 
+        <include refid="e_user_where_conditions"/>
+        limit #{offset,jdbcType=INTEGER},#{limit,jdbcType=INTEGER} 
+    </select>
+    
+    <select id="getUserCountByObj" resultType="int" parameterType="com.eshop.model.manager.User">
+        select count(1) from e_user
+        <include refid="e_user_where_conditions"/>
+    </select>
+    
+    
+    
+    <select id="getUserIdByObj" resultType="Long" parameterType="com.eshop.model.manager.User">
+        select       id                                                     
+        from e_user
+        <include refid="e_user_where_conditions"/>
+    </select>
+	
+    <select id="getUserIdList" resultType="Long" parameterType="com.eshop.model.manager.User">
+       select       id                                                      from e_user where 1=1 
+        id = #{value}
+    </select>
+    
+    <select id="getUserIdListByObj" resultType="Long"  parameterType="com.eshop.model.manager.User">
+       select       id                                                      from e_user 
+        <include refid="e_user_where_conditions"/>
+    </select>
+    
+    <select id="getUserIdListByMap" resultType="Long"  parameterType="java.util.HashMap">
+        select       id                                                      from e_user 
+        <include refid="e_user_where_conditions"/>
+        limit #{offset,jdbcType=INTEGER},#{limit,jdbcType=INTEGER} 
+    </select>
+</mapper>
