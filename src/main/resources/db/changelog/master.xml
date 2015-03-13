@@ -42,9 +42,10 @@
 			<column name="user_name" type="NVARCHAR(64)" />
 			<column name="password" type="NVARCHAR(200)" />
 			<column name="email" type="NVARCHAR(200)" />
+			<column name="mobile" type="NVARCHAR(200)" />
 			<column name="is_mobile_verified" type="TINYINT" />
 			<column name="is_email_verified" type="TINYINT" />
-			<column name="nike_name" type="TINYINT" />
+			<column name="nick_name" type="TINYINT" />
 			<column name="is_activated" type="TINYINT" />
 			<column name="avatar" type="NVARCHAR(255)" />
 			<column name="follower" type="INT" />
