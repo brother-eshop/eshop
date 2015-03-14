@@ -74,4 +74,11 @@
 			<column name="password">8ed-76A3b35-c3-558c08dc19fd922A8</column>
 		</insert>
 	</changeSet>
+	<changeSet id="createTable2015-3-14_e_province" author="Miaojinliang" context="production" failOnError="true" runInTransaction="true">
+		<createTable tableName="e_province">
+			<column name="codeid" type="INT"><constraints nullable="false" primaryKey="true" primaryKeyName="PK_EPROVINCE"/></column>
+			<column name="parentid" type="INT" />
+			<column name="city_name" type="NVARCHAR(50)" />
+		</createTable>
+	</changeSet>
 </databaseChangeLog>

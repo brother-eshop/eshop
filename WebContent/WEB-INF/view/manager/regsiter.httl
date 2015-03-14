@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=yor84ePpTvwkYBBc037lly4X"></script>
+<title>无标题文档</title>
+<link href="/statics/css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/statics/js/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$.post("/manager/province/getProvinces",
+			  {
+			    parentid:0
+			  },
+			  function(res){
+				  console.log(res);
+			  });
+});
+</script>
+</head>
+<body>
+
+	<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+    <li><a href="#">商户注册</a></li>
+    </ul>
+    </div>
+    
+    <div class="formbody">
+    	<div class="formtitle"><span>注册信息</span></div>
+    	<form method="post" action="/manager/shop/add">
+    	<ul class="forminfo">
+    		<li><label>用户名</label><input name="userName" type="text" class="dfinput" /><i>用户名不能超过30个字符</i></li>
+    		<li><label>密码</label><input name="password" type="text" class="dfinput" /><i>密码不能超过30个字符</i></li>
+    		<li><label>确认密码</label><input name="password" type="text" class="dfinput" /><i>确认密码要与密码相同</i></li>
+    		<li><label>邮箱</label><input name="email" type="text" class="dfinput" /><i>邮箱不能超过30个字符</i></li>
+    		<li><label>手机号</label><input name="mobile" type="text" class="dfinput" /><i>手机号不能超过30个字符</i></li>
+    		<li><label>所在城市</label>
+    		<input name="address" type="hidden" class="dfinput" />
+    		<select id="province" class="dfinput" style="width:7em;"><option>--省--<option></select>
+    		&nbsp;&nbsp;
+    		<select id="city" class="dfinput" style="width:7em;"><option>--市--<option></select>
+    		</li>
+    		<li><label>详细地址</label><input id="address_detail" name="address_detail" type="text" class="dfinput" /><i>手机号不能超过30个字符</i></li>
+    		<li><label>&nbsp;</label><input name="" type="submit" class="btn" id="submit" value="保存"/>&nbsp;<input name="" id="cancel" type="button" class="btn" value="返回"/></li>
+    	</ul>
+    	</form>
+    </div>
+    <div id="regsiter_map" class="regsiter_map">
+    
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+var geolocation = new BMap.Geolocation();
+geolocation.getCurrentPosition(function(r){
+	if(this.getStatus() == BMAP_STATUS_SUCCESS){
+		var map = new BMap.Map("regsiter_map");
+		map.centerAndZoom(r.point, 15);
+		var marker = new BMap.Marker(r.point);  // 创建标注
+		map.addOverlay(marker);               // 将标注添加到地图中
+		marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+	}
+	else {
+		alert('failed'+this.getStatus());
+	}        
+},{enableHighAccuracy: true})
+</script>

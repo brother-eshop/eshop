@@ -55,7 +55,12 @@ public class MainController extends BaseController {
 		ModelAndView mav = new ModelAndView("manager/login.httl");
 		return mav;
 	}
-
+	
+	@RequestMapping(value = "/regsiter", method = RequestMethod.GET)
+	public ModelAndView toregsiter(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("manager/regsiter.httl");
+		return mav;
+	}
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(HttpServletRequest request,
 			@ModelAttribute("user") User user, HttpServletResponse response) {

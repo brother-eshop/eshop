@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eshop.model.manager.ProvinceMapper">
+ 	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 -->  
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>  -->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+    <resultMap id="ProvinceResult" type="com.eshop.model.manager.Province">
+        <result property="codeid" column="codeid"/>
+        <result property="parentid" column="parentid"/>
+        <result property="cityName" column="city_name"/>
+    </resultMap>
+
+    <sql id="e_province_columns">
+        e_province.codeid,
+        e_province.parentid,
+        e_province.city_name
+    </sql>
+    
+    <sql id="e_province_where_conditions">
+    	<where>
+        <if test="codeid != null">
+        	codeid=#{codeid} AND 
+        </if>
+        <if test="parentid != null">
+        	parentid=#{parentid} AND 
+        </if>
+        <if test="cityName != null">
+        	city_name=#{cityName} AND 
+        </if>
+        (1=1)
+        </where>
+    </sql>
+    
+    <sql id="e_province_set_conditions">
+    	<set>
+        <if test="codeid != null">
+        	codeid=#{codeid},
+        </if>
+        <if test="parentid != null">
+        	parentid=#{parentid},
+        </if>
+        <if test="cityName != null">
+        	city_name=#{cityName},
+        </if>
+            codeid = codeid
+        </set>
+    </sql>
+
+    <sql id="e_province_properties">
+        #{codeid},
+        #{parentid},
+        #{cityName}
+    </sql>
+
+    <insert id="createProvince" parameterType="com.eshop.model.manager.Province" keyColumn="id" keyProperty="id" useGeneratedKeys="true" >
+        insert INTO e_province (<include refid="e_province_columns"/>) VALUES (<include refid="e_province_properties"/>)
+    </insert>
+	
+	<insert id="insertProvince" parameterType="com.eshop.model.manager.Province" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    	insert into e_province
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+    			<if test="codeid != null" >
+        			codeid,
+    			</if>
+    			<if test="parentid != null" >
+        			parentid,
+    			</if>
+    			<if test="cityName != null" >
+        			city_name
+    			</if>
+    	</trim>
+    	<trim prefix="values (" suffix=")" suffixOverrides="," >
+    			<if test="codeid != null" >
+        		#{codeid},
+    		</if>
+    			<if test="parentid != null" >
+        		#{parentid},
+    		</if>
+    			<if test="cityName != null" >
+        		#{cityName}
+    		</if>
+    	</trim>
+  	</insert>
+	
+    <delete id="deleteProvinceById" parameterType="Long">
+        delete from e_province
+        where
+            		codeid = #{            			value
+            		}
+    </delete>
+    
+    <delete id="deleteProvinceByObj" parameterType="com.eshop.model.manager.Province">
+        delete from e_province
+        <include refid="e_province_where_conditions"/>
+    </delete>
+    
+  	<delete id="deleteProvinceByIdList" parameterType="java.util.List">
+    	delete from e_province 
+        	where
+            codeid
+    		IN 
+    		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+    </delete>
+
+    <update id="updateProvince" parameterType="com.eshop.model.manager.Province">
+        update e_province SET
+            codeid = #{codeid},
+            parentid = #{parentid},
+            city_name = #{cityName}
+        where
+            codeid = #{codeid}
+    </update>
+    
+    <update id="updateProvinceByObj" parameterType="com.eshop.model.manager.Province">
+        update e_province 
+        <include refid="e_province_set_conditions"/>
+        where
+            codeid = #{codeid}
+    </update>
+    
+    <update id="updateProvinceByObjAndConditions" parameterType="java.util.HashMap">
+        update e_province 
+        <set>
+        <if test="s.codeid != null">
+        	codeid=#{s.codeid},
+        </if>
+        <if test="s.parentid != null">
+        	parentid=#{s.parentid},
+        </if>
+        <if test="s.cityName != null">
+        	city_name=#{s.cityName},
+        </if>
+        </set>
+        <where>
+        <if test="c.codeid != null">
+        	codeid=#{c.codeid} AND 
+        </if>
+        <if test="c.parentid != null">
+        	parentid=#{c.parentid} AND 
+        </if>
+        <if test="c.cityName != null">
+        	city_name=#{c.cityName} AND 
+        </if>
+       (1=1)
+        </where>
+    </update>
+    
+    <update id="batchUpdateProvince" parameterType="java.util.List">
+		update e_province
+		<trim prefix="set" suffixOverrides=",">
+      	 	<trim prefix="codeid=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.codeid!=null">
+						WHEN 
+            			codeid = #{i.codeid}
+        				 THEN #{i.codeid}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="parentid=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.parentid!=null">
+						WHEN 
+            			codeid = #{i.codeid}
+        				 THEN #{i.parentid}
+					</if>
+				</foreach>
+			</trim>
+      	 	<trim prefix="city_name=CASE" suffix="end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.cityName!=null">
+						WHEN 
+            			codeid = #{i.codeid}
+        				 THEN #{i.cityName}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		where
+		<foreach collection="list" separator="or" item="i" index="index">
+            	(codeid = #{i.codeid})
+		</foreach>
+	</update>
+    
+    
+
+    <select id="getProvinceById" resultMap="ProvinceResult" parameterType="Long">
+        select
+        <include refid="e_province_columns"/>
+        from e_province
+        where
+            codeid = #{value}
+    </select>
+    
+    <select id="getProvinceByObj" resultMap="ProvinceResult" parameterType="com.eshop.model.manager.Province">
+        select
+        <include refid="e_province_columns"/>
+        from e_province
+        <include refid="e_province_where_conditions"/>
+    </select>
+	
+    <select id="getProvinceList" resultMap="ProvinceResult" parameterType="com.eshop.model.manager.Province">
+        select
+        <include refid="e_province_columns"/>
+        from e_province where 1=1 
+        codeid = #{value}
+    </select>
+    
+    <select id="getProvinceListByObj" resultMap="ProvinceResult"  parameterType="com.eshop.model.manager.Province">
+        select
+        <include refid="e_province_columns"/>
+        from e_province 
+        <include refid="e_province_where_conditions"/>
+    </select>
+    
+    <select id="getProvinceListByMap" resultMap="ProvinceResult"  parameterType="java.util.HashMap">
+        select
+        <include refid="e_province_columns"/>
+        from e_province 
+        <include refid="e_province_where_conditions"/>
+        limit #{offset,jdbcType=INTEGER},#{limit,jdbcType=INTEGER} 
+    </select>
+    
+    <select id="getProvinceCountByObj" resultType="int" parameterType="com.eshop.model.manager.Province">
+        select count(1) from e_province
+        <include refid="e_province_where_conditions"/>
+    </select>
+    
+    
+    
+    <select id="getProvinceIdByObj" resultType="Long" parameterType="com.eshop.model.manager.Province">
+        select       codeid       
+        from e_province
+        <include refid="e_province_where_conditions"/>
+    </select>
+	
+    <select id="getProvinceIdList" resultType="Long" parameterType="com.eshop.model.manager.Province">
+       select       codeid        from e_province where 1=1 
+        codeid = #{value}
+    </select>
+    
+    <select id="getProvinceIdListByObj" resultType="Long"  parameterType="com.eshop.model.manager.Province">
+       select       codeid        from e_province 
+        <include refid="e_province_where_conditions"/>
+    </select>
+    
+    <select id="getProvinceIdListByMap" resultType="Long"  parameterType="java.util.HashMap">
+        select       codeid        from e_province 
+        <include refid="e_province_where_conditions"/>
+        limit #{offset,jdbcType=INTEGER},#{limit,jdbcType=INTEGER} 
+    </select>
+</mapper>
