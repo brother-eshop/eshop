@@ -35,7 +35,7 @@ repositories { mavenCentral() }
 dependencies {
 	compile(
 			'jmagick:jmagick:6.6.9', 
-			'org.mongodb:mongo-java-driver:3.0.0-beta3',
+			'org.mongodb:mongo-java-driver:2.13.0', 
 			'jstl:jstl:1.2',
 			'org.liquibase:liquibase-core:3.3.2',
 			'org.codehaus.jackson:jackson-core-asl:1.9.13',
