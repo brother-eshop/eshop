@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>添加</title>
+<link href="/statics/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/statics/css/select.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/statics/js/jquery.js"></script>
+<script type="text/javascript" src="/statics/js/select-ui.min.js"></script>
+<script>
+$(document).ready(function(){
+	$("#cancel").click(function(){
+  		window.location.href="/manager/goods/list";
+  	});
+});
+</script>
+</head>
+<body>
+	<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+    <li><a href="#">首页</a></li>
+    <li><a href="#">表单</a></li>
+    </ul>
+    </div>
+    <div class="formbody">
+    	<div class="formtitle"><span>基本信息</span></div>
+    	<form method="post" action="/manager/goods/add">
+    	<ul class="forminfo">
+    		<li><label>商品图片</label><input name="picPath" type="text" class="dfinput" /><i>...</i></li>
+    		<li><label>商品条码</label><input name="code" type="text" class="dfinput" /><i>...</i></li>
+    		<li><label>商品名称</label><input name="name" type="text" class="dfinput" /><i>...</i></li>
+    		<li><label>商品类别</label><input name="typeCode" type="text" class="dfinput" /><i>...</i></li>
+    		<li><label>商品规格</label><input name="standard" type="text" class="dfinput" /><i>。。。</i></li>
+    		<li><label>单位</label><input name="unit" type="text" class="dfinput" /><i>。。。</i></li>
+    		<li><label>制造商</label><input name="manufacturer" type="text" class="dfinput" /><i>。。。</i></li>
+    		<li><label>备注</label><input name="remark" type="text" class="dfinput" /><i>。。。</i></li>
+    		<li><label>&nbsp;</label><input name="" type="submit" class="btn" id="submit" value="保存"/>&nbsp;<input name="" id="cancel" type="button" class="btn" value="返回"/></li>
+    	</ul>
+    	</form>
+    </div>
+</body>
+</html>

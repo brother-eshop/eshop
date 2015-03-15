@@ -38,6 +38,8 @@ $(function(){
     		</div>
     	<ul class="menuson">
         <li><cite></cite><a href="/manager/user/list" target="rightFrame">用户管理</a><i></i></li>
+        <li><cite></cite><a href="/manager/good_type/list" target="rightFrame">商品类别管理</a><i></i></li>
+        <li><cite></cite><a href="/manager/goods/list" target="rightFrame">商品管理</a><i></i></li>
         </ul>
     </dd>
     </dl>

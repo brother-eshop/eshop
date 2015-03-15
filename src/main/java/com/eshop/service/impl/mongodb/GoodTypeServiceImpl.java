@@ -1,10 +1,20 @@
 package com.eshop.service.impl.mongodb;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.eshop.dao.mongodb.GoodTypeDao;
 import com.eshop.frameworks.core.dao.DAO;
+import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.frameworks.core.service.impl.AbstractService;
 import com.eshop.model.mongodb.GoodType;
 import com.eshop.service.mongodb.GoodTypeService;
@@ -18,5 +28,40 @@ public class GoodTypeServiceImpl extends AbstractService<GoodType,String> implem
 	public DAO<GoodType, String> getDao() {
 		return goodTypeDao;
 	}
-
+	@Override
+	public String insertGoodType(GoodType goodType) {
+		goodTypeDao.insert(goodType);
+		return goodType.getId();
+	}
+	@Override
+	public List<GoodType> getGoodTyperPage(GoodType goodType, PageEntity page) {
+		Query query = new Query();
+		int count = (int) this.getGoodTypeCount(query);
+		page.setTotalResultSize(count);
+		List<Order> orders = new ArrayList<Order>();
+		orders.add(new Order(Direction.ASC, "code"));
+		query.with(new Sort(orders));
+		query.skip(page.getStartRow()).limit(page.getPageSize());
+		return goodTypeDao.findList(query, GoodType.class);
+	}
+	
+	@Override
+	public long getGoodTypeCount(Query query) {
+		return goodTypeDao.size(query, GoodType.class);
+	}
+	
+	@Override
+	public GoodType getByid(String id) {
+		return goodTypeDao.findOne(Criteria.where("id").is(id), GoodType.class);
+	}
+	@Override
+	public void updateGoodType(GoodType goodType) {
+		Update update = new Update();
+		update.inc("reNum", 1).set("pid", goodType.getPid()).set("name",goodType.getName()).set("path", goodType.getPath()).set("code", goodType.getCode());
+		update(new Query(Criteria.where("id").is(goodType.getId())), update, GoodType.class);
+	}
+	@Override
+	public void deleteGoodType(String id) {
+		removeById(id, GoodType.class);
+	}
 }
