@@ -12,6 +12,16 @@ $(document).ready(function(){
 	$("#cancel").click(function(){
   		window.location.href="/manager/goods/list";
   	});
+  	$('#pic_upload').change(function(){
+  		 var f = document.getElementById('pic_upload').files[0];
+  		var src = window.URL.createObjectURL(f);
+  		console.log(src)
+  		document.getElementById('preview').src = src;
+  	});
+  	 var e = document.getElementById("pic_upload");
+     var t=e.offsetTop; 
+     var l=e.offsetLeft; 
+     $('#preview').css("left",l+350).css("top",t);
 });
 </script>
 </head>
@@ -27,7 +37,7 @@ $(document).ready(function(){
     	<div class="formtitle"><span>基本信息</span></div>
     	<form method="post" action="/manager/goods/add">
     	<ul class="forminfo">
-    		<li><label>商品图片</label><input name="picPath" type="text" class="dfinput" /><i>...</i></li>
+    		<li><label>商品图片</label><input id="pic_upload" name="picPath" type="file" class="dfinput" /><i><img id="preview" class="preview_img" /></i></li>
     		<li><label>商品条码</label><input name="code" type="text" class="dfinput" /><i>...</i></li>
     		<li><label>商品名称</label><input name="name" type="text" class="dfinput" /><i>...</i></li>
     		<li><label>商品类别</label><input name="typeCode" type="text" class="dfinput" /><i>...</i></li>

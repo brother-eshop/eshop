@@ -1,8 +1,14 @@
 package com.eshop.service.impl.mongodb;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -11,6 +17,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.eshop.dao.mongodb.GoodsDao;
 import com.eshop.frameworks.core.dao.DAO;
@@ -74,5 +81,78 @@ public class GoodsServiceImpl extends AbstractService<Goods, String> implements
 	@Override
 	public void deleteGoods(String id) {
 		removeById(id, Goods.class);
+	}
+
+	@Override
+	public void importExcel(MultipartFile file) throws IOException {
+		List<Goods> goodsList = readGoodsExcel(file.getInputStream());
+		for(Goods goods : goodsList){
+			goodsDao.insert(goods);
+		}
+	}
+	private List<Goods> readGoodsExcel(InputStream ins)
+			throws IOException {
+		HSSFWorkbook hssfWorkbook = new HSSFWorkbook(ins);
+		Goods goods = null;
+		List<Goods> list = new ArrayList<Goods>();
+		for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) {
+			HSSFSheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);
+			if (hssfSheet == null) {
+				continue;
+			}
+			for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {
+				HSSFRow hssfRow = hssfSheet.getRow(rowNum);
+				if (hssfRow == null) {
+					continue;
+				}
+				goods = new Goods();
+				HSSFCell code = hssfRow.getCell(2);
+				if (code == null) {
+					continue;
+				}
+				System.out.println(getValue(code));
+				goods.setCode(getValue(code));
+				
+				HSSFCell name = hssfRow.getCell(3);
+				if(name==null){
+					continue;
+				}
+				goods.setName(getValue(name));
+				
+				HSSFCell standared = hssfRow.getCell(4);
+				if(standared==null){
+					continue;
+				}
+				goods.setStandard(getValue(standared));
+				
+				HSSFCell unit = hssfRow.getCell(5);
+				if(unit == null){
+					continue;
+				}
+				goods.setUnit(getValue(unit));
+				
+				list.add(goods);
+			}
+
+		}
+		return list;
+	}
+	
+	private String getValue(HSSFCell hssfCell) {
+		if (hssfCell == null) {
+			return "";
+		}
+		if (hssfCell.getCellType() == hssfCell.CELL_TYPE_BOOLEAN) {
+			// 返回布尔类型的值
+			return String.valueOf(hssfCell.getBooleanCellValue());
+
+		} else if (hssfCell.getCellType() == hssfCell.CELL_TYPE_NUMERIC) {
+			// 返回数值类型的值
+			return String.valueOf(hssfCell.getNumericCellValue());
+		} else {
+			// 返回字符串类型的值
+			return String.valueOf(hssfCell.getStringCellValue());
+		}
+
 	}
 }

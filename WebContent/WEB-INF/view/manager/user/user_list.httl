@@ -77,7 +77,7 @@ var totalPageSize="${page.totalPageSize}";//总页码
     <span>位置：</span>
     <ul class="placeul">
     	<li><a href="/manage/system/index">首页</a></li>
-    	<li>广告列表</li>
+    	<li>用户列表</li>
     </ul>
     </div>
     <div class="rightinfo">

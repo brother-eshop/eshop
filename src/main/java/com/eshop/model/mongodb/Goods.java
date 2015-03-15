@@ -42,4 +42,6 @@ public class Goods extends MongoEntity{
 	
 	private String remark;
 	
+	private int status;
+	
 }

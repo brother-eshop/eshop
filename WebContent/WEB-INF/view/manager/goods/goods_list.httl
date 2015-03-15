@@ -28,6 +28,9 @@ $(document).ready(function(){
   $(".btn-add").click(function(){
   	window.location.href="/manager/goods/add";
   });
+  $(".btn-count").click(function(){
+	  	window.location.href="/manager/goods/import";
+	  });
   $(".btn-del").click(function(){
   	var id="";
   	var arrChk=$("input[name='id']:checked");
@@ -77,7 +80,7 @@ var totalPageSize="${page.totalPageSize}";//总页码
     <span>位置：</span>
     <ul class="placeul">
     	<li><a href="/manage/system/index">首页</a></li>
-    	<li>广告列表</li>
+    	<li>商品管理</li>
     </ul>
     </div>
     <div class="rightinfo">

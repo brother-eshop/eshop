@@ -1,5 +1,6 @@
 package com.eshop.web.controllers.mongo;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam();
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -67,10 +70,42 @@ public class GoodsController extends BaseController {
 		}
 		return modelAndView;
 	}
+	
+	@RequestMapping(value = "/import", method = RequestMethod.GET)
+	public ModelAndView toImport() {
+		ModelAndView modelAndView = new ModelAndView("/manager/goods/goods_import.httl");
+		try {
+		} catch (Exception e) {
+			logger.error("GoodsController.toImport", e);
+		}
+		return modelAndView;
+	}
 
+	@RequestMapping(value = "/importExcel", method = RequestMethod.POST)
+	public ModelAndView importExcel(MultipartFile file){
+		try {
+			goodsService.importExcel(file);
+		} catch (IOException e) {
+			logger.error("GoodsController.importExcel", e);
+		}
+		
+		return new ModelAndView(toList);
+	}
+
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public RedirectView add(Goods goods, HttpServletRequest request) {
 		try {
+//			System.out.println("开始");
+//			String path = request.getSession().getServletContext().getRealPath("goods_pics");
+//			String fileName = file.getOriginalFilename();
+//			System.out.println(path);
+//			File targetFile = new File(path,fileName);
+//			if(!targetFile.exists()){
+//				targetFile.mkdirs();
+//			}
+//			file.transferTo(targetFile);
+//			goods.setPicPath(request.getContextPath()+"/goods_pics/"+fileName);
 			goodsService.insert(goods);
 		} catch (Exception e) {
 			logger.error("GoodsController.add", e);
