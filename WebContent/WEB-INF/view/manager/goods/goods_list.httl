@@ -89,7 +89,7 @@ var totalPageSize="${page.totalPageSize}";//总页码
 			<li class="btn-add"><span><img src="/statics/images/t01.png" /></span>添加</li>
 			<li class="btn-edit"><span><img src="/statics/images/t02.png" /></span>修改</li>
 			<li class="btn-del"><span><img src="/statics/images/t03.png" /></span>删除</li>
-			<li class="btn-count"><span><img src="/statics/images/t04.png" /></span>统计</li>
+			<li class="btn-count"><span><img src="/statics/images/t04.png" /></span>导入商品</li>
         </ul>
         
         <form action="" method="post" id="searchForm">

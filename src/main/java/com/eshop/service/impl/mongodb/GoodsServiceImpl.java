@@ -86,12 +86,17 @@ public class GoodsServiceImpl extends AbstractService<Goods, String> implements
 	@Override
 	public void importExcel(MultipartFile file) throws IOException {
 		List<Goods> goodsList = readGoodsExcel(file.getInputStream());
-		for(Goods goods : goodsList){
+		int i = 0;
+		for (Goods goods : goodsList) {
+			i++;
+			// goodsDao.insertBatch(goodsList, Goods.class);
 			goodsDao.insert(goods);
+			// 后台会 一直跑着，做一个提示！
+			System.out.println(i);
 		}
 	}
-	private List<Goods> readGoodsExcel(InputStream ins)
-			throws IOException {
+
+	private List<Goods> readGoodsExcel(InputStream ins) throws IOException {
 		HSSFWorkbook hssfWorkbook = new HSSFWorkbook(ins);
 		Goods goods = null;
 		List<Goods> list = new ArrayList<Goods>();
@@ -100,44 +105,41 @@ public class GoodsServiceImpl extends AbstractService<Goods, String> implements
 			if (hssfSheet == null) {
 				continue;
 			}
+			System.out.println(hssfSheet.getLastRowNum());
 			for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {
 				HSSFRow hssfRow = hssfSheet.getRow(rowNum);
 				if (hssfRow == null) {
 					continue;
 				}
 				goods = new Goods();
-				HSSFCell code = hssfRow.getCell(2);
+				HSSFCell code = hssfRow.getCell(1);
 				if (code == null) {
 					continue;
 				}
-				System.out.println(getValue(code));
 				goods.setCode(getValue(code));
-				
-				HSSFCell name = hssfRow.getCell(3);
-				if(name==null){
+
+				HSSFCell name = hssfRow.getCell(2);
+				if (name == null) {
 					continue;
 				}
 				goods.setName(getValue(name));
-				
-				HSSFCell standared = hssfRow.getCell(4);
-				if(standared==null){
-					continue;
+
+				HSSFCell standared = hssfRow.getCell(3);
+				if (standared != null) {
+					goods.setStandard(getValue(standared));
 				}
-				goods.setStandard(getValue(standared));
-				
-				HSSFCell unit = hssfRow.getCell(5);
-				if(unit == null){
-					continue;
+				HSSFCell unit = hssfRow.getCell(4);
+				if (unit != null) {
+					goods.setUnit(getValue(unit));
 				}
-				goods.setUnit(getValue(unit));
-				
+
 				list.add(goods);
 			}
 
 		}
 		return list;
 	}
-	
+
 	private String getValue(HSSFCell hssfCell) {
 		if (hssfCell == null) {
 			return "";
