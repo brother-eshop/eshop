@@ -28,13 +28,14 @@ sourceSets {
 		resources { srcDir 'src/main/resources' }
 	}
 }
-version = '0.0.1-'
+version = '0.0.1-Alpha '
 
 repositories { mavenCentral() }
 
 dependencies {
 	compile(
 			'jmagick:jmagick:6.6.9', 
+			'com.alibaba:fastjson:1.2.4', 
 			'org.mongodb:mongo-java-driver:2.13.0', 
 			'jstl:jstl:1.2',
 			'org.liquibase:liquibase-core:3.3.2',
