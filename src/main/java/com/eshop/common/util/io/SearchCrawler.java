@@ -45,7 +45,6 @@ public class SearchCrawler implements Runnable {
 	private boolean searchStringMatches(String url) {
 		Document doc;
 		String urls;
-		String fileName, filePath;
 		try {
 			System.out.println(url);
 			doc = Jsoup.connect(url).get();
@@ -54,16 +53,7 @@ public class SearchCrawler implements Runnable {
 				for (int i = 0; i < elements.size(); i++) {
 					Element element = elements.get(i);
 					urls = element.attr("href");
-					doc = Jsoup.connect(urls).get();
-					Element field = doc.getElementById("productMainName");
-					if (field != null) {
-						fileName = field.text();
-						filePath = doc.getElementById("J_prodImg").attr("src");
-						download(filePath,
-								path
-										+ fileName.replaceAll("/", "-")
-												.replaceAll("\\*", "_") + ".jpg");
-					}
+					getProductByUrl(urls);
 				}
 			} else {
 				return false;
@@ -77,8 +67,6 @@ public class SearchCrawler implements Runnable {
 	// 执行实际的搜索操作
 	public void crawl(String startUrl) {
 		String s = startUrl;
-		Document doc;
-		String fileName, filePath;
 		int i = 1;
 
 		while (i > 0) {
@@ -97,23 +85,7 @@ public class SearchCrawler implements Runnable {
 						continue;
 					}
 					subUrl = currentUrl;
-					try {
-						doc = Jsoup.connect(currentUrl).get();
-						System.out.println(currentUrl);
-						Element field = doc.getElementById("productMainName");
-						if (field != null) {
-							fileName = field.text();
-							filePath = doc.getElementById("J_prodImg").attr(
-									"src");
-							download(filePath,
-									path
-											+ fileName.replaceAll("/", "-")
-													.replaceAll("\\*", "_")
-											+ ".jpg");
-						}
-					} catch (IOException e) {
-						continue;
-					}
+					getProductByUrl(currentUrl);
 				}
 				s = s.replace("-p" + (i) + "-", "-p" + (i + 1) + "-");
 				i++;
@@ -122,6 +94,24 @@ public class SearchCrawler implements Runnable {
 			}
 		}
 
+	}
+
+	void getProductByUrl(String url) {
+		Document doc;
+		try {
+			doc = Jsoup.connect(url).get();
+			System.out.println(url);
+			Element field = doc.getElementById("productMainName");
+			if (field != null) {
+				String fileName = field.text();
+				String filePath = doc.getElementById("J_prodImg").attr("src");
+				download(filePath, path
+						+ fileName.replaceAll("/", "-").replaceAll("\\*", "_")
+						+ ".jpg");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void download(String urlString, String filename) {
@@ -186,6 +176,6 @@ public class SearchCrawler implements Runnable {
 		Thread search = new Thread(crawler);
 		System.out.println("Start searching...");
 		search.start();
-
+		System.out.println("---------------end……");
 	}
 }
