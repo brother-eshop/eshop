@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -93,14 +96,14 @@ public class SearchCrawler implements Runnable {
 				i = 0;
 			}
 		}
-
+		System.out.println(startUrl + " ===== is end……");
 	}
 
 	void getProductByUrl(String url) {
 		Document doc;
 		try {
 			doc = Jsoup.connect(url).get();
-			System.out.println(url);
+			//System.out.println(url);
 			Element field = doc.getElementById("productMainName");
 			if (field != null) {
 				String fileName = field.text();
@@ -169,13 +172,19 @@ public class SearchCrawler implements Runnable {
 	}
 
 	// 主函数
+	@SuppressWarnings("serial")
 	public static void main(String[] args) {
-		SearchCrawler crawler = new SearchCrawler(
-				"http://list.yhd.com/c5481-0-81636/b/a-s1-v0-p1-price-d0-f0-m1-rt0-pid-mid0-k/",
-				"H:/goods_type/调料/酱油/");
-		Thread search = new Thread(crawler);
-		System.out.println("Start searching...");
-		search.start();
-		System.out.println("---------------end……");
+		Map<String,String> map = new HashMap<String,String>(){{
+			put("http://list.yhd.com/c34660-0-81605/b/a-s1-v0-p1-price-d0-f0d-m1-rt0-pid-mid0-k/","H:/goods_type/休闲零食/豆干/");
+			put("http://list.yhd.com/c34669-0-81614/b/a133123-s1-v0-p1-price-d0-f0d-m1-rt0-pid-mid0-k/","H:/goods_type/休闲零食/猪肉/猪肉脯/");
+			put("http://list.yhd.com/c34669-0-81614/b/a133123-s1-v0-p1-price-d0-f0d-m1-rt0-pid-mid0-k/","H:/goods_type/休闲零食/猪肉/猪肉脯/");
+		}};
+		Set<String> set = map.keySet();
+		for(String url : set){
+			SearchCrawler crawler = new SearchCrawler(url,map.get(url));
+			Thread search = new Thread(crawler);
+			System.out.println(url+" Start searching...");
+			search.start();
+		}
 	}
 }
