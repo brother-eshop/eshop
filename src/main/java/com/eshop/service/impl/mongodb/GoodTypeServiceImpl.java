@@ -17,6 +17,7 @@ import com.eshop.frameworks.core.dao.DAO;
 import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.frameworks.core.service.impl.AbstractService;
 import com.eshop.model.mongodb.GoodType;
+import com.eshop.model.mongodb.Goods;
 import com.eshop.service.mongodb.GoodTypeService;
 
 @Service("goodTypeService")
@@ -34,14 +35,12 @@ public class GoodTypeServiceImpl extends AbstractService<GoodType,String> implem
 		return goodType.getId();
 	}
 	@Override
-	public List<GoodType> getGoodTyperPage(GoodType goodType, PageEntity page) {
-		Query query = new Query();
+	public List<GoodType> getGoodTyperPage(GoodType goodType) {
+		Query query = new Query(Criteria.where("pid").is("0"));
 		int count = (int) this.getGoodTypeCount(query);
-		page.setTotalResultSize(count);
 		List<Order> orders = new ArrayList<Order>();
-		orders.add(new Order(Direction.ASC, "code"));
+		orders.add(new Order(Direction.ASC, "sort"));
 		query.with(new Sort(orders));
-		query.skip(page.getStartRow()).limit(page.getPageSize());
 		return goodTypeDao.findList(query, GoodType.class);
 	}
 	
@@ -63,5 +62,10 @@ public class GoodTypeServiceImpl extends AbstractService<GoodType,String> implem
 	@Override
 	public void deleteGoodType(String id) {
 		removeById(id, GoodType.class);
+	}
+	@Override
+	public List<GoodType> getGoodTypeChildren(GoodType goodType) {
+		Query query = new Query(Criteria.where("pid").is(goodType.getPid()));
+		return goodTypeDao.findList(query, GoodType.class);
 	}
 }

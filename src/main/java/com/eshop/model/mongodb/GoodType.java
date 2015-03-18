@@ -33,4 +33,6 @@ public class GoodType extends MongoEntity{
 	private String path;
 	
 	private String code;
+	
+	private Integer sort;
 }

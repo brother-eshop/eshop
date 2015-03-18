@@ -19,4 +19,6 @@ public interface GoodsService extends Service<Goods,String>{
 	void updateGoods(Goods goods);
 	void deleteGoods(String id);
 	void importExcel(MultipartFile file) throws IOException;
+	Goods getByCode(String code);
+	List<Goods> searchGoods(String code,String name,PageEntity page);
 }

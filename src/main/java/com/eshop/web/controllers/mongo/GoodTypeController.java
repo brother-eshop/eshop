@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.eshop.common.util.security.MD5;
 import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.frameworks.core.entity.PageEntity;
+import com.eshop.model.manager.Province;
 import com.eshop.model.manager.User;
 import com.eshop.model.mongodb.GoodType;
 import com.eshop.service.mongodb.GoodTypeService;
@@ -39,19 +41,15 @@ public class GoodTypeController extends BaseController {
 
 	@RequestMapping("/list")
 	public ModelAndView listAll(HttpServletRequest request,
-			HttpServletResponse response, GoodType query,
-			@ModelAttribute("page") PageEntity page) {
+			HttpServletResponse response, GoodType query) {
 		ModelAndView modelAndView = new ModelAndView(toList);
 		try {
-			this.setPage(page);
-			this.getPage().setPageSize(20);
 			if (query == null) {
 				query = new GoodType();
 			}
-			List<GoodType> list = goodTypeService.getGoodTyperPage(query, page);
+			List<GoodType> list = goodTypeService.getGoodTyperPage(query);
 			modelAndView.addObject("query", query);
 			modelAndView.addObject("goodTypeList", list);
-			modelAndView.addObject("page", this.getPage());
 		} catch (Exception e) {
 			logger.error("GoodTypeController.listAll", e);
 		}
@@ -117,5 +115,14 @@ public class GoodTypeController extends BaseController {
 			logger.error("GoodTypeController.delete", e);
 		}
 		return rv;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getChildren",method=RequestMethod.POST)
+	public List<GoodType> getChildren(GoodType goodType, HttpServletRequest request){
+//		System.out.println("/////////////////"+province.getParentid());
+//		List<Province> provinces = provinceService.getProvinceListByObj(province);
+//		System.out.println(provinces.size());
+		return goodTypeService.getGoodTypeChildren(goodType);
 	}
 }

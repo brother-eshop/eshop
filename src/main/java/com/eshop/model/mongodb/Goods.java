@@ -24,11 +24,13 @@ public class Goods extends MongoEntity{
 	@Id
 	private String id;
 	
+	@Indexed(unique=false,name="goods_name",direction=IndexDirection.ASCENDING)
 	private String name;
 	
 	@Indexed(unique=false,name="type_code",direction=IndexDirection.ASCENDING)
 	private String typeCode;
 	
+	@Indexed(unique=false,name="goods_code",direction=IndexDirection.ASCENDING)
 	private String code;
 	
 	private String standard;

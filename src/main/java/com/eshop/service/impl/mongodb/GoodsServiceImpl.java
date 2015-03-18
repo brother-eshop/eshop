@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -46,7 +47,19 @@ public class GoodsServiceImpl extends AbstractService<Goods, String> implements
 
 	@Override
 	public List<Goods> getGoodsPage(Goods goods, PageEntity page) {
+		String code = goods.getCode();
+		String name = goods.getName();
 		Query query = new Query();
+		if (!"".equals(code) && code != null) {
+			query.addCriteria(Criteria.where("code").regex(
+					Pattern.compile("^" + code + ".*$",
+							Pattern.CASE_INSENSITIVE)));
+		}
+		if (!"".equals(name) && name != null) {
+			query.addCriteria(Criteria.where("name").regex(
+					Pattern.compile("^.*" + name + ".*$",
+							Pattern.CASE_INSENSITIVE)));
+		}
 		int count = (int) this.getGoodsCount(query);
 		page.setTotalResultSize(count);
 		List<Order> orders = new ArrayList<Order>();
@@ -156,5 +169,32 @@ public class GoodsServiceImpl extends AbstractService<Goods, String> implements
 			return String.valueOf(hssfCell.getStringCellValue());
 		}
 
+	}
+
+	@Override
+	public Goods getByCode(String code) {
+		return goodsDao.findOne(Criteria.where("code").is(code), Goods.class);
+	}
+
+	@Override
+	public List<Goods> searchGoods(String code, String name, PageEntity page) {
+		Query query = new Query();
+		if (!"".equals(code) && code != null) {
+			query.addCriteria(Criteria.where("code").regex(
+					Pattern.compile("^" + code + ".*$",
+							Pattern.CASE_INSENSITIVE)));
+		}
+		if (!"".equals(name) && name != null) {
+			query.addCriteria(Criteria.where("name").regex(
+					Pattern.compile("^.*" + name + ".*$",
+							Pattern.CASE_INSENSITIVE)));
+		}
+		int count = (int) this.getGoodsCount(query);
+		page.setTotalResultSize(count);
+		List<Order> orders = new ArrayList<Order>();
+		orders.add(new Order(Direction.ASC, "code"));
+		query.with(new Sort(orders));
+		query.skip(page.getStartRow()).limit(page.getPageSize());
+		return goodsDao.findList(query, Goods.class);
 	}
 }

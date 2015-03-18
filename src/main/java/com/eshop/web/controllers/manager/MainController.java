@@ -66,9 +66,12 @@ public class MainController extends BaseController {
 			@ModelAttribute("user") User user, HttpServletResponse response) {
 		user.setPassword(MD5.getMD5(user.getPassword()));
 		user = userService.getUserByObj(user);
+		System.out.println(user);
 		ModelAndView mav = new ModelAndView("redirect:/manager/index");
 		if (user != null) {
-			this.setSessionAttribute(request, response, CoreConstant.USER_SESSION_NAME, user);
+			//TODO CoreConstant.USER_SESSION_NAME 报错，所以直接填写了。
+			this.setSessionAttribute(request, response,"USER_SESSION_NAME", user);
+			mav.addObject(user);
 			return mav;
 		} else {
 			mav.setViewName("manager/login.httl");

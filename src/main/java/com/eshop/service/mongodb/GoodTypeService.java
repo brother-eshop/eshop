@@ -11,9 +11,10 @@ import com.eshop.model.mongodb.GoodType;
 
 public interface GoodTypeService extends Service<GoodType,String>{
 	public String insertGoodType(GoodType goodType);
-	public List<GoodType> getGoodTyperPage(GoodType goodType,PageEntity page);
+	public List<GoodType> getGoodTyperPage(GoodType goodType);
 	long getGoodTypeCount(Query query);
 	GoodType getByid(String id);
 	void updateGoodType(GoodType goodType);
 	void deleteGoodType(String id);
+	List<GoodType> getGoodTypeChildren(GoodType goodType);
 }

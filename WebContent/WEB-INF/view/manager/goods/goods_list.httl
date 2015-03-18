@@ -70,6 +70,7 @@ $(document).ready(function(){
 //搜索
 function search(){
 	$("#pageCurrentPage").val(1);
+	$("#searchForm").attr("action","/manager/goods/list");
 	$("#searchForm").submit();
 }
 var totalPageSize="${page.totalPageSize}";//总页码
@@ -94,15 +95,8 @@ var totalPageSize="${page.totalPageSize}";//总页码
         
         <form action="" method="post" id="searchForm">
         <ul class="seachform" style="float:right;">
-    		<li><label>名称</label><input name="name" type="text" class="scinput" /></li>
-    		<li>
-    			<label>广告位置</label>  
-    			<div class="vocation">
-    				<select class="select1"  name="position" id="ad_position">
-    					<option value="0"> --全部--</option>
-    				</select>
-    			</div>
-    		</li>
+    		<li><label>条形码</label><input name="code" type="text" value="${search_code}" class="scinput" /></li>
+    		<li><label>名称</label><input name="name" type="text" value="${search_name}" class="scinput" /></li>
     		<input type="hidden" id="pageCurrentPage" name="page.currentPage" value="${page.currentPage}"/>
     		<input type="hidden" id="ids" name="ids"/>
     		<li><label>&nbsp;</label><input name="" type="button" onclick="javascript:search();" class="scbtn" value="查询"/></li>

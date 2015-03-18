@@ -20,7 +20,7 @@ $(function(){
 </head>
 
 <body style="background:url(/statics/images/topbg.gif) repeat-x;">
-
+<!--#var(com.eshop.model.manager.User user)-->
     <div class="topleft">
     <a href="/manager/index" target="_parent"><img src="/statics/images/logo.png" title="系统首页" /></a>
     </div>
@@ -37,7 +37,7 @@ $(function(){
     </ul>
      
     <div class="user">
-    <span>admin</span>
+    <span>${user.userName}</span>
     <i>消息</i>
     <b>5</b>
     </div>    

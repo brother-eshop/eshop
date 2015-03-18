@@ -300,3 +300,7 @@ h2{font-weight:normal;}
 	height: 100px;
 	width: 100px;
 	}
+/*商品分类*/
+.goodtype_children{
+	background:#f5f8fa;
+}

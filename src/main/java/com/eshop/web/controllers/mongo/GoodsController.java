@@ -42,6 +42,7 @@ public class GoodsController extends BaseController {
 	public ModelAndView listAll(HttpServletRequest request,
 			HttpServletResponse response, Goods query,
 			@ModelAttribute("page") PageEntity page) {
+		System.out.println(sessionProvider.getAttribute(request, "USER_SESSION_NAME"));
 		ModelAndView modelAndView = new ModelAndView(toList);
 		try {
 			this.setPage(page);
@@ -53,6 +54,8 @@ public class GoodsController extends BaseController {
 			modelAndView.addObject("query", query);
 			modelAndView.addObject("goodsList", list);
 			modelAndView.addObject("page", this.getPage());
+			modelAndView.addObject("search_code",query.getCode());
+			modelAndView.addObject("search_name", query.getName());
 		} catch (Exception e) {
 			logger.error("GoodsController.listAll", e);
 		}
@@ -110,7 +113,7 @@ public class GoodsController extends BaseController {
 		}
 		return modelAndView;
 	}
-
+	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView toEdit(String id) {
 		ModelAndView modelAndView = new ModelAndView(toEdit);
@@ -133,7 +136,7 @@ public class GoodsController extends BaseController {
 		return new RedirectView("/manager/goods/list");
 	}
 
-	@RequestMapping("/delete")
+	@RequestMapping(value = "/delete",method = RequestMethod.POST)
 	public RedirectView delete(String ids, HttpServletRequest request,
 			User query, @ModelAttribute("page") PageEntity page,
 			RedirectAttributes attr) {
@@ -150,4 +153,29 @@ public class GoodsController extends BaseController {
 		}
 		return rv;
 	}
+	
+	@RequestMapping("/search")
+	public ModelAndView searchGoods(HttpServletRequest request,
+			HttpServletResponse response, Goods query,
+			@ModelAttribute("page") PageEntity page) {
+		ModelAndView modelAndView = new ModelAndView(toList);
+		try {
+			this.setPage(page);
+			this.getPage().setPageSize(20);
+			if (query == null) {
+				query = new Goods();
+			}
+			List<Goods> list = goodsService.searchGoods(query.getCode(),query.getName(), page);
+			modelAndView.addObject("query", query);
+			modelAndView.addObject("goodsList", list);
+			modelAndView.addObject("page", this.getPage());
+			modelAndView.addObject("search_code",query.getCode());
+			modelAndView.addObject("search_name", query.getName());
+		} catch (Exception e) {
+			logger.error("GoodsController.listAll", e);
+		}
+
+		return modelAndView;
+	}
+	
 }

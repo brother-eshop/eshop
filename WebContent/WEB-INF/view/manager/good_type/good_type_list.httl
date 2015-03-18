@@ -7,9 +7,7 @@
 <link href="/statics/css/select.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/statics/js/jquery.js"></script>
 <script type="text/javascript" src="/statics/js/select-ui.min.js"></script>
-<script type="text/javascript" src="/statics/js/page.js"></script>
 <!--#var(com.eshop.model.mongodb.GoodType query)-->
-<!--#set(PageEntity page)-->
 <script type="text/javascript">
 $(document).ready(function(){
   $(".del").click(function(){
@@ -55,21 +53,74 @@ $(document).ready(function(){
   	$(".tip").fadeOut(200);
   });
 
+$('.showChild').click(function(){
+	var typeCode = $(this).attr("id").substring(9,$(this).attr("id").length);
+	if($(this).html()=="展开"){
+		$(this).html("收起");
+		getChildren(typeCode);
+	}else{
+		hideChildren(typeCode);
+		$(this).html("展开");
+	}
+	
+});
+var getChildren = function(typeCode){
+	alert($(".class_"+typeCode).length);
+	if($(".class_"+typeCode).length>0){
+		$(".class_"+typeCode).show();
+		return;
+	}
+	$.post("/manager/good_type/getChildren",
+			  {
+			    pid:typeCode
+			  },
+			  function(res){
+				  showChildren(res,typeCode);
+			  });
+}
+var hideChildren = function(typeCode){
+	$(".class_"+typeCode).hide();
+};
+var showChildren = function(children,typeCode){
+	var opacityNum = typeCode.length;
+	$(children).each(function(i,gt){
+		var tr = $('<tr id="tr_'+gt.code+'">').addClass("class_"+typeCode);
+		if($('#tr_'+typeCode).hasClass("odd")){
+			tr.addClass("odd");
+		}
+		$('<td>').html($('<input name="id" type="checkbox">').val(gt.id)).appendTo(tr);
+		$('<td>').html(gt.code).appendTo(tr);
+		$('<td>').html(gt.name).appendTo(tr);
+		$('<td>').html(gt.pid).appendTo(tr);
+		$('<td>').html(gt.path).appendTo(tr);
+		var td = $('<td>').appendTo(tr);
+		$('<a class="tablelink" href="/manager/good_type/edit?id='+gt.id+'">修改</a>').appendTo(td);
+		$('<a class="tablelink del" tid="'+gt.id+'" href="javascript:;">删除</a>').appendTo(td);
+		var sho = $('<a class="tablelink" id="goodType_'+gt.code+'" href="#">展开</a>').appendTo(td);
+		sho.click(function(){
+			if($(this).html()=="展开"){
+				$(this).html('收起');
+				getChildren(gt.code);
+			}else{
+				$(this).html('展开');
+				hideChildren(gt.code);
+			}
+			
+		});
+		$('#tr_'+typeCode).after(tr);
+	})
+}
+
   $("#all").click(function(){
   	$("input[name='id']").attr("checked",$(this).attr("checked"));
   });
   $(".select1").uedSelect({width : 167});
   $('.tablelist tbody tr:odd').addClass('odd');
-  
-  //显示中间部分页数
-  showPageNumber(${page.currentPage},${page.totalPageSize});
 });
 //搜索
 function search(){
-	$("#pageCurrentPage").val(1);
 	$("#searchForm").submit();
 }
-var totalPageSize="${page.totalPageSize}";//总页码
 </script>
 </head>
 <body>
@@ -100,7 +151,6 @@ var totalPageSize="${page.totalPageSize}";//总页码
     				</select>
     			</div>
     		</li>
-    		<input type="hidden" id="pageCurrentPage" name="page.currentPage" value="${page.currentPage}"/>
     		<input type="hidden" id="ids" name="ids"/>
     		<li><label>&nbsp;</label><input name="" type="button" onclick="javascript:search();" class="scbtn" value="查询"/></li>
     	</ul>
@@ -119,7 +169,7 @@ var totalPageSize="${page.totalPageSize}";//总页码
         </thead>
         <tbody>
         	<!--#for(com.eshop.model.mongodb.GoodType goodType : goodTypeList)-->
-        	<tr>
+        	<tr id="tr_${goodType.code}">
         		<td><input name="id" type="checkbox" value="${goodType.id}" /></td>
         		<td>${goodType.code }</td>
         		<td>${goodType.name }</td>
@@ -128,26 +178,12 @@ var totalPageSize="${page.totalPageSize}";//总页码
         		<td>
         			<a class="tablelink" href="/manager/good_type/edit?id=${goodType.id}">修改</a>
 					<a class="tablelink del" tid="${goodType.id}" href="javascript:;">删除</a>
+					<a class="tablelink showChild" id="goodType_${goodType.code}">展开</a>
 				</td>
         	</tr> 
         	<!--#end-->
         </tbody>
     </table>
-    <div class="pagin">
-    	<div class="message">共<i class="blue">${page.totalResultSize}</i>条记录，当前显示第&nbsp;<i class="blue">${page.currentPage}&nbsp;</i>页</div>
-        	<ul class="paginList">
-        	<!--#if(page.first)-->
-            <li class="paginItem"><a href="javascript:;"><span class="pagepre"></span></a></li>
-            <!--#else-->
-            <li class="paginItem"><a href="javascript:goPage(${page.currentPage-1});"><span class="pagepre"></span></a></li>
-            <!--#end-->
-        	<!--#if(page.last)-->
-            <li class="paginItem" id="nextpage"><a href="javascript:;"><span class="pagenxt"></span></a></li>
-            <!--#else-->
-            <li class="paginItem" id="nextpage"><a href="javascript:goPage(${page.currentPage+1});"><span class="pagenxt"></span></a></li>
-            <!--#end-->
-        </ul>
-    </div>
     <div class="tip">
 	  <div class="tiptop"><span>提示信息</span><a></a></div>  
       <div class="tipinfo">
