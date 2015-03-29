@@ -1,6 +1,9 @@
 package com.eshop.web.controllers.mongo;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,10 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.eshop.common.util.security.MD5;
 import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.frameworks.core.entity.PageEntity;
-import com.eshop.model.manager.Province;
 import com.eshop.model.manager.User;
 import com.eshop.model.mongodb.GoodType;
 import com.eshop.service.mongodb.GoodTypeService;
@@ -33,7 +34,7 @@ public class GoodTypeController extends BaseController {
 
 	@Autowired
 	private GoodTypeService goodTypeService;
-
+	
 	// 路径
 	private String toList = "/manager/good_type/good_type_list.httl";// 产品表页
 	private String toAdd = "/manager/good_type/good_type_add.httl";// 添加页面
@@ -56,6 +57,7 @@ public class GoodTypeController extends BaseController {
 
 		return modelAndView;
 	}
+	
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView toAdd() {
@@ -120,9 +122,134 @@ public class GoodTypeController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value="/getChildren",method=RequestMethod.POST)
 	public List<GoodType> getChildren(GoodType goodType, HttpServletRequest request){
-//		System.out.println("/////////////////"+province.getParentid());
-//		List<Province> provinces = provinceService.getProvinceListByObj(province);
-//		System.out.println(provinces.size());
 		return goodTypeService.getGoodTypeChildren(goodType);
+	}
+	
+	static int insNum=1;
+	static int typeLevel = 1;
+	static String parentCode="";
+	static String parentPath = "";
+	
+	@RequestMapping(value="/insertNewTyps",method=RequestMethod.POST)
+	public void insertNewTyps(HttpServletRequest request){
+		File file = new File("E:\\goods_type\\");
+		for(File f : file.listFiles()){
+			GoodType type = new GoodType();
+			parentCode = insNum+"";
+			parentPath = ":"+insNum+":";
+			type.setCode(insNum+"");
+			type.setName(f.getName());
+			type.setPid("0");
+			type.setPath(":"+insNum+":");
+			GoodType t = goodTypeService.getByName(f.getName());
+			System.out.println(t);
+			System.out.println(t==null);
+			if(t==null){
+				goodTypeService.insert(type);
+				System.out.println("insert===code is "+parentCode+"、name is "+f.getName()+"、path is "+parentPath);
+			}else{
+				parentCode = t.getCode();
+				parentPath = t.getPath();
+			}
+			insertType(f.listFiles());
+			insNum++;
+		}
+		
+		
+	}
+	private void insertType(File[] files){
+		int thisNum = 1;
+		for(File file : files){
+			if(!file.isDirectory()){
+				continue;
+			}
+			GoodType type = new GoodType();
+			GoodType parentType = goodTypeService.getByName(file.getParentFile().getName());
+			if(parentType!=null){
+				parentCode = parentType.getCode();
+				parentPath = parentType.getPath();
+			}
+			String myCode = parentCode+"0"+thisNum;
+			if(thisNum>9){
+				myCode = parentCode+thisNum;
+			}
+			type.setCode(myCode);
+			type.setName(file.getName());
+			String myPath = parentPath+myCode+":";
+			type.setPath(parentPath+myCode+":");
+			type.setPid(parentCode);
+			GoodType insType = goodTypeService.getByName(file.getName());
+			if(insType!=null){
+				continue;
+			}
+			goodTypeService.insert(type);
+			System.out.println("insert===code is "+myCode+"、name is "+file.getName()+"、path is "+myPath);
+			thisNum++;
+			insertType(file.listFiles());
+		}
+	}
+	
+	private static Map<String,String> m = new HashMap<String,String>();
+	public static void main(String[] args) {
+		File file = new File("E:\\goods_type\\");
+		
+		//------------------导入商品
+		getGoods(file);
+		
+		//-----------------商品分类
+//		for(File f : file.listFiles()){
+//			GoodType type = new GoodType();
+//			parentCode = insNum+"";
+//			parentPath = ":"+insNum+":";
+//			type.setCode(parentCode);
+//			type.setName(f.getName());
+//			type.setPid("0");
+//			type.setPath(parentPath);
+//			insNum++;
+//			System.out.println(parentCode+"=="+f.getName()+parentPath);
+//			m.put(f.getName(), parentCode);
+//			System.out.println(f.getName());
+//			m.put(f.getName()+"_path", parentPath);
+//			get(f.listFiles());
+//		}
+		
+	}
+	
+	
+	public static void getGoods(File file){
+		if(file.isFile()){//如果是文件
+			String parengName = file.getParentFile().getName();
+			System.out.println(file.getName());
+			
+		}
+		if(file.isDirectory()){
+			for(File f : file.listFiles()){
+				getGoods(f);
+			}
+		}
+		
+	}
+	
+	private static void get(File[] files){
+		int thisNum = 1;
+		for(File file : files){
+			if(!file.isDirectory()){
+				continue;
+			}
+			
+			String pcode = m.get(file.getParentFile().getName());
+			String ppath = m.get(file.getParentFile().getName()+"_path");
+			
+			GoodType type = new GoodType();
+			type.setCode(pcode+"0"+thisNum);
+			m.put(file.getName(), pcode+"0"+thisNum);
+			type.setName(file.getName());
+			type.setPath(ppath+ppath+":0"+thisNum+":");
+			m.put(file.getName()+"_path", ppath+pcode+"0"+thisNum+":");
+			type.setPid(pcode);
+			System.out.println(pcode+"0"+thisNum+"=="+file.getName()+"=="+ppath+pcode+"0"+thisNum+":");
+			thisNum++;
+			get(file.listFiles());
+		}
 	}
 }

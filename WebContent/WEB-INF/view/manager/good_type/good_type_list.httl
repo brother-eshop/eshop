@@ -116,6 +116,17 @@ var showChildren = function(children,typeCode){
   });
   $(".select1").uedSelect({width : 167});
   $('.tablelist tbody tr:odd').addClass('odd');
+  
+  
+  $('.btn-count').click(function(){
+	  $.post("/manager/good_type/insertNewTyps",
+			  {
+			    
+			  },
+			  function(res){
+				 
+			  });
+  })
 });
 //搜索
 function search(){
@@ -137,7 +148,7 @@ function search(){
 			<li class="btn-add"><span><img src="/statics/images/t01.png" /></span>添加</li>
 			<li class="btn-edit"><span><img src="/statics/images/t02.png" /></span>修改</li>
 			<li class="btn-del"><span><img src="/statics/images/t03.png" /></span>删除</li>
-			<li class="btn-count"><span><img src="/statics/images/t04.png" /></span>统计</li>
+			<li class="btn-count"><span><img src="/statics/images/t04.png" /></span>导入分类</li>
         </ul>
         
         <form action="" method="post" id="searchForm">

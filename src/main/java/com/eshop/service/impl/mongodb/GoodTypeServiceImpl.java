@@ -14,10 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.eshop.dao.mongodb.GoodTypeDao;
 import com.eshop.frameworks.core.dao.DAO;
-import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.frameworks.core.service.impl.AbstractService;
 import com.eshop.model.mongodb.GoodType;
-import com.eshop.model.mongodb.Goods;
 import com.eshop.service.mongodb.GoodTypeService;
 
 @Service("goodTypeService")
@@ -67,5 +65,9 @@ public class GoodTypeServiceImpl extends AbstractService<GoodType,String> implem
 	public List<GoodType> getGoodTypeChildren(GoodType goodType) {
 		Query query = new Query(Criteria.where("pid").is(goodType.getPid()));
 		return goodTypeDao.findList(query, GoodType.class);
+	}
+	@Override
+	public GoodType getByName(String name) {
+		return goodTypeDao.findOne(Criteria.where("name").is(name), GoodType.class);
 	}
 }

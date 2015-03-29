@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta content="IE=EmulateIE7, IE=9" http-equiv="X-UA-Compatible">
+    <title>eshop</title>
+    <meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
+	<script type="text/javascript" src="resources/kissy/seed-min.js"></script>
+	<script type="text/javascript" src="/statics/js/jquery.js"></script>
+	<script language="javascript" type="text/javascript">
+    $(function(){
+    	var code;
+        function createCode() {
+            code = "";
+            var codeLength = 4; //验证码的长度
+            var checkCode = document.getElementById("captch-img");
+            var codeChars = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'); //所有候选组成验证码的字符，当然也可以用中文的
+            for (var i = 0; i < codeLength; i++) 
+            {
+                var charNum = Math.floor(Math.random() * 34);
+                code += codeChars[charNum];
+            }
+            if (checkCode) 
+            {
+                checkCode.innerHTML = code;
+            }
+        }
+        var register_username;
+        var register_email;
+        var register_password;
+        var register_repeat_password;
+        var inputCode;
+        var getValues = function(){
+        	register_username = $("#register_username").val();
+            register_email = $("#register_email").val();
+            register_password = $("#register_password").val();
+            register_repeat_password = $("#register_repeat_password").val();
+            inputCode = $("#captcha_input").val();
+        }
+        $('#register_repeat_password').blur(function(){
+        	getValues();
+        	alert(register_password);
+        	alert(register_repeat_password);
+        	if(register_password!=register_repeat_password||register_password==""){
+        		$('#repeat_error').html('两次密码输入不一致！');
+        		$('#repeat_error').removeClass("hidden");
+        	}
+        });
+        
+        
+        function validateCode() 
+        {
+        	var canReg = true;
+        	getValues();
+            if (inputCode.length <= 0) 
+            {
+                alert("请输入验证码！");
+                canReg = false;
+            }
+            else if (inputCode.toUpperCase() != code.toUpperCase()) 
+            {
+            	canReg = false;
+                alert("验证码输入有误！");
+                createCode();
+            }else if(inputCode.toUpperCase() == code.toUpperCase()){
+            	alert("验证码正确！！")
+            }
+            
+            if(register_username.trim()==""){
+            	canReg = false;
+            }
+            if(canReg){
+            	$('#register_form').submit();
+            }
+        } 
+        createCode();
+        $('#captch-img').click(function(){
+        	createCode();
+        });
+        $('#reg_submit').click(function(){
+        	validateCode();
+        });
+    });
+ </script>
+</head>
+<body>
+	<div class="container">
+		<header class="loginHeader">
+    		<h1 class="header-hd" title="">
+      			<a class="logo" role="logo" href="http://ele.me">
+        			<img class="logo-img" src="resources/images/logo.png" alt="">
+      			</a>
+    		</h1>
+  		</header>
+		<div class="pageWrap">
+		<section class="wrap clearfix">
+			<aside class="loginBanner">
+      			<img class="img" src="https://static2.ele.me/forward/dist/img/account/banner-app.75596728.png" alt="">
+    		</aside>
+    		<div class="panel">
+    			<div class="panel-hd clearfix">
+      				<h2 class="title">注册</h2>
+    			</div>
+    			<div class="panel-bd">
+      				<form id="register_form" class="form" method="post" action="/eshop/euser/insert" autocomplete="off" novalidate="true">
+        				<div class="form-item">
+          					<input id="register_username" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="">
+          					<div class="g-error-tip hidden"></div>
+        				</div>
+        				<div class="form-item">
+          					<input id="register_email" class="inputbox js_inputbox async" name="email" type="email" placeholder="电子邮箱" required="">
+          					<div class="g-error-tip hidden"></div>
+        				</div>
+        				<div class="form-item">
+          					<input id="register_password" class="inputbox js_inputbox" name="password" type="password" minlength="6" maxlength="20" placeholder="密码" required="">
+          					<div class="g-error-tip hidden"></div>
+        				</div>
+        				<div class="form-item">
+          					<input id="register_repeat_password" class="inputbox js_inputbox" name="repeat" type="password" minlength="6" maxlength="20" placeholder="确认密码" required="">
+          					<div id="repeat_error" class="g-error-tip hidden">12334</div>
+        				</div>
+        				<div class="form-item clearfix">
+  							<input id="captcha_input" class="inputbox input-captcha" type="text" name="captcha" minlength="4" maxlength="4" placeholder="验证码" autocomplete="off" required="">
+  							<div class="g-error-tip hidden"></div>
+  						<div class="captcha-img" id="captch-img" title="点击刷新验证码"></div>
+						</div>
+        				<div class="form-helper form-text">
+          					<a class="g-link" href="#" target="_blank">使用条款和协议</a>
+        				</div>
+        				<div class="g-btn g-btn-l g-btn-submit" id="reg_submit">同意协议并注册</div>
+     				 </form>
+    			</div>
+    			<div class="panel-ft">
+        			<div class="g-oauth">
+    					<a class="weibo oauth-sns" href="/weibo/auth" target="_blank" title="通过微博登录"></a>
+    					<a class="renren oauth-sns" href="/renren/auth" target="_blank" title="通过人人登录"></a>
+      				</div>
+      				<a class="g-link" href="/login">登录</a>
+    			</div>
+  			</div>
+		</section>
+		</div>
+		<footer class="footer">
+			<section class="wrap clearfix">
+				<ul>
+					<li>
+						<a href="#">关于我们</a>
+					</li>
+					<li>
+						<a href="#">联系我们</a>
+					</li>
+					<li>
+						<a href="#">帮助中心</a>
+					</li>
+					<li>
+						<a href="#">免责声明</a>
+					</li>
+				</ul>
+				<p><a href="#">eshop</a>版权所有 © 2015-2020 eshop公司  京ICP备09083730号</p>
+			</section>
+		</footer>
+	</div>
+</body>
+</html>

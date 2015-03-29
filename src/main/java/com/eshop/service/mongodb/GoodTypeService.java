@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.frameworks.core.service.Service;
 import com.eshop.model.mongodb.GoodType;
 
@@ -17,4 +16,5 @@ public interface GoodTypeService extends Service<GoodType,String>{
 	void updateGoodType(GoodType goodType);
 	void deleteGoodType(String id);
 	List<GoodType> getGoodTypeChildren(GoodType goodType);
+	GoodType getByName(String name);
 }

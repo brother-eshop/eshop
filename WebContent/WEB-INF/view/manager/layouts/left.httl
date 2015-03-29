@@ -23,6 +23,8 @@ $(function(){
 			$(this).next('ul').slideDown();
 		}
 	});
+	
+	
 });
 </script>
 
@@ -41,6 +43,7 @@ $(function(){
         <li><cite></cite><a href="/manager/good_type/list" target="rightFrame">商品类别管理</a><i></i></li>
         <li><cite></cite><a href="/manager/goods/list" target="rightFrame">商品管理</a><i></i></li>
         <li><cite></cite><a href="/manager/shopperGoods/list" target="rightFrame">我的商品</a><i></i></li>
+        <li><cite></cite><a href="/manager/super_goods/list" target="rightFrame">超级商品库</a><i></i></li>
         </ul>
     </dd>
     </dl>
