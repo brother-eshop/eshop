@@ -81,9 +81,6 @@ public class GoodsController extends BaseController {
 		try {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
-			if (query == null) {
-				query = new Goods();
-			}
 			list = goodsService.getGoodsPage(query, page);
 		} catch (Exception e) {
 			logger.error("GoodsController.listAll", e);
