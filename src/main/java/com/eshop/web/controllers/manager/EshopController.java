@@ -34,10 +34,23 @@ public class EshopController extends BaseController {
 		return mav;
 	}
 	
+	@RequestMapping("/index")
+	public ModelAndView index() {
+		ModelAndView mav = new ModelAndView("index.httl");
+		return mav;
+	}
+	
+	@RequestMapping("/startShop")
+	public ModelAndView startShop() {
+		ModelAndView mav = new ModelAndView("startShop.httl");
+		return mav;
+	}
+	
+	
 	@ResponseBody
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public ModelAndView login(EUser euser, HttpServletRequest request,HttpServletResponse response){
-		ModelAndView mav = new ModelAndView("/eshop/euser/ucenter.httl");
+		ModelAndView mav = new ModelAndView("redirect:/eshop/index");
 		EUser user = euserService.getByUserName(euser);
 		String password = MD5.getMD5(euser.getPassword());
 		if(user==null){

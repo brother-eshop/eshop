@@ -43,6 +43,12 @@ public class MainController extends BaseController {
 		ModelAndView mav = new ModelAndView("manager/index.httl");
 		return mav;
 	}
+	
+	@RequestMapping("/regist")
+	public ModelAndView regist() {
+		ModelAndView mav = new ModelAndView("regist.httl");
+		return mav;
+	}
 
 	@RequestMapping("/top")
 	public ModelAndView top(HttpServletRequest request) {

@@ -115,7 +115,7 @@
         				<div class="form-item">
           					<input id="login_username" value="${user.username}" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="">
           					<!--#if(name_error)-->
-          					<div id="name_error" class="g-error-tip" style="display:block;">用户名错误！</div>
+          					<div id="name_error" class="g-error-tip" style="display:block;">用户名不存在！</div>
           					<!--#else-->
           					<div id="name_error" class="g-error-tip"></div>
           					 <!--#end-->

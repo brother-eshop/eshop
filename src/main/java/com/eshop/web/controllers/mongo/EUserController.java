@@ -33,14 +33,20 @@ public class EUserController extends BaseController {
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public RedirectView add(EUser euser, HttpServletRequest request) {
 //		ModelAndView modelAndView = new ModelAndView("/eshop/euser/ucenter.httl");
+		RedirectView rv = new RedirectView("/eshop/index");
 		try{
 			euser.setPassword(MD5.getMD5(euser.getPassword()));
 			euser.setRegTime(new Date());
-			euserService.insert(euser);
+			List<EUser> users = euserService.getUserByObj(euser);
+			if(users.size()>0){
+				return new RedirectView("/eshop/regist");
+			}else{
+				euserService.insert(euser);
+			}
 		} catch (Exception e) {
 			logger.error("EUserController.insert", e);
 		}
-		return  new RedirectView("/eshop/euser/ucenter");
+		return rv;
 	}
 	
 	@RequestMapping("/ucenter")
@@ -67,25 +73,25 @@ public class EUserController extends BaseController {
 		return euserService.getByMobile(euser);
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public ModelAndView login(EUser euser, HttpServletRequest request,HttpServletResponse response){
-		ModelAndView mav = new ModelAndView("redirect:/eshop/euser/ucenter");
-		EUser user = euserService.getByUserName(euser);
-		String password = MD5.getMD5(euser.getPassword());
-		if(user==null){
-			mav.addObject("user",euser);
-			mav.setViewName("login.httl");
-			mav.addObject("name_error", true);
-		}else if(!password.equals(user.getPassword())){
-			mav.addObject("user",euser);
-			mav.setViewName("login.httl");
-			mav.addObject("password_error", true);
-		}else if(user!=null&&password.equals(user.getPassword())){
-			this.setSessionAttribute(request, response,"USER_SESSION_NAME", user);
-			mav.addObject("user",user);
-			return mav;
-		}
-		return mav;
-	}
+//	@ResponseBody
+//	@RequestMapping(value="/login",method=RequestMethod.POST)
+//	public ModelAndView login(EUser euser, HttpServletRequest request,HttpServletResponse response){
+//		ModelAndView mav = new ModelAndView("redirect:/eshop/euser/ucenter");
+//		EUser user = euserService.getByUserName(euser);
+//		String password = MD5.getMD5(euser.getPassword());
+//		if(user==null){
+//			mav.addObject("user",euser);
+//			mav.setViewName("login.httl");
+//			mav.addObject("name_error", true);
+//		}else if(!password.equals(user.getPassword())){
+//			mav.addObject("user",euser);
+//			mav.setViewName("login.httl");
+//			mav.addObject("password_error", true);
+//		}else if(user!=null&&password.equals(user.getPassword())){
+//			this.setSessionAttribute(request, response,"USER_SESSION_NAME", user);
+//			mav.addObject("user",user);
+//			return mav;
+//		}
+//		return mav;
+//	}
 }
