@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,8 +39,6 @@ public class RandomCodeController extends BaseController{
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
-//        HttpSession session = request.getSession();
-
         int width = 85, height = 28;
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -94,11 +91,7 @@ public class RandomCodeController extends BaseController{
             g.drawString(rand, 16 * i + 10, 23);
         }
 
-        // 将认证码存入SESSION
-        HttpSession session = request.getSession();
-        
-        this.setSessionAttribute(request, response, session.getId()+CoreConstant.RAND_CODE, sRand);
-        //session.setAttribute(CoreConstant.RAND_CODE, sRand);
+        this.setSessionAttribute(request, response,CoreConstant.RAND_CODE, sRand);
         // 图象生效
         g.dispose();
 
