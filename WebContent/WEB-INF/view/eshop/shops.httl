@@ -1,1 +1,187 @@
-shops.html
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta content="IE=EmulateIE7, IE=9" http-equiv="X-UA-Compatible">
+    <title>eshop</title>
+    <meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
+	<script type="text/javascript" src="resources/kissy/seed-min.js"></script>
+</head>
+<body>
+	<div class="container">
+		${include("/common/footer.httl")}
+		<div class="pageWrap">
+			<section class="wrap clearfix">
+				<div class="radius margin-top-20">
+				<div class="title-triangle-blue txt-blue-XL">xxx附近的店铺<div class="tip"><em>◆</em><span>◆</span></div></div>
+					<ul class="list-top20-left20 clearfix">
+						<li>
+							<div class="box-gray box-grayXL">
+								<div class="bg-side">
+									<a href="javascript:;" class="avatar60">
+										<span class="avatarBg"></span>
+										<img src="resources/images/img8.jpg" alt=""> <i class="ui_icon i_yellowIdentify22">V认证</i>
+									</a>
+									 <a href="javascript:;" class="collection"><i class="ui_icon i_blueFavorite18"></i><span>收藏</span></a>
+								</div>
+								<div class="bg-mainXXL">
+									<h2>
+										<a href="javascript:;" class="txt-blue-XXL">xxxx超市</a>
+									</h2>
+									<div class="margin-top-10">
+										<span class="txt-font-12 margin-top-5">
+											订单
+											<a href="javascript:;" class="txt-orange">250</a>
+											<span class="margin-horizontal-5">|</span>
+											距离
+											<a href="javascript:;" class="txt-orange">2.35km</a>
+										</span>
+									</div>
+									<p class="bg-brief">
+										<span>简介：</span>
+										域名解析问题已修复修复发时域名解析问题已修复修复
+									</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="box-gray box-grayXL">
+								<div class="bg-side">
+									<a href="javascript:;" class="avatar60">
+										<span class="avatarBg"></span>
+										<img src="resources/images/img8.jpg" alt=""></a>
+									<a href="javascript:;" class="collection"> <i class="ui_icon i_blueFavorite18"></i>
+										<span>收藏</span>
+									</a>
+								</div>
+								<div class="bg-mainXXL">
+									<h2>
+										<a href="javascript:;" class="txt-blue-XXL">xxxx超市</a>
+									</h2>
+									<div class="margin-top-10">
+										<span class="txt-font-12 margin-top-5">
+											订单
+											<a href="javascript:;" class="txt-orange">250</a>
+											<span class="margin-horizontal-5">|</span>
+											距离
+											<a href="javascript:;" class="txt-orange">2.35km</a>
+										</span>
+									</div>
+									<p class="bg-brief">
+										<span>简介：</span>
+										域名解析问题已修复修复发时域名解析问题已修复修复
+									</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="box-gray box-grayXL">
+								<div class="bg-side">
+									<a href="javascript:;" class="avatar60">
+										<span class="avatarBg"></span>
+										<img src="resources/images/img8.jpg" alt=""></a>
+									<a href="javascript:;" class="collection"> <i class="ui_icon i_blueFavorite18"></i>
+										<span>收藏</span>
+									</a>
+								</div>
+								<div class="bg-mainXXL">
+									<h2>
+										<a href="javascript:;" class="txt-blue-XXL">xxxx超市</a>
+									</h2>
+									<div class="margin-top-10">
+										<span class="txt-font-12 margin-top-5">
+											订单
+											<a href="javascript:;" class="txt-orange">250</a>
+											<span class="margin-horizontal-5">|</span>
+											距离
+											<a href="javascript:;" class="txt-orange">2.35km</a>
+										</span>
+									</div>
+									<p class="bg-brief">
+										<span>简介：</span>
+										域名解析问题已修复修复发时域名解析问题已修复修复
+									</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="box-gray box-grayXL">
+								<div class="bg-side">
+									<a href="javascript:;" class="avatar60">
+										<span class="avatarBg"></span>
+										<img src="resources/images/img8.jpg" alt=""></a>
+									<a href="javascript:;" class="collection"> <i class="ui_icon i_blueFavorite18"></i>
+										<span>收藏</span>
+									</a>
+								</div>
+								<div class="bg-mainXXL">
+									<h2>
+										<a href="javascript:;" class="txt-blue-XXL">xxxx超市</a>
+									</h2>
+									<div class="margin-top-10">
+										<span class="txt-font-12 margin-top-5">
+											订单
+											<a href="javascript:;" class="txt-orange">250</a>
+											<span class="margin-horizontal-5">|</span>
+											距离
+											<a href="javascript:;" class="txt-orange">2.35km</a>
+										</span>
+									</div>
+									<p class="bg-brief">
+										<span>简介：</span>
+										域名解析问题已修复修复发时域名解析问题已修复修复
+									</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="box-gray box-grayXL">
+								<div class="bg-side">
+									<a href="javascript:;" class="avatar60">
+										<span class="avatarBg"></span>
+										<img src="resources/images/img8.jpg" alt=""></a>
+									<a href="javascript:;" class="collection"> <i class="ui_icon i_blueFavorite18"></i>
+										<span>收藏</span>
+									</a>
+								</div>
+								<div class="bg-mainXXL">
+									<h2>
+										<a href="javascript:;" class="txt-blue-XXL">xxxx超市</a>
+									</h2>
+									<div class="margin-top-10">
+										<span class="txt-font-12 margin-top-5">
+											订单
+											<a href="javascript:;" class="txt-orange">250</a>
+											<span class="margin-horizontal-5">|</span>
+											距离
+											<a href="javascript:;" class="txt-orange">2.35km</a>
+										</span>
+									</div>
+									<p class="bg-brief">
+										<span>简介：</span>
+										域名解析问题已修复修复发时域名解析问题已修复修复
+									</p>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="commonPage">
+                            <a href="javascript:;">首页</a>
+                            <a href="javascript:;" class="page-prev"><i class="ui_icon i-arrow-blue-left"></i></a>
+                            <a href="javascript:;" class="num">1</a>
+                            <a href="javascript:;" class="num">2</a>
+                            <a href="javascript:;" class="num current">3</a>
+                            <a href="javascript:;" class="num">4</a>
+                            <a href="javascript:;" class="num">5</a>
+                            <a href="javascript:;" class="page-next"><i class="ui_icon i-arrow-blue-right"></i></a>
+                            <a href="javascript:;">尾页</a>
+                    </div>
+				</div>
+			</section>
+		</div>
+		${include("/common/footer.httl")}
+	</div>
+</body>
+</html>
