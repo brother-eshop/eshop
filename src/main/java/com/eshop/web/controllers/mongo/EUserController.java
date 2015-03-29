@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +65,27 @@ public class EUserController extends BaseController {
 	@RequestMapping(value="/getByMobile",method=RequestMethod.POST)
 	public EUser getByMobile(EUser euser, HttpServletRequest request){
 		return euserService.getByMobile(euser);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+	public ModelAndView login(EUser euser, HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mav = new ModelAndView("redirect:/eshop/euser/ucenter");
+		EUser user = euserService.getByUserName(euser);
+		String password = MD5.getMD5(euser.getPassword());
+		if(user==null){
+			mav.addObject("user",euser);
+			mav.setViewName("login.httl");
+			mav.addObject("name_error", "用户不存在");
+		}else if(!password.equals(user.getPassword())){
+			mav.addObject("user",euser);
+			mav.setViewName("login.httl");
+			mav.addObject("password_error", "用户密码错误");
+		}else if(user!=null&&password.equals(user.getPassword())){
+			this.setSessionAttribute(request, response,"USER_SESSION_NAME", user);
+			mav.addObject("user",user);
+			return mav;
+		}
+		return mav;
 	}
 }

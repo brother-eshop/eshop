@@ -134,7 +134,7 @@
                 alert("验证码输入有误！");
                 createCode();
             }else if(inputCode.toUpperCase() == code.toUpperCase()){
-            	alert("验证码正确！！")
+            	//TODO 验证码正确 提示注册中
             }
             
             if(register_username.trim()==""){
