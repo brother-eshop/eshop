@@ -34,20 +34,88 @@
         var register_repeat_password;
         var inputCode;
         var getValues = function(){
-        	register_username = $("#register_username").val();
-            register_email = $("#register_email").val();
-            register_password = $("#register_password").val();
-            register_repeat_password = $("#register_repeat_password").val();
-            inputCode = $("#captcha_input").val();
+        	register_username = $("#register_username").val().trim();
+            register_email = $("#register_email").val().trim();
+            register_password = $("#register_password").val().trim();
+            register_repeat_password = $("#register_repeat_password").val().trim();
+            inputCode = $("#captcha_input").val().trim();
         }
+        $("#register_password").blur(function(){
+        	getValues();
+        	if(register_password==""){
+        		$('#password_error').html('密码不能为空').show();
+        		return;
+        	}
+        	else{
+        		$('#password_error').html('').hide();
+        	}
+        	if(register_password!=register_repeat_password&&register_repeat_password!=""){
+        		$('#password_error').html('两次密码输入不一致！').show();
+        	}else{
+        		$('#password_error').html('').hide();
+        	}
+        })
+        
         $('#register_repeat_password').blur(function(){
         	getValues();
-        	alert(register_password);
-        	alert(register_repeat_password);
-        	if(register_password!=register_repeat_password||register_password==""){
-        		$('#repeat_error').html('两次密码输入不一致！');
-        		$('#repeat_error').removeClass("hidden");
+        	if(register_password!=register_repeat_password){
+        		$('#repeat_error').html('两次密码输入不一致！').show();
+        	}else{
+        		$('#repeat_error').html('').hide();
         	}
+        });
+        
+        $('#register_username').blur(function(){
+        	getValues();
+        	if(register_username==""){
+        		$('#username_error').html('用户名不能为空').show();
+        		return;
+        	}else{
+        		$('#username_error').html('').hide();
+        	}
+	    	$.post("/eshop/euser/getByUserName",
+  			  {
+    				username:register_username
+  			  },
+  			  function(res){
+  				  if(res!=""){
+  					  $('#username_error').html('用户名【'+res.username+'】已经被注册').show();
+  				  }else{
+  					  $('#username_error').html('').hide();
+  				  }
+  			  });
+        });
+        
+        $('#register_email').blur(function(){
+        	getValues();
+        	if(register_email==""){
+        		 $('#email_error').html('邮箱不能为空').show();
+        		 return;
+        	}else{
+        		$('#email_error').html('').hide();
+        	}
+        	
+        	  var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        	           if(!myreg.test(register_email))
+        	           {
+        	        	   $('#email_error').html('请输入正确邮箱格式').show();
+        	        		 return;
+        	            }else{
+        	            	$('#email_error').html('').hide();
+        	            }
+
+        	
+	    	$.post("/eshop/euser/getByEmail",
+  			  {
+    				email:register_email
+  			  },
+  			  function(res){
+  				  if(res!=""){
+  					  $('#email_error').html('邮箱【'+res.username+'】已经被注册').show();
+  				  }else{
+  					  $('#email_error').html('').hide();
+  				  }
+  			  });
         });
         
         
@@ -108,23 +176,23 @@
       				<form id="register_form" class="form" method="post" action="/eshop/euser/insert" autocomplete="off" novalidate="true">
         				<div class="form-item">
           					<input id="register_username" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="">
-          					<div class="g-error-tip hidden"></div>
+          					<div id="username_error" class="g-error-tip"></div>
         				</div>
         				<div class="form-item">
           					<input id="register_email" class="inputbox js_inputbox async" name="email" type="email" placeholder="电子邮箱" required="">
-          					<div class="g-error-tip hidden"></div>
+          					<div id="email_error" class="g-error-tip"></div>
         				</div>
         				<div class="form-item">
           					<input id="register_password" class="inputbox js_inputbox" name="password" type="password" minlength="6" maxlength="20" placeholder="密码" required="">
-          					<div class="g-error-tip hidden"></div>
+          					<div id="password_error" class="g-error-tip"></div>
         				</div>
         				<div class="form-item">
           					<input id="register_repeat_password" class="inputbox js_inputbox" name="repeat" type="password" minlength="6" maxlength="20" placeholder="确认密码" required="">
-          					<div id="repeat_error" class="g-error-tip hidden">12334</div>
+          					<div id="repeat_error" class="g-error-tip"></div>
         				</div>
         				<div class="form-item clearfix">
   							<input id="captcha_input" class="inputbox input-captcha" type="text" name="captcha" minlength="4" maxlength="4" placeholder="验证码" autocomplete="off" required="">
-  							<div class="g-error-tip hidden"></div>
+  							<div class="g-error-tip"></div>
   						<div class="captcha-img" id="captch-img" title="点击刷新验证码"></div>
 						</div>
         				<div class="form-helper form-text">
