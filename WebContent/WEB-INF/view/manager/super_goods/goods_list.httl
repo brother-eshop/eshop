@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="/statics/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/statics/css/select.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/statics/js/jquery.js"></script>
+<script type="text/javascript" src="/statics/js/select-ui.min.js"></script>
+<script type="text/javascript" src="/statics/js/page.js"></script>
+<!--#var(com.eshop.model.mongodb.SuperGoods query)-->
+<!--#set(PageEntity page)-->
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".del").click(function(){
+  	var id = $(this).attr("tid");
+  	$(".sure").click(function(){
+  		$("#ids").val(id);
+  		$(".tip").fadeOut(100);
+  		$("#searchForm").attr("action","/manager/super_goods/delete");
+  		$("#searchForm").submit();
+  	});
+ 	$(".cancel").click(function(){
+  		$(".tip").fadeOut(100);
+  	});
+  	$(".tip").fadeIn(200);
+  });
+  $(".btn-add").click(function(){
+  	window.location.href="/manager/super_goods/add";
+  });
+  $(".btn-count").click(function(){
+	  $.post("/manager/super_goods/insertSuperGoods",
+		  {
+	  
+		  },
+		  function(res){
+		  });
+	  });
+  $(".btn-del").click(function(){
+  	var id="";
+  	var arrChk=$("input[name='id']:checked");
+    $(arrChk).each(function(i,val){
+       if(i>0){
+       		id+=",";
+       }
+       id+=this.value;
+    }); 
+    if($.trim(id)!=""){
+    	$("#ids").val(id);
+  		$(".sure").click(function(){
+  			$("#ids").val(id);
+  			$(".tip").fadeOut(100);
+  			$("#searchForm").attr("action","/manager/super_goods/delete");
+  			$("#searchForm").submit();
+  		});
+ 		$(".cancel").click(function(){
+  			$(".tip").fadeOut(100);
+  		});
+  		$(".tip").fadeIn(200);
+  	}
+  });
+  $(".tiptop a").click(function(){
+  	$(".tip").fadeOut(200);
+  });
+
+  $("#all").click(function(){
+  	$("input[name='id']").attr("checked",$(this).attr("checked"));
+  });
+  $(".select1").uedSelect({width : 167});
+  $('.tablelist tbody tr:odd').addClass('odd');
+  
+  // 显示中间部分页数
+  showPageNumber(${page.currentPage},${page.totalPageSize});
+  var getTypes = function(parentCode){
+	  $.post("/manager/good_type/getChildren",
+			  {
+			    pid:parentCode
+			  },
+			  function(res){
+				  showTypes(res)
+			  });
+  }
+  getTypes(0);
+  
+  var showTypes = function(types){
+	  $('.types_div').html('');
+	  $(types).each(function(i,goodType){
+		  var typeItem = $('<div class="type_item">').html(goodType.name).appendTo('.types_div');
+		  $('<i>').html('>').appendTo(typeItem);
+		 var child = $('<div class="child_types">').appendTo('body');
+		 typeItem.mouseover(function(){
+			 child.show();
+		 });
+		 typeItem.mouseout(function(){
+			 child.hide();
+		 });
+		 child.mouseover(function(){
+			 child.show();
+		 });
+		 child.mouseout(function(){
+			 child.hide();
+		 })
+		  $.post("/manager/good_type/getChildren",
+				  {
+				    pid:goodType.code
+				  },
+				  function(res){
+					  $(res).each(function(i,t){
+						  var dl= $('<dl class="child_item">').appendTo(child);
+						  var dt = $('<dt><a href="http://channel.jd.com/1316-1383.html" target="_blank">'+t.name+'<i>&gt;</i></a></dt>').appendTo(dl);
+							  $.post("/manager/good_type/getChildren",
+							  {
+							    pid:t.code
+							  },
+							  function(res2){
+								  var dd = $('<dd>').appendTo(dl);
+								  $(res2).each(function(ii,tt){
+									  $('<a href="http://channel.jd.com/1316-1383.html" target="_blank">').html(tt.name).appendTo(dd);
+								  })
+								
+							  });
+					 })
+					
+			});
+	  })
+  }
+  
+});
+// 搜索
+function search(){
+	$("#pageCurrentPage").val(1);
+	$("#searchForm").attr("action","/manager/super_goods/list");
+	$("#searchForm").submit();
+}
+var totalPageSize="${page.totalPageSize}";// 总页码
+</script>
+</head>
+<body>
+
+<div class="types_div">
+</div>
+
+<!--div class="child_types">
+<dl class="child_item">
+<dt><a href="http://channel.jd.com/1316-1383.html" target="_blank">身体护肤<i>&gt;</i></a></dt>
+	<dd>
+		<a href="http://list.jd.com/list.html?cat=1316,1383,1401" target="_blank">沐浴</a>
+		<a href="http://list.jd.com/list.html?cat=1316,1383,1404" target="_blank">润肤</a>
+		<a href="http://list.jd.com/list.html?cat=1316,1383,1394" target="_blank">颈部</a>
+		<a href="http://list.jd.com/list.html?cat=1316,1383,2562" target="_blank">手足</a>
+		<a href="http://list.jd.com/list.html?cat=1316,1383,5164" target="_blank">纤体塑形</a>
+		<a href="http://list.jd.com/list.html?cat=1316,1383,11928" target="_blank">美胸</a>
+		<a href="http://list.jd.com/list.html?cat=1316,1383,11929" target="_blank">套装</a>
+	</dd>
+</dl>
+</div-->
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+    	<li><a href="/manage/system/index">首页</a></li>
+    	<li>商品管理</li>
+    </ul>
+    </div>
+    <div class="rightinfo">
+    <div class="tools">
+    	<ul class="toolbar">
+			<li class="btn-add"><span><img src="/statics/images/t01.png" /></span>添加</li>
+			<li class="btn-edit"><span><img src="/statics/images/t02.png" /></span>修改</li>
+			<li class="btn-del"><span><img src="/statics/images/t03.png" /></span>删除</li>
+			<li class="btn-count"><span><img src="/statics/images/t04.png" /></span>导入超级商品</li>
+        </ul>
+        
+        <form action="" method="post" id="searchForm">
+        <ul class="seachform" style="float:right;">
+    		<li><label>条形码</label><input name="code" type="text" value="${search_code}" class="scinput" /></li>
+    		<li><label>名称</label><input name="name" type="text" value="${search_name}" class="scinput" /></li>
+    		<input type="hidden" id="pageCurrentPage" name="page.currentPage" value="${page.currentPage}"/>
+    		<input type="hidden" id="ids" name="ids"/>
+    		<li><label>&nbsp;</label><input name="" type="button" onclick="javascript:search();" class="scbtn" value="查询"/></li>
+    	</ul>
+    	</form>
+    </div>
+    <table class="tablelist">
+    	<thead>
+    		<tr>
+        		<th><input name="all" id="all" type="checkbox" value=""/></th>
+        		<th>商品图片</th>
+        		<th>商品条码</th>
+        		<th>商品名称</th>
+        		<th>商品类别</th>
+        		<th>商品规格</th>
+        		<th>单位</th>
+        		<th>制造商</th>
+        		<th>备注</th>
+        		<th>操作</th>
+        	</tr>
+        </thead>
+        <tbody>
+        	<!--#for(com.eshop.model.mongodb.SuperGoods goods : goodsList)-->
+        	<tr>
+        		<td><input name="id" type="checkbox" value="${goods.id}" /></td>
+        		<td>${goods.picPath}</td>
+        		<td>${goods.code }</td>
+        		<td>${goods.name }</td>
+        		<td>${goods.typeCode }</td>
+        		<td>${goods.standard }</td>
+        		<td>${goods.unit }</td>
+        		<td>${goods.manufacturer }</td>
+        		<td>${goods.remark }</td>
+        		<td>
+        			<a class="tablelink" href="/manager/super_goods/edit?id=${goods.id}">修改</a>
+					<a class="tablelink del" tid="${goods.id}" href="javascript:;">删除</a>
+				</td>
+        	</tr> 
+        	<!--#end-->
+        </tbody>
+    </table>
+    <div class="pagin">
+    	<div class="message">共<i class="blue">${page.totalResultSize}</i>条记录，当前显示第&nbsp;<i class="blue">${page.currentPage}&nbsp;</i>页</div>
+        	<ul class="paginList">
+        	<!--#if(page.first)-->
+            <li class="paginItem"><a href="javascript:;"><span class="pagepre"></span></a></li>
+            <!--#else-->
+            <li class="paginItem"><a href="javascript:goPage(${page.currentPage-1});"><span class="pagepre"></span></a></li>
+            <!--#end-->
+        	<!--#if(page.last)-->
+            <li class="paginItem" id="nextpage"><a href="javascript:;"><span class="pagenxt"></span></a></li>
+            <!--#else-->
+            <li class="paginItem" id="nextpage"><a href="javascript:goPage(${page.currentPage+1});"><span class="pagenxt"></span></a></li>
+            <!--#end-->
+        </ul>
+    </div>
+    <div class="tip">
+	  <div class="tiptop"><span>提示信息</span><a></a></div>  
+      <div class="tipinfo">
+        <span><img src="/statics/images/ticon.png" /></span>
+        <div class="tipright">
+			<p>是否确认删除选中信息？</p>
+			<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
+        </div>
+      </div>
+      <div class="tipbtn">
+        <input name="" type="button"  class="sure" value="确定" />&nbsp;
+        <input name="" type="button"  class="cancel" value="取消" />
+      </div>
+    </div>
+</div>
+</body>
+</html>
