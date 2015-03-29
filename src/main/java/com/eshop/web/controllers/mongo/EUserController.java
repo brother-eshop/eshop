@@ -76,11 +76,11 @@ public class EUserController extends BaseController {
 		if(user==null){
 			mav.addObject("user",euser);
 			mav.setViewName("login.httl");
-			mav.addObject("name_error", "用户不存在");
+			mav.addObject("name_error", true);
 		}else if(!password.equals(user.getPassword())){
 			mav.addObject("user",euser);
 			mav.setViewName("login.httl");
-			mav.addObject("password_error", "用户密码错误");
+			mav.addObject("password_error", true);
 		}else if(user!=null&&password.equals(user.getPassword())){
 			this.setSessionAttribute(request, response,"USER_SESSION_NAME", user);
 			mav.addObject("user",user);

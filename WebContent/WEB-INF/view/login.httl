@@ -70,7 +70,7 @@
         	
         }
         
-        $('#register_username').focus(function(){
+        $('#login_username').focus(function(){
         	$('#name_error').html('').hide();
         });
         
@@ -114,11 +114,20 @@
       				<form id="login_form" class="form" action="/eshop/login" method="post" autocomplete="off" novalidate="true">
         				<div class="form-item">
           					<input id="login_username" value="${user.username}" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="">
+          					<!--#if(name_error)-->
+          					<div id="name_error" class="g-error-tip" style="display:block;">用户名错误！</div>
+          					<!--#else-->
           					<div id="name_error" class="g-error-tip"></div>
+          					 <!--#end-->
         				</div>
         				<div class="form-item">
           					<input id="login_password" class="inputbox js_inputbox" value="${user.password}" name="password" type="password" minlength="6" maxlength="20" placeholder="密码" required="">
-          					<div id="password_error" class="g-error-tip"></div>
+          					
+          					<!--#if(password_error)-->
+          						<div id="password_error" style="display:block;" class="g-error-tip">密码错误！</div>
+          					<!--#else-->
+          						<div id="password_error" class="g-error-tip"></div>
+          					 <!--#end-->
         				</div>
         				<div class="form-item clearfix">
   							<input id="captcha_input" class="inputbox input-captcha" type="text" name="captcha" minlength="4" maxlength="4" placeholder="验证码" autocomplete="off" required="">
