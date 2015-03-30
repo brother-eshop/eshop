@@ -7,9 +7,14 @@
     <title>开店页面</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
+	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<script type="text/javascript" src="/eshop/resources/scripts/html5.js"></script>
 	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
 	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
+	<script language="javascript" type="text/javascript">
+	<!--#var(com.eshop.model.mongodb.EUser user)-->
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -40,7 +45,7 @@
             			</div>
 						<!--登陆后-->
 						<div class="tLogin">
-							<a href="#">khiker</a>
+							<a href="#">${user.username}</a>
 						</div>
 					</div>
 				</div>
@@ -52,13 +57,13 @@
 				定位店铺地址
 			</div>
 			<div class="left250">
-			<form id="login_form" class="form" action="/eshop/shopSub" method="post" autocomplete="off" novalidate="true">
-				<input id="suggestId" class="searchbox" name="searchAddress" minlength="5" placeholder="店铺地址" required="">
-				<input id="shopName" class="searchbox" name="shopName" minlength="5" placeholder="店铺名称" required="">
-				<input id="shopAddress" class="searchbox" name="shopAddress" minlength="5" placeholder="详细地址" required="">
-				<input id="deliverScope" class="searchbox" name="deliverScope" minlength="5" placeholder="配送范围（米）" required="">
-				<input id="shopPoint" class="searchbox" hidden="hidden" name="shopPoint" minlength="5" placeholder="坐标" required="">
-				<div class="g-btn g-btn-l g-btn-submit" id="shop_submit">确认开店</div>
+			<form id="start_form" class="form" action="/eshop/shopSub" method="post" autocomplete="off" novalidate="true">
+				<input id="userid" class="leftInput" name="userId" value="${user.id}" hidden="hidden" required="">
+				<input id="suggestId" class="leftInput" name="shopName" minlength="5" placeholder="店铺地址" required="">
+				<input id="shopAddress" class="leftInput" name="shopAddress" minlength="5" placeholder="详细地址" required="">
+				<input id="deliverScope" class="leftInput" name="deliverScope" placeholder="配送范围（米）" required="">
+				<input id="shopPoint" class="leftInput" onPropertyChange="setDeliverScope();" hidden="hidden" name="shopPoint" minlength="5" placeholder="坐标" required="">
+				<button class="g-btn g-btn-l g-btn-submit">确认开店</button>
  				 </form>
 			</div>
 			<div id="map" class="right720" style="height:500px;border-radius: 5px;border:1px solid #bebebe;">
@@ -89,14 +94,27 @@
 </body>
 
 <script type="text/javascript">
-
+function submitForm(){
+	document.getElementById('start_form').submit();
+};
 function G(id) {
 	return document.getElementById(id);
 }
 
 var map = new BMap.Map("map");
 map.centerAndZoom("北京",12); 
+
+var geoc = new BMap.Geocoder();
+var point = null;
 // 初始化地图,设置城市和地图级别。
+var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}); //右上角
+
+map.addControl(top_left_control);        
+map.addControl(top_left_navigation);     
+map.addControl(top_right_navigation);
+
 
 var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
 		{"input" : "suggestId"
@@ -133,14 +151,33 @@ ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上�
 	function setPlace(){
 		map.clearOverlays();    //清除地图上所有覆盖物
 		function myFun(){
-			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
-			map.centerAndZoom(pp, 18);
-			map.addOverlay(new BMap.Marker(pp));    //添加标注
+			point = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+			map.centerAndZoom(point, 17);
+			var marker = new BMap.Marker(point);
+			map.addOverlay(marker);    //添加标注
+			marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+//			var circle = new BMap.Circle(pp,500,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3}); //创建圆
+//			map.addOverlay(circle); 
+			document.getElementById("shopPoint").value=point.lng + "," + point.lat;
+			geoc.getLocation(point,function(rs){
+				var addComp = rs.addressComponents;
+				var shopAddress = addComp.province  + addComp.city  + addComp.district  + addComp.street + addComp.streetNumber
+				document.getElementById("shopAddress").value=shopAddress;
+			});
 		}
 		var local = new BMap.LocalSearch(map, { //智能搜索
 		  onSearchComplete: myFun
 		});
 		local.search(myValue);
+	}
+	
+	function setDeliverScope(){
+		map.clearOverlays();  
+		var scope = document.getElementById("shopPoint").value;
+		if(point!=null){
+			var circle = new BMap.Circle(point,scope,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3}); //创建圆
+			map.addOverlay(circle);    //添加标注
+		}
 	}
 </script>
 </html>

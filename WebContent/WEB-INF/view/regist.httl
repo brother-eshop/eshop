@@ -8,27 +8,12 @@
 	<meta name="keywords" content="">
 	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
 	<script type="text/javascript" src="resources/kissy/seed-min.js"></script>
+	<script type="text/javascript" src="resources/scripts/html5.js"></script>
+	<script type="text/javascript" src="resources/scripts/placeholder.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
 	<script language="javascript" type="text/javascript">
     $(function(){
     	var canReg = true;
-    	var code;
-        function createCode() {
-            code = "";
-            var codeLength = 4; //验证码的长度
-            var checkCode = document.getElementById("captch-img");
-            var codeChars = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'); //所有候选组成验证码的字符，当然也可以用中文的
-            for (var i = 0; i < codeLength; i++) 
-            {
-                var charNum = Math.floor(Math.random() * 34);
-                code += codeChars[charNum];
-            }
-            if (checkCode) 
-            {
-                checkCode.innerHTML = code;
-            }
-        }
         var register_username;
         var register_email;
         var register_password;
@@ -120,12 +105,6 @@
                 alert("请输入验证码！");
                 canReg = false;
             }
-            else if (inputCode.toUpperCase() != code.toUpperCase()) 
-            {
-            	canReg = false;
-                alert("验证码输入有误！");
-                createCode();
-            }
             if(register_username.trim()==""){
             	canReg = false;
             }
@@ -133,7 +112,6 @@
             	$('#register_form').submit();
             }
         } 
-        createCode();
         $('#captch-img').click(function(){
         	createCode();
         });
@@ -175,27 +153,31 @@
       				<h2 class="title">注册</h2>
     			</div>
     			<div class="panel-bd">
-      				<form id="register_form" class="form" method="post" action="/eshop/euser/insert" autocomplete="off" novalidate="true">
+      				<form id="register_form" class="form" method="post" action="/eshop/regist" autocomplete="off" novalidate="true">
 	      				<div class="form-item">
 	  						<input id="register_email" class="inputbox js_inputbox async" name="email" type="email" placeholder="电子邮箱" required="">
-	  					<div id="email_error" class="g-error-tip"></div>
+	  					<div id="email_error" class="g-error-tip" style="display:none;"></div>
 						</div>	
 	      				<div class="form-item">
           					<input id="register_username" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="">
-          					<div id="username_error" class="g-error-tip"></div>
+          					<div id="username_error" class="g-error-tip" style="display:none;"></div>
         				</div>
         				<div class="form-item">
           					<input id="register_password" class="inputbox js_inputbox" name="password" type="password" minlength="6" maxlength="20" placeholder="密码" required="">
-          					<div id="password_error" class="g-error-tip"></div>
+          					<div id="password_error" class="g-error-tip" style="display:none;"></div>
         				</div>
         				<div class="form-item">
           					<input id="register_repeat_password" class="inputbox js_inputbox" name="repeat" type="password" minlength="6" maxlength="20" placeholder="确认密码" required="">
-          					<div id="repeat_error" class="g-error-tip"></div>
+          					<div id="repeat_error" class="g-error-tip" style="display:none;"></div>
         				</div>
-        				<div class="form-item clearfix">
+        				<div class="form-item clearfix"> 
   							<input id="captcha_input" class="inputbox input-captcha" type="text" name="captcha" minlength="4" maxlength="4" placeholder="验证码" autocomplete="off" required="">
-  							<div class="g-error-tip"></div>
-  						<div class="captcha-img" id="captch-img" title="点击刷新验证码"></div>
+  							<!--#if(captcha_error)-->
+  								<div id="captcha_error" class="g-error-tip">验证吗错误</div>
+  							<!--#else-->
+  								<div id="captcha_error" class="g-error-tip" style="display:none;"></div>
+  							<!--#end-->
+  							<img class="captcha-img" src="/ran/random" id="captch-img" title="点击刷新验证码" />
 						</div>
         				<div class="form-helper form-text">
           					<a class="g-link" href="#" target="_blank">使用条款和协议</a>

@@ -53,4 +53,6 @@ public class EUser extends MongoEntity{
 	
 	private Date regTime;
 	
+	private String captcha;
+	
 }

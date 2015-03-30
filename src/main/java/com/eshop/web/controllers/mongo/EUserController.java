@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.eshop.common.constant.CoreConstant;
 import com.eshop.common.util.security.MD5;
 import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.model.mongodb.EUser;
@@ -28,25 +29,6 @@ public class EUserController extends BaseController {
 
 	@Autowired
 	private EUserService euserService;
-	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public RedirectView add(EUser euser, HttpServletRequest request) {
-//		ModelAndView modelAndView = new ModelAndView("/eshop/euser/ucenter.httl");
-		RedirectView rv = new RedirectView("/eshop/index");
-		try{
-			euser.setPassword(MD5.getMD5(euser.getPassword()));
-			euser.setRegTime(new Date());
-			List<EUser> users = euserService.getUserByObj(euser);
-			if(users.size()>0){
-				return new RedirectView("/eshop/regist");
-			}else{
-				euserService.insert(euser);
-			}
-		} catch (Exception e) {
-			logger.error("EUserController.insert", e);
-		}
-		return rv;
-	}
-	
 	@RequestMapping("/ucenter")
 	public ModelAndView ucenter() {
 		ModelAndView mav = new ModelAndView("/eshop/euser/ucenter.httl");
