@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta content="IE=EmulateIE7, IE=9" http-equiv="X-UA-Compatible">
+    <title>eshop</title>
+    <meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
+	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
+	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<script type="text/javascript" src="/statics/js/jquery.js"></script>
+	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
+</head>
+<body>
+	<div class="container">
+		<header class="header">
+			<div class="topBar">
+				<div class="wrap clearfix">
+					<div class="topL">
+						<a class="logo" href="/"><img src="resources/images/logo.png" alt="云码"></a>
+							<nav>
+								<ul id="topMenu">
+									<li class="current"><a href="#">首页</a></li>
+                                </ul>				
+							</nav>
+					</div>
+					<div class="topR">
+						<div class="tMsg">
+            				<span class="msgNum">10</span>
+            				<a href="javascript:;" class="i_car">购物车</a>                            
+                			<div class="tMsgBox">
+                				<ul class="tMsgList">
+                					<li><a href="#">asdfghfgjkl</a>
+                					<li><a href="#">asdfghfgjkl</a>
+                					<li><a href="#">asdfghfgjkl</a>
+                					<li><a href="#">asdfghfgjkl</a>
+                				</ul>
+                			</div>
+            			</div>
+						<!--登陆后-->
+						<div class="tLogin">
+							<a href="#">khiker</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="pageWrap">
+			<section class="wrap clearfix">
+				<div class="topNavBar">
+					<a href="/">首页</a><span>&gt;</span><a href="#">个人中心</a><span>&gt;</span>个人信息
+				</div>
+				<div class="left250">
+					<div class="snTitle">个人</div>
+					<ul class="snList">
+						<li><a href="/user/userInfo/query"><i class="ui_icon i_grxx"></i><span>个人中心</span></a></li>
+						<li><a href="/user/headphoto/toHeadPhotoIndex"><i class="ui_icon i_wdtx"></i><span>修改密码</span></a></li>
+						<li><a href="/user/userInfo/safe"><i class="ui_icon i_zhaq"></i><span>我的订单</span></a></li>
+						<li><a href="/user/binding"><i class="ui_icon i_zhbd"></i><span>地址管理</span></a></li>
+					</ul>
+					<div class="snTitle">店铺</div>
+					<ul class="snList">
+							<li><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>店铺管理</span></a></li>
+							<li><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>商品管理</span></a></li>
+							<li class="current"><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>添加商品</span></a></li>
+							<li><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>历史订单</span></a></li>
+							<li><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>开始接单</span></a></li>
+					</ul>
+				</div>
+				<div class="right720">
+					<div class="radius">
+						<div class="blueLineS"><span class="lineS_current">添加商品</span></div>
+						<form method="post" class="setForm">
+							<section>
+								<ul>
+									<li>
+										<span class="label">类别树</span>
+										<select name="time">
+											<option>1</option>
+										</select>
+										<span class="label"></span>
+										<a class="btn_blue30">添加所选</a>
+									</li>
+								</ul>
+							</section>
+						</form>
+						<table cellpadding="0" cellspacing="1">
+							<thead>
+								<tr>
+									<th><input type="checkbox"></th>
+									<th>名称</th>
+									<th>规格</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><input type="checkbox"></td>
+									<td>可口可乐</td>
+									<td>330ml</td>
+									<td>添加</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+		</div>
+		<footer class="footer">
+			<section class="wrap clearfix">
+				<ul>
+					<li>
+						<a href="#">关于我们</a>
+					</li>
+					<li>
+						<a href="#">联系我们</a>
+					</li>
+					<li>
+						<a href="#">帮助中心</a>
+					</li>
+					<li>
+						<a href="#">免责声明</a>
+					</li>
+				</ul>
+				<p><a href="#">eshop</a>版权所有 © 2015-2020 eshop公司  京ICP备09083730号</p>
+			</section>
+		</footer>
+	</div>
+</body>
+</html>

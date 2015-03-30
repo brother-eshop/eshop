@@ -48,7 +48,6 @@ public class EUserServiceImpl extends AbstractService<EUser, String> implements
 
 	@Override
 	public void updateEUserShopper(EUser euser) {
-		update(new Query(Criteria.where("id").in(euser.getId())), Update.update("isShopper", euser.getIsShopper()), EUser.class);
-		update(new Query(Criteria.where("id").in(euser.getId())), Update.update("shopName", euser.getShopName()), EUser.class);
+		update(new Query(Criteria.where("id").in(euser.getId())), Update.update("isShopper", euser.getIsShopper()).set("shopName", euser.getShopName()), EUser.class);
 	}
 }

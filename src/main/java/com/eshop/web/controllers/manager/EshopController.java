@@ -54,6 +54,12 @@ public class EshopController extends BaseController {
 		return mav;
 	}
 	
+	@RequestMapping("/addGoods")
+	public ModelAndView goAddGoods() {
+		ModelAndView mav = new ModelAndView("/eshop/addGoods.httl");
+		return mav;
+	}
+	
 	@RequestMapping("/startShop")
 	public ModelAndView startShop(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("startShop.httl");
@@ -64,7 +70,7 @@ public class EshopController extends BaseController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
-	public ModelAndView regist(EUser euser, HttpServletRequest request) {
+	public ModelAndView regist(EUser euser, HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/index");
 		String captcha = (String) this.getSessionAttribute(request, CoreConstant.RAND_CODE);
 		try{
@@ -81,6 +87,7 @@ public class EshopController extends BaseController {
 				return new ModelAndView("regsit.httl");
 			}else{
 				euserService.insert(euser);
+				this.setSessionAttribute(request, response,CoreConstant.USER_SESSION_NAME, euserService.getByUserName(euser));
 			}
 		} catch (Exception e) {
 			logger.error("EUserController.insert", e);
@@ -119,12 +126,13 @@ public class EshopController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/shopSub", method = RequestMethod.POST)
 	public ModelAndView startShop(EShop eshop, HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/index");
+		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/addGoods");
 		try{
 			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			user.setIsShopper(1);
 			user.setShopName(eshop.getShopName());
 			euserService.updateEUserShopper(user);
+			eshop.setRegTime(new Date());
 			eshopService.insert(eshop);
 		} catch (Exception e) {
 			logger.error("EshopController.insert", e);
