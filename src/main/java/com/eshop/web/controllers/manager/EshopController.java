@@ -54,12 +54,6 @@ public class EshopController extends BaseController {
 		return mav;
 	}
 	
-	@RequestMapping("/addGoods")
-	public ModelAndView goAddGoods() {
-		ModelAndView mav = new ModelAndView("/eshop/addGoods.httl");
-		return mav;
-	}
-	
 	@RequestMapping("/startShop")
 	public ModelAndView startShop(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("startShop.httl");
@@ -117,6 +111,9 @@ public class EshopController extends BaseController {
 			mav.addObject("captcha_error", true);
 		}else if(user!=null&&password.equals(user.getPassword())){
 			this.setSessionAttribute(request, response,CoreConstant.USER_SESSION_NAME, user);
+			if(user.getIsShopper()!=null&&user.getIsShopper()==1){
+				mav.setViewName("redirect:/eshop/euser/ucenter");
+			}
 			mav.addObject("user",user);
 			return mav;
 		}
@@ -126,7 +123,7 @@ public class EshopController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/shopSub", method = RequestMethod.POST)
 	public ModelAndView startShop(EShop eshop, HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/addGoods");
+		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/addGoods");
 		try{
 			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			user.setIsShopper(1);

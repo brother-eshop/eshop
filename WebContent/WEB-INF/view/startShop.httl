@@ -61,8 +61,8 @@
 				<input id="suggestId" class="leftInput" type = 'text' minlength="5" placeholder="搜索" required="">
 				<input id="shopName" class="leftInput" name="shopName" type = 'text' minlength="5" placeholder="店铺名称" required="">
 				<input id="shopAddress" class="leftInput" name="shopAddress" type = 'text' minlength="5" placeholder="详细地址" required="">
-				<input id="deliverScope" class="leftInput" name="deliverScope" type = 'text' placeholder="配送范围（米）" required="">
-				<input id="shopPoint" class="leftInput" onPropertyChange="setDeliverScope();" type="hidden" name="shopPoint" minlength="5" required="">
+				<input id="deliverScope" class="leftInput" onchange="setDeliverScope();" name="deliverScope" type = 'text' placeholder="配送范围（米）" required="">
+				<input id="shopPoint" class="leftInput"  type="hidden" name="shopPoint" minlength="5" required="">
 				<button class="g-btn g-btn-l g-btn-submit">确认</button>
  				 </form>
 			</div>
@@ -145,6 +145,7 @@ ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上�
 		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
 		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
 		document.getElementById("shopName").value=_value.business;
+		document.getElementById("shopName").focus();
 		setPlace();
 	});
 
@@ -156,13 +157,14 @@ ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上�
 			var marker = new BMap.Marker(point);
 			map.addOverlay(marker);    //添加标注
 			marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
-//			var circle = new BMap.Circle(pp,500,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3}); //创建圆
+//			var circle = new BMap.Circle(point,500,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3}); //创建圆
 //			map.addOverlay(circle); 
 			document.getElementById("shopPoint").value=point.lng + "," + point.lat;
 			geoc.getLocation(point,function(rs){
 				var addComp = rs.addressComponents;
 				var shopAddress = addComp.province  + addComp.city  + addComp.district  + addComp.street + addComp.streetNumber
 				document.getElementById("shopAddress").value=shopAddress;
+				document.getElementById("shopAddress").focus();
 			});
 		}
 		var local = new BMap.LocalSearch(map, { //智能搜索
@@ -170,12 +172,14 @@ ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上�
 		});
 		local.search(myValue);
 	}
-	
+	var circle = null;
 	function setDeliverScope(){
-		map.clearOverlays();  
-		var scope = document.getElementById("shopPoint").value;
+		var scope = document.getElementById("deliverScope").value;
+		if(circle!=null){
+			map.removeOverlay(circle);
+		}
 		if(point!=null){
-			var circle = new BMap.Circle(point,scope,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3}); //创建圆
+			circle = new BMap.Circle(point,parseInt(scope),{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3}); //创建圆
 			map.addOverlay(circle);    //添加标注
 		}
 	}
