@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
 	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
+	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
 	<script language="javascript" type="text/javascript">
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
     $(function(){

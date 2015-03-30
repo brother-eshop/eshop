@@ -11,4 +11,5 @@ public interface EUserService extends Service<EUser,String>{
 	EUser getByEmail(EUser euser);
 	EUser getByMobile(EUser euser);
 	List<EUser> getUserByObj(EUser euser);
+	void updateEUserShopper(EUser euser);
 }

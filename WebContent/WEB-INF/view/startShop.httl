@@ -8,10 +8,10 @@
     <meta name="description" content="">
 	<meta name="keywords" content="">
 	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
-	<script type="text/javascript" src="/eshop/resources/scripts/html5.js"></script>
 	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
 	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
+	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
 	<script language="javascript" type="text/javascript">
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 	</script>
@@ -26,7 +26,6 @@
 							<nav>
 								<ul id="topMenu">
 									<li class="current"><a href="#">首页</a></li>
-                            		<li><a href="#">开店</a></li>
                                 </li>				
 							</nav>
 					</div>
@@ -58,12 +57,13 @@
 			</div>
 			<div class="left250">
 			<form id="start_form" class="form" action="/eshop/shopSub" method="post" autocomplete="off" novalidate="true">
-				<input id="userid" class="leftInput" name="userId" value="${user.id}" hidden="hidden" required="">
-				<input id="suggestId" class="leftInput" name="shopName" minlength="5" placeholder="店铺地址" required="">
-				<input id="shopAddress" class="leftInput" name="shopAddress" minlength="5" placeholder="详细地址" required="">
-				<input id="deliverScope" class="leftInput" name="deliverScope" placeholder="配送范围（米）" required="">
-				<input id="shopPoint" class="leftInput" onPropertyChange="setDeliverScope();" hidden="hidden" name="shopPoint" minlength="5" placeholder="坐标" required="">
-				<button class="g-btn g-btn-l g-btn-submit">确认开店</button>
+				<input id="userid" class="leftInput" name="userId" value="${user.id}" type="hidden" required="">
+				<input id="suggestId" class="leftInput" type = 'text' minlength="5" placeholder="搜索" required="">
+				<input id="shopName" class="leftInput" name="shopName" type = 'text' minlength="5" placeholder="店铺名称" required="">
+				<input id="shopAddress" class="leftInput" name="shopAddress" type = 'text' minlength="5" placeholder="详细地址" required="">
+				<input id="deliverScope" class="leftInput" name="deliverScope" type = 'text' placeholder="配送范围（米）" required="">
+				<input id="shopPoint" class="leftInput" onPropertyChange="setDeliverScope();" type="hidden" name="shopPoint" minlength="5" required="">
+				<button class="g-btn g-btn-l g-btn-submit">确认</button>
  				 </form>
 			</div>
 			<div id="map" class="right720" style="height:500px;border-radius: 5px;border:1px solid #bebebe;">
@@ -144,7 +144,7 @@ ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上�
 	var _value = e.item.value;
 		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
 		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
-		
+		document.getElementById("shopName").value=_value.business;
 		setPlace();
 	});
 

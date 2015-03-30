@@ -41,6 +41,8 @@ public class EUser extends MongoEntity{
 	
 	private Integer isEmailVerified;
 	
+	private Integer isShopper;
+	
 	private String shopName;
 	
 	private String cityCode;

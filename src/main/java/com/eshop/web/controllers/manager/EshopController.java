@@ -121,6 +121,10 @@ public class EshopController extends BaseController {
 	public ModelAndView startShop(EShop eshop, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/index");
 		try{
+			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			user.setIsShopper(1);
+			user.setShopName(eshop.getShopName());
+			euserService.updateEUserShopper(user);
 			eshopService.insert(eshop);
 		} catch (Exception e) {
 			logger.error("EshopController.insert", e);

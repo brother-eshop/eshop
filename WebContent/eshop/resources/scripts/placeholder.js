@@ -16,7 +16,7 @@ var JPlaceHolder = {
 			var self = $(this), txt = self.attr('placeholder');
 			self.wrap($('<div></div>').css({position:'relative', zoom:'1', border:'none', background:'none', padding:'none', margin:'none'}));
 			var pos = self.position(), h = self.outerHeight(true), paddingleft = self.css('padding-left'), paddingL = parseInt(paddingleft), paddingT = parseInt(self.css('padding-top')), marginL = parseInt(self.css('margin-left')), lh = self.css('line-height');
-			var holder = $('<span class="span"></span>').text(txt).css({position:'absolute', left:0, top:0, height:h, paddingLeft:(paddingL+marginL)+"px", color:'#aaa'}).appendTo(self.parent());
+			var holder = $('<span class="span"></span>').text(txt).css({position:'absolute', left:0, top:15, height:h, paddingLeft:(paddingL+marginL)+"px", color:'#aaa'}).appendTo(self.parent());
 			self.focusin(function(e) {
 				holder.hide();
 			}).focusout(function(e) {
@@ -32,5 +32,8 @@ var JPlaceHolder = {
 	}
 };
 // 初始化placeholder
-	JPlaceHolder.init();
+	
+	window.onload = function(){
+		JPlaceHolder.init();
+	};
 /*===== placeholder 兼容结束 =====*/

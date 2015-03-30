@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.eshop.dao.mongodb.EUserDao;
@@ -42,5 +44,11 @@ public class EUserServiceImpl extends AbstractService<EUser, String> implements
 	@Override
 	public List<EUser> getUserByObj(EUser euser) {
 		return euserDao.findList(Criteria.where("email").is(euser.getEmail()).orOperator(Criteria.where("username").is(euser.getUsername())), EUser.class);
+	}
+
+	@Override
+	public void updateEUserShopper(EUser euser) {
+		update(new Query(Criteria.where("id").in(euser.getId())), Update.update("isShopper", euser.getIsShopper()), EUser.class);
+		update(new Query(Criteria.where("id").in(euser.getId())), Update.update("shopName", euser.getShopName()), EUser.class);
 	}
 }
