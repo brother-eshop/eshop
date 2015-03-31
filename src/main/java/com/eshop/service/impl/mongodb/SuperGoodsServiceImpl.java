@@ -20,13 +20,12 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.eshop.dao.mongodb.GoodTypeDao;
 import com.eshop.dao.mongodb.SuperGoodsDao;
 import com.eshop.frameworks.core.dao.DAO;
 import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.frameworks.core.service.impl.AbstractService;
-import com.eshop.model.mongodb.Goods;
 import com.eshop.model.mongodb.SuperGoods;
-import com.eshop.service.mongodb.GoodsService;
 import com.eshop.service.mongodb.SuperGoodsService;
 
 @Service("superGoodsService")
@@ -35,6 +34,9 @@ public class SuperGoodsServiceImpl extends AbstractService<SuperGoods, String> i
 
 	@Autowired
 	private SuperGoodsDao superGoodsDao;
+	
+	@Autowired
+	private GoodTypeDao goodTypeDao;
 
 	@Override
 	public DAO<SuperGoods, String> getDao() {
@@ -51,6 +53,8 @@ public class SuperGoodsServiceImpl extends AbstractService<SuperGoods, String> i
 	public List<SuperGoods> getGoodsPage(SuperGoods goods, PageEntity page) {
 		String code = goods.getCode();
 		String name = goods.getName();
+		String typeCode = goods.getTypeCode();
+		Criteria criteria = new Criteria();
 		Query query = new Query();
 		if (!"".equals(code) && code != null) {
 			query.addCriteria(Criteria.where("code").regex(
@@ -62,6 +66,29 @@ public class SuperGoodsServiceImpl extends AbstractService<SuperGoods, String> i
 					Pattern.compile("^.*" + name + ".*$",
 							Pattern.CASE_INSENSITIVE)));
 		}
+		if(!"".equals(typeCode)&&typeCode!=null){
+			List<String> codeList = getTypesByPath(typeCode);
+			query.addCriteria(Criteria.where("typeCode").in(codeList));
+//			if(codes.size()==1){
+//				query.addCriteria(Criteria.where("typeCode").is(typeCode));
+//			}else if(codes.size()>1){
+//				Criteria[] criterialist = new Criteria[codes.size()-1];
+//				int i=0;
+//					for(GoodType goodType : codes){
+//						if(goodType.getCode().equals(typeCode)){
+//							continue;
+//						}
+//						Criteria criteriaor = new Criteria();
+//						criteriaor.orOperator(Criteria.where("typeCode").is(goodType.getCode()));
+//						criterialist[i] = criteriaor;
+//						i++;
+//					}
+//					criteria.orOperator(criterialist);
+//					query.addCriteria(criteria);
+//					
+//				}
+		}
+//		System.out.println(query.getQueryObject().toString());
 		int count = (int) this.getGoodsCount(query);
 		page.setTotalResultSize(count);
 		List<Order> orders = new ArrayList<Order>();
@@ -109,6 +136,21 @@ public class SuperGoodsServiceImpl extends AbstractService<SuperGoods, String> i
 			// 后台会 一直跑着，做一个提示！
 			System.out.println(i);
 		}
+	}
+	
+	private List<String> getTypesByPath(String typeCode){
+		Query query = new Query();
+		query.addCriteria(Criteria.where("path").regex(
+				Pattern.compile("^.*:" + typeCode + ":.*$",
+						Pattern.CASE_INSENSITIVE)));
+//		List<String> s = goodTypeDao.getMongoTemplate().getCollection("e_good_type").distinct("code",query.getQueryObject());
+//		System.out.println(s);
+//		System.out.println("______");
+//		return goodTypeDao.findList(Criteria.where("path").regex(
+//				Pattern.compile("^.*:" + typeCode + ":.*$",
+//						Pattern.CASE_INSENSITIVE)), GoodType.class);
+		return goodTypeDao.getMongoTemplate().getCollection("e_good_type").distinct("code",query.getQueryObject());
+		
 	}
 
 	private List<SuperGoods> readGoodsExcel(InputStream ins) throws IOException {

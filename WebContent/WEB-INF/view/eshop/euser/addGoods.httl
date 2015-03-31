@@ -6,12 +6,171 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
+	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
 	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
 	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
 	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		var _typeLMenu;
+		var _currentPage=1;
+		var _typesMap = {};
+		var getGoodsTypes = function(pid){
+			var types = null;
+			$.ajax({
+				type: "POST", 
+				async: false,
+				url: "/manager/good_type/getChildren",
+				data: {
+					 pid:pid
+				},
+				success: function(res){
+					types = res;
+					return true;
+				}
+			});
+			return types;
+		};
+		
+		var listGoods = function(data){
+			$("#goods_table_div").html('');
+			 var goodsTable =  $('<table>').appendTo("#goods_table_div");
+			 var th = $('<tr>').appendTo(goodsTable);
+			 	$('<th>').html('<input type="checkbox">').appendTo(th);
+				$('<th>').html("商品图片").appendTo(th);
+				$('<th>').html("商品名称").appendTo(th);
+				$('<th>').html("商品规格").appendTo(th);
+				$('<th>').html("单位").appendTo(th);
+				$('<th>').html("制造商").appendTo(th);
+				 
+				 var waitTr = $('<tr>').append($('<td colspan="7">').html('加载中......')).appendTo(goodsTable);
+					$.ajax({
+				 		url:"/manager/super_goods/getGoods",
+						async: false,
+						type: 'POST',
+						data: data,
+						success:function(res){
+							_currentPage++;
+							waitTr.remove();
+							  $(res).each(function(i,goods){
+								  var tr = $('<tr>').appendTo(goodsTable);
+								  	$('<td>').html('<input type="checkbox">').appendTo(tr); 
+								  	$('<td>').html('').appendTo(tr);
+									$('<td>').html(goods.name).appendTo(tr);
+									$('<td>').html('').appendTo(tr);
+									$('<td>').html('').appendTo(tr);
+									$('<td>').html('').appendTo(tr);
+							  });
+							}
+						});
+		};
+		
+		
+		var getMidTypes = function(menu,rootType){
+			var midTypes = getGoodsTypes(rootType.code)
+			var midChild = $('<div>').addClass('type_childs').appendTo('#type_banner');
+			
+			$(midTypes).each(function(i,midType){
+				_typesMap[midType.code] = midType.name;
+				var dl = $('<dl>').addClass('child_item').appendTo(midChild);
+				var mid_a = $('<a>').html(midType.name);
+				mid_a.click(function(){
+					listGoods({
+						typeCode:midType.code
+					});
+					midChild.hide();
+					_typeLMenu.hide();
+				})
+				var dd = $('<dt>').append(mid_a).appendTo(dl);
+				var dd = $('<dd>').appendTo(dl);
+				var lastChilds = getGoodsTypes(midType.code);
+				$(lastChilds).each(function(i,lastChild){
+					_typesMap[lastChild.code] = lastChild.name;
+					var last_a = $('<a>').html(lastChild.name).appendTo(dd);
+					last_a.click(function(){
+						listGoods({
+							typeCode:lastChild.code
+						});
+						midChild.hide();
+						_typeLMenu.hide();
+						var typePath = lastChild.path;
+						var pathArray = typePath.split(":");
+						for(var c in pathArray){
+							var gt = pathArray[c];
+							if(gt!=""){
+								$('<a>').html(_typesMap[gt]).appendTo('#type_path');
+								$('<i>').html(' 》 ').appendTo('#type_path');
+							}
+						}
+					});
+				})
+			});
+			
+			
+			menu.mouseover(function(){
+				midChild.show();
+			});
+			
+			menu.mouseout(function(){
+				midChild.hide();
+			});
+			
+			midChild.mouseover(function(){
+				_typeLMenu.show();
+				midChild.show();
+				
+			});
+			
+			midChild.mouseout(function(){
+				_typeLMenu.hide();
+				midChild.hide();
+			});
+		};
+		
+		
+		var getRootTypes = function(){
+			var rootTypes = getGoodsTypes(0);
+			_typeLMenu = $('<div>').addClass('type_menu').appendTo('#type_banner');
+			var ul = $('<ul>').appendTo(_typeLMenu);
+			$(rootTypes).each(function(i,rootType){
+				_typesMap[rootType.code] = rootType.name;
+				var menu = $('<li>').html(rootType.name+"<i>></i>").appendTo(ul);
+				menu.click(function(){
+					listGoods({
+						typeCode:rootType.code
+					});
+					_typeLMenu.hide();
+				});
+				getMidTypes(menu,rootType);
+				
+			});
+			
+			_typeLMenu.mouseover(function(){
+				_typeLMenu.show();
+			});
+			
+			_typeLMenu.mouseout(function(){
+				_typeLMenu.hide();
+			});
+		}();
+		
+		
+		$('.all_types').mouseover(function(){
+			_typeLMenu.show();
+		});
+		
+		$('.all_types').mouseout(function(){
+			_typeLMenu.hide();
+		});
+		
+		listGoods({
+			currentPage:_currentPage
+		})
+	});
+	
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -19,7 +178,7 @@
 			<div class="topBar">
 				<div class="wrap clearfix">
 					<div class="topL">
-						<a class="logo" href="/"><img src="resources/images/logo.png" alt="云码"></a>
+						<a class="logo" href="/"><img src="/eshop/resources/images/logo.png" alt="云码"></a>
 							<nav>
 								<ul id="topMenu">
 									<li class="current"><a href="#">首页</a></li>
@@ -71,39 +230,29 @@
 				</div>
 				<div class="right720">
 					<div class="radius">
-						<div class="blueLineS"><span class="lineS_current">添加商品</span></div>
-						<form method="post" class="setForm">
-							<section>
+						<div class="blueLineS"><span class="lineS_current">添加商品</span>
+						<a class="btn_blue30" style="float:right;cursor: pointer;">添加所选</a>
+						</div>
+						<div id="type_banner" class="type_banner">
+							<a class="all_types">全部商品分类</a><div id="type_path"></div>
+							<!--div class="type_menu">
 								<ul>
-									<li>
-										<span class="label">类别树</span>
-										<select name="time">
-											<option>1</option>
-										</select>
-										<span class="label"></span>
-										<a class="btn_blue30">添加所选</a>
-									</li>
+									<li onmouseover=(first_item.style.display='block'); onmouseout=(first_item.style.display='none');>食品<i>></i></li>
+									<li onmouseover=(sec_item.style.display='block'); onmouseout=(sec_item.style.display='none');>饮料<i>></i></li>
 								</ul>
-							</section>
-						</form>
-						<table cellpadding="0" cellspacing="1">
-							<thead>
-								<tr>
-									<th><input type="checkbox"></th>
-									<th>名称</th>
-									<th>规格</th>
-									<th>操作</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><input type="checkbox"></td>
-									<td>可口可乐</td>
-									<td>330ml</td>
-									<td>添加</td>
-								</tr>
-							</tbody>
-						</table>
+							</div>
+							<div id="first_item" onmouseover=(first_item.style.display='block'); onmouseout=(first_item.style.display='none'); class="type_childs">
+								<dl class="child_item">
+								<dt><a href="http://channel.jd.com/1316-1383.html" target="_blank">身体护肤1</a></dt>
+									<dd>
+										<a href="http://list.jd.com/list.html?cat=1316,1383,1401" target="_blank">沐浴</a>
+									</dd>
+								</dl>
+							</div-->
+							
+						</div>
+						<div id="goods_table_div" style="height:100%;overflow: auto;">
+						</div>	
 					</div>
 				</div>
 			</section>

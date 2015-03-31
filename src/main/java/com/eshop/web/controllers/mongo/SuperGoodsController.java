@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.tools.ant.types.CommandlineJava.SysProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -78,12 +77,10 @@ public class SuperGoodsController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/getGoods")
-	public List<SuperGoods> getGoods(HttpServletRequest request,
+	public List<SuperGoods> getGoods(SuperGoods query,HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("page") PageEntity page) {
-		System.out.println(page.getCurrentPage());
 		List<SuperGoods> list = new ArrayList<SuperGoods>();
-		SuperGoods query = new SuperGoods();
 		try {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
