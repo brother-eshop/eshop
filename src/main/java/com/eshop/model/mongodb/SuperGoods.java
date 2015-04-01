@@ -44,6 +44,10 @@ public class SuperGoods extends MongoEntity{
 	
 	private String remark;
 	
-	private int status;
+	private Double price;
+	
+	private Integer status;
+	
+	private String userId;
 	
 }

@@ -1,18 +1,25 @@
 package com.eshop.web.controllers.mongo;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.eshop.common.constant.CoreConstant;
 import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.model.mongodb.EUser;
+import com.eshop.model.mongodb.ShopAndGoods;
 import com.eshop.service.mongodb.EUserService;
+import com.eshop.service.mongodb.ShopAndGoodsService;
 
 @Controller
 @RequestMapping("/eshop/euser")
@@ -23,16 +30,29 @@ public class EUserController extends BaseController {
 
 	@Autowired
 	private EUserService euserService;
+	
+	@Autowired
+	private ShopAndGoodsService shopAndGoodsService;
 
 	@RequestMapping("/ucenter")
-	public ModelAndView ucenter() {
+	public ModelAndView ucenter(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/eshop/euser/ucenter.httl");
+		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if(user==null){
+			return new ModelAndView("login.httl");
+		}
+		mav.addObject("user", user);
 		return mav;
 	}
 
 	@RequestMapping("/addGoods")
-	public ModelAndView goAddGoods() {
+	public ModelAndView goAddGoods(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/eshop/euser/addGoods.httl");
+		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if(user==null){
+			return new ModelAndView("login.httl");
+		}
+		mav.addObject("user", user);
 		return mav;
 	}
 

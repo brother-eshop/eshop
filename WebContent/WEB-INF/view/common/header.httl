@@ -1,3 +1,6 @@
+<script type="text/javascript">
+	<!--#var(com.eshop.model.mongodb.EUser user)-->
+</script>
 <header class="header">
 	<div class="topBar">
 		<div class="wrap clearfix">
@@ -25,9 +28,8 @@
             	</div>
 				<!--登陆后-->
 				<div class="tLogin">
-					<a href="#">khiker</a>
+					<a href="#">${user.username}</a>
 				</div>
-				<!--#end-->	
 			</div>
 		</div>
 	</div>

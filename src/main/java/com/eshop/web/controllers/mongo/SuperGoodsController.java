@@ -23,9 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.eshop.common.constant.CoreConstant;
 import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.model.manager.User;
+import com.eshop.model.mongodb.EUser;
 import com.eshop.model.mongodb.GoodType;
 import com.eshop.model.mongodb.SuperGoods;
 import com.eshop.service.mongodb.GoodTypeService;
@@ -53,8 +55,6 @@ public class SuperGoodsController extends BaseController {
 	public ModelAndView listAll(HttpServletRequest request,
 			HttpServletResponse response, SuperGoods query,
 			@ModelAttribute("page") PageEntity page) {
-		System.out.println(sessionProvider.getAttribute(request,
-				"USER_SESSION_NAME"));
 		ModelAndView modelAndView = new ModelAndView(toList);
 		try {
 			this.setPage(page);
@@ -80,6 +80,7 @@ public class SuperGoodsController extends BaseController {
 	public List<SuperGoods> getGoods(SuperGoods query,HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("page") PageEntity page) {
+		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		List<SuperGoods> list = new ArrayList<SuperGoods>();
 		try {
 			this.setPage(page);
@@ -87,6 +88,7 @@ public class SuperGoodsController extends BaseController {
 			if (query == null) {
 				query = new SuperGoods();
 			}
+			query.setUserId(user.getId());
 			list = superGoodsService.getGoodsPage(query, page);
 		} catch (Exception e) {
 			logger.error("GoodsController.listAll", e);

@@ -14,7 +14,7 @@ textarea{resize:none; overflow:auto;}
 input,button,textarea,select{*font-size:100%}
 input,label{vertical-align:middle;} 
 ol,ul{list-style:none}
-table{border-collapse:collapse;border-spacing:0}
+/* table{border-collapse:collapse;border-spacing:0} */
 caption,th{text-align:left}
 sup,sub{vertical-align:baseline;font-size:100%}
 :link,:visited,ins{text-decoration:none}
@@ -489,9 +489,9 @@ html,body{height:100%;background:#ebf3f7;}
 .snList li.current a, .snList li a:hover {background-color: #ff7e68;color: #fff;border-radius: 2px;}
 
 
-table {width: 100%;background-color: #ebeef5;border-spacing: 1px;border-collapse: inherit;margin-top: 15px;}
+/* table {width: 100%;background-color: #ebeef5;border-spacing: 1px;border-collapse: inherit;margin-top: 15px;}
 table td {background-color: #fff;line-height: 30px;padding-left: 10px;text-align: center;}
-table th {width: 70px;letter-spacing: 2px;background-color: #f8f9fd;text-align: center;}
+table th {width: 70px;letter-spacing: 2px;background-color: #f8f9fd;text-align: center;} */
 
 .setForm {margin-right: 60px;}
 .setForm section {margin-top: 20px;}
@@ -638,7 +638,7 @@ input.cdish-qty {position: relative;z-index: 1;margin: 0 -1px;padding: 3px 0;bor
 	cursor: pointer;
 	background-color: #61d2e0;
 	position: relative;
-	z-index: 999;
+	z-index: 10;
 }
 .type_menu{
 	height:400px;
@@ -732,4 +732,152 @@ dl {
 
 #type_path a{
 	margin: 0 5px;
+}
+
+table {
+	table-layout: inherit;
+	border-collapse: collapse;
+	line-height: 2em;
+	border-spacing: 1px;
+}
+
+table td {
+	white-space: nowrap;
+	padding: 5px;
+	text-align: center;
+	border: 1px solid #e0e0e0;
+}
+
+table th {
+	white-space: nowrap;
+	padding: 5px;
+	text-align: center;
+	border: 1px solid #e0e0e0;
+}
+
+table tbody tr:nth-child(1) {
+	border-top: solid 1px #ccc;
+}
+
+table tbody tr:nth-child(2n) {
+	background: #fff;
+}
+
+table tbody tr:nth-child(2n+1) {
+	background: #f3f3f3;
+}
+
+table tbody tr:nth-child(n+2):hover {
+	background: #61d2e0;
+	color: #fff;
+}
+
+table tbody tr:nth-child(n+2):hover {
+	cursor: pointer;
+}
+.inner {
+	display:none;
+	position: absolute;
+	border-radius: 5px;
+	background-color: #FFFFFF;
+	top: 100px;
+	bottom: 10px;
+	left:20%;
+	right:20%;
+	border: none;
+}
+
+.shop-pane {
+	border: solid 1px #ccc;
+	border-radius: 5px;
+	z-index: 999;
+}
+/* 最后一个panel充满右边 */
+/* 当没有detail的时候，list充满窗口 
+.uqe-pane:last-child {
+	right: 1em;
+}*/
+
+.shop-pane>.header {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: auto;
+	left: 0;
+	height: 3em;
+	background: #684;
+	background: linear-gradient(to bottom, rgba(236, 236, 236, 1) 0%,
+		rgba(229, 229, 229, 1) 100%); /* W3C */
+	overflow: hidden;
+	border-radius: 3px 3px 0 0;
+}
+
+.shop-pane>.body {
+	position: absolute;
+	top: 3.5em;
+	right: 0;
+	bottom: 3.5em;
+	left: 0;
+	height: auto;
+	background: #fff;
+	overflow:auto;
+	padding: 0 .5em;
+}
+
+.shop-pane>.body table{
+	width: 100%;
+}
+
+.shop-pane>.footer {
+	position: absolute;
+	top: auto;
+	right: 2em;
+	bottom: 0;
+	left: 2em;
+	height: 3em;
+	border-top: solid 1px #ccc;
+	overflow: hidden;
+	background:#fff;  
+	clear:both; 
+	padding:0 0;
+	color:#000;
+	width: auto;
+}
+
+.shop-pane>.header>label {
+	display: block;
+	padding: .5em 1em;
+	width: 100%;
+	line-height: 2em;
+}
+
+.inner>.body table tbody tr:nth-child(2n+1) {
+	background: #f5f8fa;
+}
+.inner>.body table tbody tr:nth-child(n+2):hover {
+	background: #e5ebee;
+}
+
+.shade{
+	position: fixed;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	background-color: #F2F2F2;
+	z-index: 99999;
+	filter:alpha(opacity=50); /*IE滤镜，透明度50%*/
+	-moz-opacity:0.5; /*Firefox私有，透明度50%*/
+	opacity:0.5;/*其他，透明度50%*/
+}
+.saveing_message{
+	position: fixed;
+	width:66px;
+	height:66px;
+	top:50%;
+	left:50%;
+	text-align:center;
+	background: url("/statics/images/saveing.gif");
+	
+	
 }

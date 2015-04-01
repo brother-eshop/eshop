@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.eshop.dao.mongodb.GoodTypeDao;
+import com.eshop.dao.mongodb.ShopAndGoodsDao;
 import com.eshop.dao.mongodb.SuperGoodsDao;
 import com.eshop.frameworks.core.dao.DAO;
 import com.eshop.frameworks.core.entity.PageEntity;
@@ -37,6 +38,9 @@ public class SuperGoodsServiceImpl extends AbstractService<SuperGoods, String> i
 	
 	@Autowired
 	private GoodTypeDao goodTypeDao;
+	
+	@Autowired
+	private ShopAndGoodsDao shopAndGoodsDao;
 
 	@Override
 	public DAO<SuperGoods, String> getDao() {
@@ -54,7 +58,8 @@ public class SuperGoodsServiceImpl extends AbstractService<SuperGoods, String> i
 		String code = goods.getCode();
 		String name = goods.getName();
 		String typeCode = goods.getTypeCode();
-		Criteria criteria = new Criteria();
+		String userId = goods.getUserId();
+//		Criteria criteria = new Criteria();
 		Query query = new Query();
 		if (!"".equals(code) && code != null) {
 			query.addCriteria(Criteria.where("code").regex(
@@ -88,6 +93,10 @@ public class SuperGoodsServiceImpl extends AbstractService<SuperGoods, String> i
 //					
 //				}
 		}
+		if(!"".equals(userId)&&userId!=null){
+			List<String> goodsIds = this.getGoodsIdByUser(userId);
+			query.addCriteria(Criteria.where("id").nin(goodsIds));
+		}
 //		System.out.println(query.getQueryObject().toString());
 		int count = (int) this.getGoodsCount(query);
 		page.setTotalResultSize(count);
@@ -98,6 +107,19 @@ public class SuperGoodsServiceImpl extends AbstractService<SuperGoods, String> i
 		return superGoodsDao.findList(query, SuperGoods.class);
 	}
 
+	private List<String> getGoodsIdByUser(String userId){
+		Query query = new Query();
+		query.addCriteria(Criteria.where("userId").is(userId));
+//		List<String> s = goodTypeDao.getMongoTemplate().getCollection("e_good_type").distinct("code",query.getQueryObject());
+//		System.out.println(s);
+//		System.out.println("______");
+//		return goodTypeDao.findList(Criteria.where("path").regex(
+//				Pattern.compile("^.*:" + typeCode + ":.*$",
+//						Pattern.CASE_INSENSITIVE)), GoodType.class);
+		return shopAndGoodsDao.getMongoTemplate().getCollection("e_shop_goods").distinct("goodsId",query.getQueryObject());
+		
+	}
+	
 	@Override
 	public long getGoodsCount(Query query) {
 		return superGoodsDao.size(query, SuperGoods.class);

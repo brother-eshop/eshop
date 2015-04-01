@@ -49,8 +49,13 @@ public class EshopController extends BaseController {
 	}
 	
 	@RequestMapping("/index")
-	public ModelAndView index() {
+	public ModelAndView index(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("index.httl");
+		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if(user==null){
+			return new ModelAndView("login.httl");
+		}
+		mav.addObject("user", user);
 		return mav;
 	}
 	
@@ -58,6 +63,9 @@ public class EshopController extends BaseController {
 	public ModelAndView startShop(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("startShop.httl");
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if(user==null){
+			return new ModelAndView("login.httl");
+		}
 		mav.addObject("user", user);
 		return mav;
 	}
@@ -126,6 +134,10 @@ public class EshopController extends BaseController {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/addGoods");
 		try{
 			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			if(user==null){
+				return new ModelAndView("login.httl");
+			}
+			modelAndView.addObject("user", user);
 			user.setIsShopper(1);
 			user.setShopName(eshop.getShopName());
 			euserService.updateEUserShopper(user);

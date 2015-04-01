@@ -13,10 +13,19 @@
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
 	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
 	<script type="text/javascript">
+	<!--#var(com.eshop.model.mongodb.EUser user)-->
+	
+	var shade = '<div class="shade">\
+		<div class="saveing_message"></div>\
+		</div>';
 	$(document).ready(function(){
 		var _typeLMenu;
 		var _currentPage=1;
+		var _sTcode;
 		var _typesMap = {};
+		var _isMax = false;
+		var _checkedGoods = new Array();
+		var _userId = $('#euser_id').val();
 		var getGoodsTypes = function(pid){
 			var types = null;
 			$.ajax({
@@ -34,39 +43,92 @@
 			return types;
 		};
 		
+		var appendGoods = function(goodsTable,data){
+			 var waitTr = $('<tr>').append($('<td colspan="4">').html('加载中......')).appendTo(goodsTable);
+				$.ajax({
+			 		url:"/manager/super_goods/getGoods",
+					async: false,
+					type: 'POST',
+					data: data,
+					success:function(res){
+						waitTr.remove();
+						  $(res).each(function(i,goods){
+							  goods.userId = _userId;
+							  goods.goodsId = goods.id;
+							  goods.goodsCode = goods.code;
+							  goods.goodsName  = goods.name;
+							  var tr = $('<tr>').appendTo(goodsTable);
+							  var checkBox = $('<input type="checkbox" />');
+							  	$('<td>').html(checkBox).appendTo(tr); 
+							  	$('<td>').html('').appendTo(tr);
+								$('<td>').html(goods.name).appendTo(tr);
+								$('<td>').html('').appendTo(tr);
+								/*$('<td>').html('').appendTo(tr);
+								$('<td>').html('').appendTo(tr);*/
+								tr.click(function(){
+									var value = checkBox.attr('checked');
+									if(value||value=='checked'){
+										value=false;
+										for(index in _checkedGoods){
+											if(_checkedGoods[index].id==goods.id){
+												_checkedGoods.splice(index,1);
+											}
+										}
+									}else{
+										value=true;
+										_checkedGoods[_checkedGoods.length] = goods;
+									}
+									checkBox.attr('checked',value);
+								});
+								checkBox.click(function(){
+									var value = checkBox.attr('checked');
+									if(value||value=='checked'){
+										value=false;
+										for(index in _checkedGoods){
+											if(_checkedGoods[index].id==goods.id){
+												_checkedGoods.splice(index,1);
+											}
+										}
+									}else{
+										value=true;
+										_checkedGoods[_checkedGoods.length] = goods;
+									}
+									checkBox.attr('checked',value);
+								});
+						  });
+						  if(res.length<20){
+							  	_isMax = true;
+								$('<tr>').append($('<td colspan="4">').html('后面没有数据了......')).appendTo(goodsTable);
+							}
+						}
+					});
+		}
+		
 		var listGoods = function(data){
 			$("#goods_table_div").html('');
-			 var goodsTable =  $('<table>').appendTo("#goods_table_div");
+			 var goodsTable =  $('<table id="goods_table">').appendTo("#goods_table_div");
 			 var th = $('<tr>').appendTo(goodsTable);
 			 	$('<th>').html('<input type="checkbox">').appendTo(th);
 				$('<th>').html("商品图片").appendTo(th);
 				$('<th>').html("商品名称").appendTo(th);
 				$('<th>').html("商品规格").appendTo(th);
-				$('<th>').html("单位").appendTo(th);
-				$('<th>').html("制造商").appendTo(th);
-				 
-				 var waitTr = $('<tr>').append($('<td colspan="7">').html('加载中......')).appendTo(goodsTable);
-					$.ajax({
-				 		url:"/manager/super_goods/getGoods",
-						async: false,
-						type: 'POST',
-						data: data,
-						success:function(res){
-							_currentPage++;
-							waitTr.remove();
-							  $(res).each(function(i,goods){
-								  var tr = $('<tr>').appendTo(goodsTable);
-								  	$('<td>').html('<input type="checkbox">').appendTo(tr); 
-								  	$('<td>').html('').appendTo(tr);
-									$('<td>').html(goods.name).appendTo(tr);
-									$('<td>').html('').appendTo(tr);
-									$('<td>').html('').appendTo(tr);
-									$('<td>').html('').appendTo(tr);
-							  });
-							}
-						});
+				/*$('<th>').html("单位").appendTo(th);
+				$('<th>').html("制造商").appendTo(th);*/
+				appendGoods(goodsTable,data);
 		};
 		
+		
+		var appendPath = function(typePath){
+			$('#type_path').html('');
+			var pathArray = typePath.split(":");
+			for(var c in pathArray){
+				var gt = pathArray[c];
+				if(gt!=""){
+					$('<a>').html(_typesMap[gt]).appendTo('#type_path');
+					$('<i>').html(' 》 ').appendTo('#type_path');
+				}
+			}
+		}
 		
 		var getMidTypes = function(menu,rootType){
 			var midTypes = getGoodsTypes(rootType.code)
@@ -78,10 +140,13 @@
 				var mid_a = $('<a>').html(midType.name);
 				mid_a.click(function(){
 					listGoods({
-						typeCode:midType.code
+						typeCode:midType.code,
 					});
+					_sTcode =midType.code; 
+					_currentPage=1;
 					midChild.hide();
 					_typeLMenu.hide();
+					appendPath(midType.path);
 				})
 				var dd = $('<dt>').append(mid_a).appendTo(dl);
 				var dd = $('<dd>').appendTo(dl);
@@ -91,19 +156,13 @@
 					var last_a = $('<a>').html(lastChild.name).appendTo(dd);
 					last_a.click(function(){
 						listGoods({
-							typeCode:lastChild.code
+							typeCode:lastChild.code,
 						});
+						_sTcode = lastChild.code;
+						_currentPage=1;
 						midChild.hide();
 						_typeLMenu.hide();
-						var typePath = lastChild.path;
-						var pathArray = typePath.split(":");
-						for(var c in pathArray){
-							var gt = pathArray[c];
-							if(gt!=""){
-								$('<a>').html(_typesMap[gt]).appendTo('#type_path');
-								$('<i>').html(' 》 ').appendTo('#type_path');
-							}
-						}
+						appendPath(lastChild.path);
 					});
 				})
 			});
@@ -139,9 +198,12 @@
 				var menu = $('<li>').html(rootType.name+"<i>></i>").appendTo(ul);
 				menu.click(function(){
 					listGoods({
-						typeCode:rootType.code
+						typeCode:rootType.code,
 					});
+					_sTcode= rootType.code;
+					_currentPage=1;
 					_typeLMenu.hide();
+					appendPath(rootType.path);
 				});
 				getMidTypes(menu,rootType);
 				
@@ -166,13 +228,100 @@
 		});
 		
 		listGoods({
-			currentPage:_currentPage
-		})
+			currentPage:1
+		});
+		
+		$('#goods_table_div').scroll(function(){
+			if($(this)[0].scrollTop+$('#goods_table_div').height() >=$(this)[0].scrollHeight-10){
+				if(_isMax){
+					return;
+				}
+				_currentPage++;
+				appendGoods($('#goods_table'),{
+					typeCode:_sTcode,
+					currentPage:_currentPage
+				});
+			}
+		 });
+		
+		var insertBatch = function(){
+			var sd = $(shade).appendTo('body');
+			$.ajax({
+				type: "post", 
+				contentType : 'application/json',  
+				url: "/manager/shopperGoods/insertBatch",
+				data: JSON.stringify({sgoods:_checkedGoods}),
+				success: function(data){
+					sd.remove();
+					$('#add_goods_div').hide();
+					listGoods({
+						currentPage:1
+					});
+				},
+				error: function (){
+					
+				}
+			});
+		}
+		
+		$('#addCheckedGoods').click(function(){
+			if($('#skipEdit').attr('checked')==true||$('#skipEdit').attr('checked')=="checked"){
+				insertBatch();
+				return;
+			}
+			
+			$('#add_goods_div').show();
+			$('#editBody').html('');
+			var editTable = $('<table>').appendTo('#editBody');
+			var th = $('<tr>').appendTo(editTable);
+			$('<th>').html("图片").appendTo(th);
+			$('<th>').html("名称").appendTo(th);
+			$('<th>').html("规格").appendTo(th);
+			$('<th>').html("单位").appendTo(th);
+			$('<th>').html("制造商").appendTo(th);
+			$('<th>').html("售价（元）").appendTo(th);
+			
+			$(_checkedGoods).each(function(i,goods){
+				var tr = $('<tr>').appendTo(editTable);
+				$('<td>').html('').appendTo(tr);
+				$('<td>').html(goods.name).appendTo(tr);
+				$('<td>').html('').appendTo(tr);
+				$('<td>').html('').appendTo(tr);
+				$('<td>').html('').appendTo(tr);
+				var priceInput = $('<input type="text" size=5>');
+				if(goods.price){
+					priceInput.val(goods.price);
+				}
+				priceInput.change(function(){
+					goods.outPrice = $(this).val();
+				});
+				$('<td>').append(priceInput).appendTo(tr);
+			});
+		});
+		$('#close_goon').click(function(){
+			$('#add_goods_div').hide();
+		});
+		$('#save_goon').click(function(){
+			insertBatch();
+		});
 	});
 	
 	</script>
 </head>
 <body>
+<input id="euser_id" type="hidden" value='${user.id}' />
+<div id="add_goods_div" class="shop-pane inner">
+	<header class="header">
+		<label>编辑售价</label>
+	</header>
+	<div id="editBody" class="body">
+	</div>
+	<footer class="footer" style="text-align: center;" >
+		<input id="save_goon" type="button"  class="sure" value="保存" />&nbsp;
+	    <input id="close_goon" type="button"  class="cancel" value="关闭" />&nbsp;
+	    <input type="checkbox" id="skipEdit" />直接保存
+	</footer>
+</div>
 	<div class="container">
 		<header class="header">
 			<div class="topBar">
@@ -200,7 +349,7 @@
             			</div>
 						<!--登陆后-->
 						<div class="tLogin">
-							<a href="#">khiker</a>
+							<a href="#">${user.id}</a>
 						</div>
 					</div>
 				</div>
@@ -231,7 +380,7 @@
 				<div class="right720">
 					<div class="radius">
 						<div class="blueLineS"><span class="lineS_current">添加商品</span>
-						<a class="btn_blue30" style="float:right;cursor: pointer;">添加所选</a>
+						<a class="btn_blue30" id="addCheckedGoods" style="float:right;cursor: pointer;">添加所选</a>
 						</div>
 						<div id="type_banner" class="type_banner">
 							<a class="all_types">全部商品分类</a><div id="type_path"></div>
@@ -251,8 +400,19 @@
 							</div-->
 							
 						</div>
-						<div id="goods_table_div" style="height:100%;overflow: auto;">
+						<div id="goods_table_div" style="height:800px;overflow: auto;">
 						</div>	
+						<!--div class="commonPage">
+		                        <a href="javascript:;">首页</a>
+		                        <a href="javascript:;" class="page-prev"><i class="ui_icon i-arrow-blue-left"></i></a>
+		                        <a href="javascript:;" class="num">1</a>
+		                        <a href="javascript:;" class="num">2</a>
+		                        <a href="javascript:;" class="num current">3</a>
+		                        <a href="javascript:;" class="num">4</a>
+		                        <a href="javascript:;" class="num">5</a>
+		                        <a href="javascript:;" class="page-next"><i class="ui_icon i-arrow-blue-right"></i></a>
+		                        <a href="javascript:;">尾页</a>
+		                </div-->
 					</div>
 				</div>
 			</section>
