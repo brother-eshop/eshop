@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.eshop.common.constant.CoreConstant;
 import com.eshop.common.util.security.MD5;
@@ -126,6 +127,14 @@ public class EshopController extends BaseController {
 			return mav;
 		}
 		return mav;
+	}
+	
+	@RequestMapping("/logout")
+	public RedirectView logout(HttpServletRequest request,
+			HttpServletResponse response) {
+		this.clear(request, response);
+		RedirectView r = new RedirectView("/eshop/login");
+		return r;
 	}
 	
 	@ResponseBody

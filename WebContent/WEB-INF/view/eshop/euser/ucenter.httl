@@ -44,29 +44,63 @@
 				<div class="right720">
 					<div class="radius">
 						<div class="blueLineS"><span class="lineS_current">个人信息</span></div>
-					</div>
+							<form method="post" id="infoForm" class="setForm" action="/eshop/euser/saveEUser">
+							<input type="hidden" name="id" value="${user.id}" />
+								<section>
+									<h2>基本信息</h2>
+									<ul>
+										<li>
+											<span class="label">
+												<label>用户名</label>
+											</span>
+											<input type="text" name="username" value="${user.username}" onblur="validateNickName()" class="ipt">				
+											<label id="labelNickName" style="display:none"></label>
+										</li>
+										<li>
+											<span class="label">
+												<label>邮箱</label>
+											</span>
+											<input type="text" class="ipt" id="email" name="email" value="${user.email}" onblur="validateRealName()">				
+											<label id="labelRealName"><a>修改</a></label>
+										</li>
+										<li>
+											<span class="label">
+												<label>电话</label>
+											</span>
+											<input type="text" class="ipt" id="mobile" name="mobile" value="${user.mobile}" onblur="validateRealName()">				
+											<label id="labelRealName"><a>绑定</a></label>
+										</li>
+										<li>
+											<span class="label">
+												<label>注册时间</label>
+											</span>
+											<input type="text" class="ipt" id="regTime" name="regTime" value="${user.regTime}" onblur="validateRealName()">				
+											<label id="labelRealName" style="display:none"></label>
+										</li>
+										<li>
+											<span class="label">
+												<label>最后登录IP</label>
+											</span>
+											<input type="text" class="ipt" id="lastLoginIP" name="lastLoginIP" value="${user.lastLoginIP}" onblur="validateRealName()">				
+											<label id="labelRealName" style="display:none"></label>
+										</li>
+										<li>
+											<span class="label">
+												<label>最后登录时间</label>
+											</span>
+											<input type="text" class="ipt" id="lastLoginTime" name="lastLoginTime" value="${user.lastLoginTime}" onblur="validateRealName()">				
+											<label id="labelRealName" style="display:none"></label>
+										</li>
+										
+									</ul>
+								</section>
+								<!--div class="tr">
+									<a id="saveEShop" class="btn_blue30">保存</a>
+								</div-->
+							</form>
+						</div>
 					<div class="radius mTop30 myTags">
 						<h2>最近订单</h2>
-						<table cellpadding="0" cellspacing="1">
-							<thead>
-								<tr>
-									<th>订单号</th>
-									<th>店铺</th>
-									<th>时间</th>
-									<th>金额</th>
-									<th>状态</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><a href="#">1234567890</a></td>
-									<td><a href="#">xxx的食杂店</a></td>
-									<td>2012-10-11</td>
-									<td>￥100.38</td>
-									<td>已完成</td>
-								</tr>
-							</tbody>
-						</table>
 					</div>
 				</div>
 			</section>
