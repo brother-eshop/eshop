@@ -246,6 +246,9 @@
 		
 		var insertBatch = function(){
 			var sd = $(shade).appendTo('body');
+			for(var i in _checkedGoods){
+				_checkedGoods[i].id=null;
+			}
 			$.ajax({
 				type: "post", 
 				contentType : 'application/json',  
