@@ -24,8 +24,10 @@ import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.model.manager.User;
 import com.eshop.model.mongodb.EUser;
+import com.eshop.model.mongodb.GoodType;
 import com.eshop.model.mongodb.Goods;
 import com.eshop.model.mongodb.ShopAndGoods;
+import com.eshop.service.mongodb.GoodTypeService;
 import com.eshop.service.mongodb.GoodsService;
 import com.eshop.service.mongodb.ShopAndGoodsService;
 
@@ -41,6 +43,9 @@ public class ShopperGoodsController extends BaseController {
 	
 	@Autowired
 	private ShopAndGoodsService shopAndGoodsService;
+	
+	@Autowired
+	private GoodTypeService goodTypeService;
 
 	// 路径
 	private String toList = "/manager/shop_goods/mygoods_list.httl";// 产品表页
@@ -182,5 +187,32 @@ public class ShopperGoodsController extends BaseController {
 			return "FAILE";
 		}
 		return "SUCCESS";
+	}
+	
+	@RequestMapping("/goodsManage")
+	public ModelAndView goodsManage(HttpServletRequest request,
+			HttpServletResponse response, ShopAndGoods query,
+			@ModelAttribute("page") PageEntity page) {
+		ModelAndView mav = new ModelAndView("/eshop/euser/goodsManage.httl");
+		
+		try{
+			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			if(user==null){
+				return new ModelAndView("login.httl");
+			}
+			mav.addObject("user", user);
+			this.setPage(page);
+			this.getPage().setPageSize(20);
+			if(query == null){
+				query = new ShopAndGoods();
+			}
+			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(user.getId(), query, page);
+			mav.addObject("query", query);
+			mav.addObject("goodsList", list);
+			mav.addObject("page", this.getPage());
+		}catch(Exception e){
+			logger.error("EUserController.goodsManage", e);
+		}
+		return mav;
 	}
 }

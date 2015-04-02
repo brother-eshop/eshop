@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.eshop.common.constant.CoreConstant;
 import com.eshop.frameworks.core.controller.BaseController;
+import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.model.mongodb.EUser;
+import com.eshop.model.mongodb.Goods;
 import com.eshop.model.mongodb.ShopAndGoods;
 import com.eshop.service.mongodb.EUserService;
 import com.eshop.service.mongodb.ShopAndGoodsService;
@@ -55,6 +58,9 @@ public class EUserController extends BaseController {
 		mav.addObject("user", user);
 		return mav;
 	}
+	
+	
+	
 
 	@ResponseBody
 	@RequestMapping(value = "/getByUserName", method = RequestMethod.POST)

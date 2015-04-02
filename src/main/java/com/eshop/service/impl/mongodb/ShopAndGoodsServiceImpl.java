@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import com.eshop.dao.mongodb.GoodTypeDao;
 import com.eshop.dao.mongodb.GoodsDao;
 import com.eshop.dao.mongodb.ShopAndGoodsDao;
 import com.eshop.frameworks.core.dao.DAO;
@@ -30,6 +31,9 @@ public class ShopAndGoodsServiceImpl extends AbstractService<ShopAndGoods, Strin
 	
 	@Autowired
 	private GoodsDao goodsDao;
+	
+	@Autowired
+	private GoodTypeDao goodTypeDao;
 
 	@Override
 	public DAO<ShopAndGoods, String> getDao() {
@@ -47,6 +51,7 @@ public class ShopAndGoodsServiceImpl extends AbstractService<ShopAndGoods, Strin
 		String goodsName = sGoods.getGoodsName();
 		String goodsCode = sGoods.getGoodsCode();
 		String goodsManufacturer = sGoods.getManufacturer();
+		String typeCode = sGoods.getTypeCode();
 		if (!"".equals(goodsName) && goodsName != null) {
 			query.addCriteria(Criteria.where("goodsName").regex(
 					Pattern.compile("^.*" + goodsName + ".*$",
@@ -62,6 +67,10 @@ public class ShopAndGoodsServiceImpl extends AbstractService<ShopAndGoods, Strin
 					Pattern.compile("^.*" + goodsManufacturer + ".*$",
 							Pattern.CASE_INSENSITIVE)));
 		}
+		if(!"".equals(typeCode)&&typeCode!=null){
+			List<String> codeList = getTypesByPath(typeCode);
+			query.addCriteria(Criteria.where("typeCode").in(codeList));
+		}
 		int count = (int) this.getShopperGoodsCount(query);
 		page.setTotalResultSize(count);
 		List<Order> orders = new ArrayList<Order>();
@@ -70,6 +79,21 @@ public class ShopAndGoodsServiceImpl extends AbstractService<ShopAndGoods, Strin
 		query.skip(page.getStartRow()).limit(page.getPageSize());
 		return shopAndGoodsDao.findList(query, ShopAndGoods.class);
 	} 
+	
+	private List<String> getTypesByPath(String typeCode){
+		Query query = new Query();
+		query.addCriteria(Criteria.where("path").regex(
+				Pattern.compile("^.*:" + typeCode + ":.*$",
+						Pattern.CASE_INSENSITIVE)));
+//		List<String> s = goodTypeDao.getMongoTemplate().getCollection("e_good_type").distinct("code",query.getQueryObject());
+//		System.out.println(s);
+//		System.out.println("______");
+//		return goodTypeDao.findList(Criteria.where("path").regex(
+//				Pattern.compile("^.*:" + typeCode + ":.*$",
+//						Pattern.CASE_INSENSITIVE)), GoodType.class);
+		return goodTypeDao.getMongoTemplate().getCollection("e_good_type").distinct("code",query.getQueryObject());
+		
+	}
 	
 	@Override
 	public long getShopperGoodsCount(Query query) {
