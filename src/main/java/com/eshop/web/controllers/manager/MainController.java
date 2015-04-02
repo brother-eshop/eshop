@@ -20,8 +20,8 @@ import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.model.manager.User;
 import com.eshop.service.manager.UserService;
 
-@Controller
-@RequestMapping("/manager")
+//@Controller
+//@RequestMapping("/manager")
 public class MainController extends BaseController {
 	@Autowired
 	private UserService userService;

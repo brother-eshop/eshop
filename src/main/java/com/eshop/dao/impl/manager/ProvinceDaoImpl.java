@@ -17,7 +17,6 @@ import java.lang.reflect.InvocationTargetException;
  * User: spencer
  * Date: 2015-03-14
  */
- @Repository("provinceDao")
 public class ProvinceDaoImpl extends GenericDaoImpl implements ProvinceDao{
 
     public Long addProvince(Province province) {

@@ -21,8 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-@Controller
-@RequestMapping("/manager/user")
+//@Controller
+//@RequestMapping("/manager/user")
 public class UserController extends BaseController {
 
 	private static final Logger logger = Logger.getLogger(UserController.class);

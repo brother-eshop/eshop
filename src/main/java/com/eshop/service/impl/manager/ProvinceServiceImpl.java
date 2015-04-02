@@ -14,7 +14,6 @@ import com.eshop.service.manager.ProvinceService;
  * User: spencer
  * Date: 2015-03-14
  */
-@Service("provinceService")
 public class ProvinceServiceImpl implements ProvinceService{
 
  	@Autowired

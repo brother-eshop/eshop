@@ -14,7 +14,7 @@ import com.eshop.frameworks.core.entity.GuidItem;
  * @author : spencer
  * @Create Date : 2013-12-18 下午7:37:25
  */
-@Repository("guidDao")
+//@Repository("guidDao")
 public class GuidDaoImpl extends GenericDaoImpl  implements GuidDao {
 
     /**

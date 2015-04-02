@@ -21,8 +21,8 @@ import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.model.manager.Province;
 import com.eshop.service.manager.ProvinceService;
 
-@Controller
-@RequestMapping("/manager/province")
+//@Controller
+//@RequestMapping("/manager/province")
 public class ProvinceController extends BaseController {
 
 	private static final Logger logger = Logger.getLogger(ProvinceController.class);

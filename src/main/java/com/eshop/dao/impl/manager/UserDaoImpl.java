@@ -17,7 +17,6 @@ import java.lang.reflect.InvocationTargetException;
  * User: spencer
  * Date: 2015-03-13
  */
- @Repository("userDao")
 public class UserDaoImpl extends GenericDaoImpl implements UserDao{
 
     public Long addUser(User user) {

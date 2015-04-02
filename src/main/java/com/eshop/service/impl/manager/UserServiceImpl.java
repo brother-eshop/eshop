@@ -13,7 +13,6 @@ import com.eshop.frameworks.core.entity.PageEntity;
  * User: spencer
  * Date: 2015-03-13
  */
-@Service("userService")
 public class UserServiceImpl implements UserService{
 
  	@Autowired

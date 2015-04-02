@@ -23,7 +23,7 @@ import com.eshop.frameworks.core.entity.GuidItem;
  * @description
  * @author : spencer
  */
-@Service("guidGeneratorService")
+//@Service("guidGeneratorService")
 public class GuidGeneratorServiceImpl implements GuidGeneratorService {
 
     private static String localAddress;

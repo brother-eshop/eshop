@@ -22,7 +22,7 @@ import com.eshop.frameworks.core.entity.PageOL;
  * @author spencer
  * @Create Date: 2013-2-27 上午11:05:17
  */
-@Repository("genericDao")
+//@Repository("genericDao")
 public abstract class GenericDaoImpl implements GenericDao {
 
 	public SqlSession readWriteSqlSession;
