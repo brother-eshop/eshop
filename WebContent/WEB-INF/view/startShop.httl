@@ -61,10 +61,10 @@
 				<input id="suggestId" class="leftInput" type = 'text' minlength="5" placeholder="搜索" required="">
 				<input id="shopName" class="leftInput" name="shopName" type = 'text' minlength="5" placeholder="店铺名称" required="">
 				<input id="shopAddress" class="leftInput" name="shopAddress" type = 'text' minlength="5" placeholder="详细地址" required="">
-				<input id="deliverScope" class="leftInput" onchange="setDeliverScope();" name="deliverScope" type = 'text' placeholder="配送范围（米）" required="">
+				<input id="deliverScope" class="leftInput" onchange="setDeliverScope();" name="devliverScope" type = 'text' placeholder="配送范围（米）" required="">
 				<input id="shopPoint" class="leftInput"  type="hidden" name="shopPoint" minlength="5" required="">
 				<button class="g-btn g-btn-l g-btn-submit">确认</button>
- 				 </form>
+ 			</form>
 			</div>
 			<div id="map" class="right720" style="height:500px;border-radius: 5px;border:1px solid #bebebe;">
 			</div>

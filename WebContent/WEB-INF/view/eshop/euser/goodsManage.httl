@@ -165,7 +165,7 @@
 					</ul>
 					<div class="snTitle">店铺</div>
 					<ul class="snList">
-							<li><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>店铺管理</span></a></li>
+							<li><a href="/eshop/euser/shopManage"><i class="ui_icon i_wdjf"></i><span>店铺管理</span></a></li>
 							<li  class="current"><a href="/manager/shopperGoods/goodsManage"><i class="ui_icon i_wdjf"></i><span>商品管理</span></a></li>
 							<li><a href="/eshop/euser/addGoods"><i class="ui_icon i_wdjf"></i><span>添加商品</span></a></li>
 							<li><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>历史订单</span></a></li>

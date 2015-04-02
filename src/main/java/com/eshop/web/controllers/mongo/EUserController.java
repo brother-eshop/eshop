@@ -1,26 +1,21 @@
 package com.eshop.web.controllers.mongo;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eshop.common.constant.CoreConstant;
 import com.eshop.frameworks.core.controller.BaseController;
-import com.eshop.frameworks.core.entity.PageEntity;
+import com.eshop.model.mongodb.EShop;
 import com.eshop.model.mongodb.EUser;
-import com.eshop.model.mongodb.Goods;
-import com.eshop.model.mongodb.ShopAndGoods;
+import com.eshop.service.mongodb.EShopService;
 import com.eshop.service.mongodb.EUserService;
 import com.eshop.service.mongodb.ShopAndGoodsService;
 
@@ -33,6 +28,9 @@ public class EUserController extends BaseController {
 
 	@Autowired
 	private EUserService euserService;
+	
+	@Autowired
+	private EShopService eshopService;
 	
 	@Autowired
 	private ShopAndGoodsService shopAndGoodsService;
@@ -59,6 +57,33 @@ public class EUserController extends BaseController {
 		return mav;
 	}
 	
+	
+	@RequestMapping("/shopManage")
+	public ModelAndView shopManage(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/eshop/euser/shopinfo.httl");
+		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if(user==null){
+			return new ModelAndView("login.httl");
+		}
+		EShop eshop = eshopService.getEShopByUser(user);
+		mav.addObject("user", user);
+		mav.addObject("eshop",eshop);
+		
+		return mav;
+	}
+	
+	
+	@RequestMapping(value = "/saveEShop", method = RequestMethod.POST)
+	public ModelAndView saveEShop(EShop eshop, HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		try{
+//			eshopService.updateByObj(eshop);
+			eshopService.save(eshop);
+		} catch (Exception e) {
+			logger.error("EUserController.saveEShop", e);
+		}
+		return modelAndView;
+	}
 	
 	
 
