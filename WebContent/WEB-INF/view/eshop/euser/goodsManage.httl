@@ -287,12 +287,12 @@
 				    		<tr>
 				        		<th><input name="all" id="all" type="checkbox" value=""/></th>
 				        		<th>商品图片</th>
-				        		<th>商品条码</th>
+				        		<!--th>商品条码</th-->
 				        		<th>商品名称</th>
-				        		<th>商品类别</th>
+				        		<!--th>商品类别</th>
 				        		<th>商品规格</th>
 				        		<th>单位</th>
-				        		<th>制造商</th>
+				        		<th>制造商</th-->
 				        		<th>状态</th>
 				        		<th>售价</th>
 				        	</tr>
@@ -300,12 +300,12 @@
 				        	<tr>
 				        		<td><input name="id" type="checkbox" value="${goods.id}" /></td>
 				        		<td></td>
-				        		<td>${goods.goodsCode }</td>
+				        		<!--td>${goods.goodsCode }</td-->
 				        		<td>${goods.goodsName }</td>
-				        		<td>${goods.typeCode }</td>
+				        		<!--td>${goods.typeCode }</td>
 				        		<td>${goods.standard }</td>
 				        		<td>${goods.unit }</td>
-				        		<td>${goods.manufacturer }</td>
+				        		<td>${goods.manufacturer }</td-->
 				        		<!--#if(goods.status==1)-->
 				        		<td>在售</td>
 				        		<!--#elseif(goods.status==0)-->
