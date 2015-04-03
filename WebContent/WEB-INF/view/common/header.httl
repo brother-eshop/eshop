@@ -28,7 +28,7 @@
             	</div>
 				<!--登陆后-->
 				<div class="tLogin">
-					<a href="#">${user.username}</a>
+					<a href="/eshop/euser/ucenter">${user.username}</a>
 					&nbsp;&nbsp;
 					<a href="/eshop/logout">退出</a>
 				</div>

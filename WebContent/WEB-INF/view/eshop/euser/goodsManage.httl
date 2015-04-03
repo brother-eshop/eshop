@@ -17,6 +17,11 @@
 	<!--#var(com.eshop.model.mongodb.ShopAndGoods query)-->
 	<!--#set(PageEntity page)-->
 	<script type="text/javascript">
+	
+	var shade = '<div class="shade">\
+		<div class="saveing_message"></div>\
+		</div>';
+	var goodsStatus = {0:'未售',1:'在售',2:'停售'};
 	$(document).ready(function(){
 		var _typeLMenu;
 		var _currentPage=1;
@@ -137,6 +142,97 @@
 		
 		  //显示中间部分页数
 		  showPageNumber(${page.currentPage},${page.totalPageSize});
+		  
+		  $(".goods_price").each(function(i,gp){
+			  $(gp).bind("click",function(){
+				  changeWhite($(gp));
+			  });
+			  $(gp).bind("blur",function(){
+				  changeBack($(gp));
+			  });
+			  $(gp).bind("change",function(){
+				  changeOutPrice($(gp));
+			  });
+		  });
+		  var changeWhite = function(el){
+			  el.css('background-color','#fff');
+		  }
+		  var changeBack = function(el){
+			  el.css('background-color','#D4D4D4');
+		  }
+		  var changeOutPrice = function(el){
+			  var tr = el.parent().parent();
+			  var goodsId = tr.find("input[name='id']").val();
+				var sd = $(shade).appendTo('body');
+				$.ajax({
+					type: "post", 
+					contentType : 'application/json',  
+					url: "/manager/shopperGoods/changeOutPrice",
+					data: JSON.stringify({id:goodsId,outPrice:el.val()}),
+					success: function(data){
+						sd.remove();
+					},
+					error: function (){
+						alert("error")
+					}
+				});
+		  	}
+		  
+		  $("#all").click(function(){
+		  	$("input[name='id']").attr("checked",$(this).attr("checked"));
+		  });
+//		  
+		  $('#batchInSale').click(function(){
+			  var id="";
+			  	var arrChk=$("input[name='id']:checked");
+			    $(arrChk).each(function(i,val){
+			       if(i>0){
+			       		id+=",";
+			       }
+			       id+=this.value;
+			    });  
+			    if($.trim(id)!=""){
+				    $("#ids").val(id);
+			  		$(".sure").click(function(){
+			  			$("#ids").val(id);
+			  			$(".tip").fadeOut(100);
+			  			$("#searchForm").attr("action","/manager/shopperGoods/batchInSale");
+			  			$("#searchForm").submit();
+			  		});
+			 		$(".cancel").click(function(){
+			  			$(".tip").fadeOut(100);
+			  		});
+			  		$(".tip").fadeIn(200);
+			    }
+		  });
+		  $('#batchOutSale').click(function(){
+			  var id="";
+			  	var arrChk=$("input[name='id']:checked");
+			    $(arrChk).each(function(i,val){
+			       if(i>0){
+			       		id+=",";
+			       }
+			       id+=this.value;
+			    });  
+			    if($.trim(id)!=""){
+				    $("#ids").val(id);
+			  		$(".sure").click(function(){
+			  			$("#ids").val(id);
+			  			$(".tip").fadeOut(100);
+			  			$("#searchForm").attr("action","/manager/shopperGoods/batchOutSale");
+			  			$("#searchForm").submit();
+			  		});
+			 		$(".cancel").click(function(){
+			  			$(".tip").fadeOut(100);
+			  		});
+			  		$(".tip").fadeIn(200);
+			    }
+		  });
+		  
+		  $(".tiptop a").click(function(){
+			  	$(".tip").fadeOut(200);
+			  });
+		  
 		});
 		//搜索
 		function search(){
@@ -175,7 +271,8 @@
 				<div class="right720">
 				<div class="radius">
 					<div class="blueLineS"><span class="lineS_current">商品管理</span>
-					<a class="btn_blue30" id="addCheckedGoods" style="float:right;cursor: pointer;">批量上架</a>
+					<a class="btn_blue30" id="batchInSale" style="float:right;cursor: pointer;">批量上架</a>
+					<a class="btn_blue30" id="batchOutSale" style="float:right;cursor: pointer;margin-right:5px;">批量下架</a>	
 					</div>
 					<div id="type_banner" class="type_banner">
 						<a class="all_types">全部商品分类</a><div id="type_path"></div>
@@ -183,6 +280,7 @@
 					<form action="" method="post" id="searchForm">
 						<input type="hidden" id="pageCurrentPage" name="page.currentPage" value="${page.currentPage}"/>
 						<input type="hidden" id="type_code" name="typeCode" value="${query.typeCode}"/>
+						<input type="hidden" id="ids" name="ids" value="${query.typeCode}"/>
 			    	</form>
 					<div id="goods_table_div" style="height:800px;overflow: auto;">
 					 <table>
@@ -208,8 +306,16 @@
 				        		<td>${goods.standard }</td>
 				        		<td>${goods.unit }</td>
 				        		<td>${goods.manufacturer }</td>
-				        		<td>${goods.status }</td>
-				        		<td><input type="text" size=5 value="${goods.outPrice }"></td>
+				        		<!--#if(goods.status==1)-->
+				        		<td>在售</td>
+				        		<!--#elseif(goods.status==0)-->
+				        		<td>未售</td>
+				        		<!--#elseif(goods.status==2)-->
+				        		<td>停售</td>
+				        		<!--#else-->
+				        		<td>未知</td>
+				        		<!--#end-->
+				        		<td><input type="text" name="outPrice" class="goods_price" size=5 value="${goods.outPrice }"></td>
 				        	</tr> 
 				        	<!--#end-->
 				    </table>
@@ -235,5 +341,19 @@
 		</div>
 		${include("/common/footer.httl")}
 	</div>
+		<div class="tip">
+		  <div class="tiptop"><span>提示信息</span><a></a></div>  
+	    <div class="tipinfo">
+	      <span><img src="/statics/images/ticon.png" /></span>
+	      <div class="tipright">
+				<p>是否确提交选中信息？</p>
+				<cite>如果是请点击确定按钮 ，否则请点取消。</cite>
+	      </div>
+	    </div>
+	    <div class="tipbtn">
+	      <input name="" type="button"  class="sure" value="确定" />&nbsp;
+	      <input name="" type="button"  class="cancel" value="取消" />
+	    </div>
+	  </div>
 </body>
 </html>

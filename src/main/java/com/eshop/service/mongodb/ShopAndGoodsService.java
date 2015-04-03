@@ -13,4 +13,7 @@ public interface ShopAndGoodsService extends Service<ShopAndGoods,String>{
 	public void insertShopAndGoods(ShopAndGoods sad);
 	public List<ShopAndGoods> getShopperGoods(String userId,ShopAndGoods sGoods,PageEntity page);
 	public long getShopperGoodsCount(Query query);
+	public void changeOutPrice(ShopAndGoods sad);
+	public void batchInSale(String[] ids);
+	public void batchOutSale(String[] ids);
 }

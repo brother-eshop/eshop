@@ -215,4 +215,45 @@ public class ShopperGoodsController extends BaseController {
 		}
 		return mav;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/changeOutPrice", method = RequestMethod.POST)
+	public String changeOutPrice(@RequestBody ShopAndGoods shopAndGoods,HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			shopAndGoodsService.changeOutPrice(shopAndGoods);
+		} catch (Exception e) {
+			logger.error("ShopperGoodsController.changeOutPrice", e);
+			return "FAILE";
+		}
+		return "SUCCESS";
+	}
+	
+	@RequestMapping("/batchInSale")
+	public RedirectView batchInSale(String ids, HttpServletRequest request,
+			User query, @ModelAttribute("page") PageEntity page,
+			RedirectAttributes attr) {
+		RedirectView rv = new RedirectView("/manager/shopperGoods/goodsManage");
+		String[] idArray = ids.split(",");
+		try {
+			shopAndGoodsService.batchInSale(idArray);
+		} catch (Exception e) {
+			logger.error("ShopperGoodsController.batchInSale", e);
+		}
+		return rv;
+	}
+	@RequestMapping("/batchOutSale")
+	public RedirectView batchOutSale(String ids, HttpServletRequest request,
+			User query, @ModelAttribute("page") PageEntity page,
+			RedirectAttributes attr) {
+		RedirectView rv = new RedirectView("/manager/shopperGoods/goodsManage");
+		String[] idArray = ids.split(",");
+		try {
+			shopAndGoodsService.batchOutSale(idArray);
+		} catch (Exception e) {
+			logger.error("ShopperGoodsController.batchInSale", e);
+		}
+		return rv;
+	}
+	
 }

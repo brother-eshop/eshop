@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta content="IE=EmulateIE7, IE=9" http-equiv="X-UA-Compatible">
+    <title>eshop</title>
+    <meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
+	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<script type="text/javascript" src="/statics/js/jquery.js"></script>
+	<!--#var(com.eshop.model.mongodb.EUser user)-->
+</head>
+<body>
+	<div class="container">
+		<header class="header">
+			<div class="topBar">
+				<div class="wrap clearfix">
+					<div class="topL">
+						<a class="logo" href="/"><img src="resources/images/logo.png" alt="云码"></a>
+							<nav>
+								<ul id="topMenu">
+									<li class="current"><a href="#">首页</a></li>
+                            		<li><a href="/eshop/startShop" target="_black">店铺入驻</a></li>
+                                </li>				
+							</nav>
+					</div>
+					<div class="topR">
+						<div class="tMsg">
+            				<span class="msgNum">10</span>
+            				<a href="javascript:;" class="i_car">购物车</a>                            
+                			<div class="tMsgBox">
+                				<ul class="tMsgList">
+                					<li><a href="#">asdfghfgjkl</a>
+                					<li><a href="#">asdfghfgjkl</a>
+                					<li><a href="#">asdfghfgjkl</a>
+                					<li><a href="#">asdfghfgjkl</a>
+                				</ul>
+                			</div>
+            			</div>
+						<!--登陆后-->
+						<div class="tLogin">
+						<a href="/eshop/euser/ucenter">${user.username}</a>
+						</div> 
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="pageWrap">
+		<section class="wrap clearfix">
+			
+		</section>
+		</div>
+		<footer class="footer">
+			<section class="wrap clearfix">
+				<ul>
+					<li>
+						<a href="#">关于我们</a>
+					</li>
+					<li>
+						<a href="#">联系我们</a>
+					</li>
+					<li>
+						<a href="#">帮助中心</a>
+					</li>
+					<li>
+						<a href="#">免责声明</a>
+					</li>
+				</ul>
+				<p><a href="#">eshop</a>版权所有 © 2015-2020 eshop公司  京ICP备09083730号</p>
+			</section>
+		</footer>
+	</div>
+</body>
+</html>

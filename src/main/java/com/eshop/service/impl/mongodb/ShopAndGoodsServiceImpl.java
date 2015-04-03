@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.eshop.dao.mongodb.GoodTypeDao;
@@ -98,6 +99,21 @@ public class ShopAndGoodsServiceImpl extends AbstractService<ShopAndGoods, Strin
 	@Override
 	public long getShopperGoodsCount(Query query) {
 		return shopAndGoodsDao.size(query, ShopAndGoods.class);
+	}
+
+	@Override
+	public void changeOutPrice(ShopAndGoods sad) {
+		shopAndGoodsDao.update(new Query().addCriteria(Criteria.where("id").is(sad.getId())), Update.update("outPrice", sad.getOutPrice()), ShopAndGoods.class);
+	}
+
+	@Override
+	public void batchInSale(String[] ids) {
+		shopAndGoodsDao.update(new Query().addCriteria(Criteria.where("id").in(ids)),Update.update("status", 1), ShopAndGoods.class);
+	}
+	
+	@Override
+	public void batchOutSale(String[] ids) {
+		shopAndGoodsDao.update(new Query().addCriteria(Criteria.where("id").in(ids)),Update.update("status", 2), ShopAndGoods.class);
 	}
 	
 }
