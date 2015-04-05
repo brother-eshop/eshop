@@ -52,9 +52,6 @@
 		</header>
 		<div class="pageWrap">
 		<section class="wrap clearfix">
-			<div class="topNavBar">
-				定位店铺地址
-			</div>
 			<div class="left250">
 			<form id="start_form" class="form" action="/eshop/shopSub" method="post" autocomplete="off" novalidate="true">
 				<input id="userid" class="leftInput" name="userId" value="${user.id}" type="hidden" required="">
@@ -62,7 +59,8 @@
 				<input id="shopName" class="leftInput" name="shopName" type = 'text' minlength="5" placeholder="店铺名称" required="">
 				<input id="shopAddress" class="leftInput" name="shopAddress" type = 'text' minlength="5" placeholder="详细地址" required="">
 				<input id="deliverScope" class="leftInput" onchange="setDeliverScope();" name="devliverScope" type = 'text' placeholder="配送范围（米）" required="">
-				<input id="shopPoint" class="leftInput"  type="hidden" name="shopPoint" minlength="5" required="">
+				<input id="p_lng" type="hidden" name="lng" required="">
+				<input id="p_lat" type="hidden" name="lat" required="">
 				<button class="g-btn g-btn-l g-btn-submit">确认</button>
  			</form>
 			</div>
@@ -159,7 +157,9 @@ ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上�
 			marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
 //			var circle = new BMap.Circle(point,500,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3}); //创建圆
 //			map.addOverlay(circle); 
-			document.getElementById("shopPoint").value=point.lng + "," + point.lat;
+			document.getElementById("p_lng").value=point.lng;
+			document.getElementById("p_lat").value=point.lat;
+			
 			geoc.getLocation(point,function(rs){
 				var addComp = rs.addressComponents;
 				var shopAddress = addComp.province  + addComp.city  + addComp.district  + addComp.street + addComp.streetNumber

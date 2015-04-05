@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,10 +19,13 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.eshop.common.constant.CoreConstant;
 import com.eshop.common.util.security.MD5;
 import com.eshop.frameworks.core.controller.BaseController;
+import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.model.mongodb.EShop;
 import com.eshop.model.mongodb.EUser;
+import com.eshop.model.mongodb.ShopAndGoods;
 import com.eshop.service.mongodb.EShopService;
 import com.eshop.service.mongodb.EUserService;
+import com.eshop.service.mongodb.ShopAndGoodsService;
 import com.eshop.web.controllers.mongo.EUserController;
 
 @Controller
@@ -36,6 +40,9 @@ public class EshopController extends BaseController {
 	
 	@Autowired
 	private EShopService eshopService;
+	
+	@Autowired
+	private ShopAndGoodsService shopAndGoodsService;
 
 	@RequestMapping("/regist")
 	public ModelAndView regist() {
@@ -69,6 +76,59 @@ public class EshopController extends BaseController {
 		}
 		mav.addObject("user", user);
 		return mav;
+	}
+	
+	@RequestMapping("/enterShop")
+	public ModelAndView enterShop(EShop eshop,HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/eshop/shop.httl");
+		try {
+			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			if(user==null){
+				return new ModelAndView("login.httl");
+			}
+			EShop shop = eshopService.getEShopByUser(eshop.getUserId());
+			PageEntity page = new PageEntity();
+			this.setPage(page);
+			this.getPage().setPageSize(20);
+			ShopAndGoods query = new ShopAndGoods();
+			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(eshop.getUserId(),
+					query, page);
+			mav.addObject("query", query);
+			mav.addObject("shopperGoods", list);
+			mav.addObject("page", this.getPage());
+			mav.addObject("user", user);
+			mav.addObject("shop", shop);
+		} catch (Exception e) {
+			logger.error("EshopController.enterShop", e);
+		}
+		return mav;
+	}
+	
+	@RequestMapping("/listGoods")
+	public ModelAndView listGoods(HttpServletRequest request,
+			HttpServletResponse response, ShopAndGoods query,
+			@ModelAttribute("page") PageEntity page) {
+		ModelAndView modelAndView = new ModelAndView("/eshop/shop.httl");
+		try {
+			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			EShop shop = eshopService.getEShopByUser(query.getUserId());
+			if(user==null){
+				return new ModelAndView("login.httl");
+			}
+			this.setPage(page);
+			this.getPage().setPageSize(20);
+			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(query.getUserId(),
+					query, page);
+			modelAndView.addObject("query", query);
+			modelAndView.addObject("shopperGoods", list);
+			modelAndView.addObject("page", this.getPage());
+			modelAndView.addObject("shop", shop);
+			modelAndView.addObject("user", user);
+		} catch (Exception e) {
+			logger.error("EshopController.listGoods", e);
+		}
+
+		return modelAndView;
 	}
 	
 	@ResponseBody

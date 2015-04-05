@@ -8,8 +8,6 @@
 	<meta name="keywords" content="">
 	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
 	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
 	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
 	<script type="text/javascript" src="/statics/js/page.js"></script>
@@ -311,7 +309,7 @@
 				        		<!--#elseif(goods.status==0)-->
 				        		<td>未售</td>
 				        		<!--#elseif(goods.status==2)-->
-				        		<td>停售</td>
+				        		<td style="color:#FF0000;">停售</td>
 				        		<!--#else-->
 				        		<td>未知</td>
 				        		<!--#end-->

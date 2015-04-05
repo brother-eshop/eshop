@@ -1,14 +1,15 @@
 package com.eshop.web.controllers.mongo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,8 +19,10 @@ import com.eshop.common.constant.CoreConstant;
 import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.model.mongodb.EShop;
 import com.eshop.model.mongodb.EUser;
+import com.eshop.model.mongodb.Shipping;
 import com.eshop.service.mongodb.EShopService;
 import com.eshop.service.mongodb.EUserService;
+import com.eshop.service.mongodb.ShippingService;
 import com.eshop.service.mongodb.ShopAndGoodsService;
 
 @Controller
@@ -34,6 +37,9 @@ public class EUserController extends BaseController {
 	
 	@Autowired
 	private EShopService eshopService;
+	
+	@Autowired
+	private ShippingService shippingService;
 	
 	@Autowired
 	private ShopAndGoodsService shopAndGoodsService;
@@ -68,9 +74,11 @@ public class EUserController extends BaseController {
 		if(user==null){
 			return new ModelAndView("login.httl");
 		}
-		EShop eshop = eshopService.getEShopByUser(user);
+		EShop eshop = eshopService.getEShopByUser(user.getId());
+		List<Shipping> shippings = shippingService.getShippingByUser(user.getId());
 		mav.addObject("user", user);
 		mav.addObject("eshop",eshop);
+		mav.addObject("shippings",shippings);
 		
 		return mav;
 	}
@@ -86,6 +94,55 @@ public class EUserController extends BaseController {
 			logger.error("EUserController.saveEShop", e);
 		}
 		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/deleteShipping", method = RequestMethod.POST)
+	public ModelAndView deleteShipping(Shipping shipping, HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		try{
+//			eshopService.updateByObj(eshop);
+			shippingService.remove(shipping);
+		} catch (Exception e) {
+			logger.error("EUserController.updateShipping", e);
+		}
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/updateShipping", method = RequestMethod.POST)
+	public ModelAndView updateShipping(Shipping shipping, HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		try{
+//			eshopService.updateByObj(eshop);
+			shippingService.save(shipping);
+		} catch (Exception e) {
+			logger.error("EUserController.updateShipping", e);
+		}
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/saveShipping", method = RequestMethod.POST)
+	public ModelAndView saveShipping(Shipping shipping, HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		try{
+//			eshopService.updateByObj(eshop);
+			shippingService.insert(shipping);
+		} catch (Exception e) {
+			logger.error("EUserController.saveShipping", e);
+		}
+		return modelAndView;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/getShopps", method = RequestMethod.POST)
+	public List<EShop> getShopps(@RequestBody EShop user, HttpServletRequest request,HttpServletResponse response) {
+		List<EShop> shopps = new ArrayList<EShop>();
+		try{
+			shopps = eshopService.searchShopps(user.getLng(), user.getLat());
+		} catch (Exception e) {
+			logger.error("EUserController.saveShipping", e);
+		}
+		return shopps;
 	}
 	
 

@@ -647,6 +647,7 @@ input.cdish-qty {position: relative;z-index: 1;margin: 0 -1px;padding: 3px 0;bor
 	position:relative;
 	color:#fff;
 	display:none;
+	z-index: 9;
 }
 
 .type_menu ul li{
@@ -674,6 +675,7 @@ input.cdish-qty {position: relative;z-index: 1;margin: 0 -1px;padding: 3px 0;bor
 	padding:10px;
 	display:none;
 	left:200px;
+	z-index: 9;
 }
 .type_childs .child_item{
 	height:auto;
@@ -917,3 +919,10 @@ table tbody tr:nth-child(n+2):hover {
 .tipbtn{margin-top:25px; margin-left:125px;}
 .sure ,.cancel{width:96px; height:35px; line-height:35px; color:#fff; background:url(/statics/images/btnbg1.png) repeat-x; font-size:14px; font-weight:bold;border-radius: 3px; cursor:pointer;}
 .cancel{background:url(/statics/images/btnbg2.png) repeat-x;color:#000;font-weight:normal;}
+
+
+.shopName{
+	position: relative;
+	margin-right: 0;
+	float: right;
+}

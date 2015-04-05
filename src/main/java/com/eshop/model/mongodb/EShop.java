@@ -48,10 +48,18 @@ public class EShop extends MongoEntity{
 	private Integer verified;
 	
 	@Indexed(unique=false,name="devliver_scope",direction=IndexDirection.ASCENDING)
-	private String devliverScope;
+	private Double devliverScope;
 	
+	//TODO 已经删除本字段，考虑到同步代码时需要同步数据库，你们那边会报错，所以本字段暂时未删除
 	@Indexed(unique=false,name="shopPoint",direction=IndexDirection.ASCENDING)
 	private String shopPoint;
+	
+	@Indexed(unique=false,name="shop_lng",direction=IndexDirection.ASCENDING)
+	private Double lng;//经度
+	
+	@Indexed(unique=false,name="shop_lat",direction=IndexDirection.ASCENDING)
+	private Double lat;//纬度
+	
 	
 	private String remark;
 

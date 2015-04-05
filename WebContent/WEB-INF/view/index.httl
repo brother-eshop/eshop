@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
     <meta content="IE=EmulateIE7, IE=9" http-equiv="X-UA-Compatible">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5P1c3eRMNlbZ1khNOu3vh1pT"></script>
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
@@ -10,6 +11,29 @@
 	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('#search_button').click(function(){
+			var lng = $('#my_lng').val();
+			var lat = $('#my_lat').val();
+			$.ajax({
+				type: "post", 
+				contentType : 'application/json',  
+				url: "/eshop/euser/getShopps",
+				data: JSON.stringify({
+					 lng:lng,
+					 lat:lat
+				}),
+				success: function(res){
+					$(res).each(function(i,eshop){
+						putShop(eshop);
+					});
+				}
+			});
+		});
+	});
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -48,8 +72,18 @@
 		</header>
 		<div class="pageWrap">
 		<section class="wrap clearfix">
-			
-		</section>
+		<div class="topNavBar" style="text-align:center;">
+			<input id="my_lng" type="hidden" name="lng" required="">
+			<input id="my_lat" type="hidden" name="lat" required="">
+			<input type="text" id="searchInput"  placeholder="请输入您的送货地址" size=40 style="height:34px;" name="address" /><button id="search_button">搜索</button>
+		</div>
+		<div class="left250">
+			<div class="snTitle">最近光顾</div>
+		</div>
+		<div id="searchMap" class="right720" style="height:500px;border-radius: 5px;border:1px solid #bebebe;">
+		</div>
+		<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+	</section>
 		</div>
 		<footer class="footer">
 			<section class="wrap clearfix">
@@ -71,5 +105,112 @@
 			</section>
 		</footer>
 	</div>
+	<script type="text/javascript">
+	
+		function G(id) {
+			return document.getElementById(id);
+		}
+		var map = new BMap.Map("searchMap");
+		map.centerAndZoom("北京",12); 
+		
+
+		var geoc = new BMap.Geocoder();
+		var point = null;
+		// 初始化地图,设置城市和地图级别。
+		var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+		var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+		var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}); //右上角
+
+		map.addControl(top_left_control);        
+		map.addControl(top_left_navigation);     
+		map.addControl(top_right_navigation);
+		
+		var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+				{"input" : "searchInput"
+				,"location" : map
+			});
+
+		ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+			var str = "";
+				var _value = e.fromitem.value;
+				var value = "";
+				if (e.fromitem.index > -1) {
+					value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+				}    
+				str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+				
+				value = "";
+				if (e.toitem.index > -1) {
+					_value = e.toitem.value;
+					value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+				}    
+				str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+				G("searchResultPanel").innerHTML = str;
+			});
+
+			var myValue;
+			ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+			var _value = e.item.value;
+				myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+				G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+				
+				setPlace();
+			});
+
+			function setPlace(){
+				map.clearOverlays();    //清除地图上所有覆盖物
+				function myFun(){
+					var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+					map.centerAndZoom(pp, 16);
+					var marker = new BMap.Marker(pp);  // 创建标注
+					map.addOverlay(marker);              // 将标注添加到地图中
+					document.getElementById("my_lng").value=pp.lng;
+					document.getElementById("my_lat").value=pp.lat;
+//					var label = new BMap.Label("当前位置",{offset:new BMap.Size(20,-10)});
+//					marker.setLabel(label);
+					var icon = new BMap.Icon("../statics/images/ico01.png", new BMap.Size(50, 50)); //显示图标大小
+					marker.setIcon(icon);
+				}
+				var local = new BMap.LocalSearch(map, { //智能搜索
+				  onSearchComplete: myFun
+				});
+				local.search(myValue);
+			}
+			var opts = {
+					width : 350,     // 信息窗口宽度
+					height: 80,     // 信息窗口高度
+					enableMessage:false//设置允许信息窗发送短息
+			}
+			
+			var putShop = function(shop){
+				var marker = new BMap.Marker(new BMap.Point(shop.lng, shop.lat));  // 创建标注
+//				var label = new BMap.Label(shop.shopName,{offset:new BMap.Size(20,-10)});
+//				marker.setLabel(label);
+				map.addOverlay(marker);
+				var sContent =
+					"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>店铺名称："+shop.shopName+"</h4>" + 
+					"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>店铺地址："+shop.shopAddress+"</h4>"+
+					"<form method='post'  action='/eshop/enterShop'>"+
+					"<input type='hidden' name='userId' value='"+shop.userId+"'/>"+
+					"<button>点击进入</button>"+ 
+					"</form>";
+				addClickHandler(sContent,marker);
+//				circle = new BMap.Circle(new BMap.Point(shop.lng, shop.lat),parseInt(shop.devliverScope),{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.3, strokeOpacity: 0.3}); //创建圆
+//				map.addOverlay(circle);    //添加标注
+			}
+			
+			
+			function addClickHandler(content,marker){
+				marker.addEventListener("click",function(e){
+					openInfo(content,e)}
+				);
+			}
+			function openInfo(content,e){
+				var p = e.target;
+				var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+				var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象 
+				map.openInfoWindow(infoWindow,point); //开启信息窗口
+			}
+	</script>
 </body>
 </html>
