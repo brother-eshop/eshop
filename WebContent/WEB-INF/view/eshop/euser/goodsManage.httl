@@ -280,7 +280,7 @@
 						<input type="hidden" id="type_code" name="typeCode" value="${query.typeCode}"/>
 						<input type="hidden" id="ids" name="ids" value="${query.typeCode}"/>
 			    	</form>
-					<div id="goods_table_div" style="height:800px;overflow: auto;">
+					<div id="goods_table_div" class="goods_table_div" style="height:800px;overflow: auto;">
 					 <table>
 				    		<tr>
 				        		<th><input name="all" id="all" type="checkbox" value=""/></th>

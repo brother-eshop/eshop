@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta content="IE=EmulateIE7, IE=9" http-equiv="X-UA-Compatible">
+    <title>eshop</title>
+    <meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
+	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5P1c3eRMNlbZ1khNOu3vh1pT"></script>
+	<script type="text/javascript" src="/statics/js/jquery.js"></script>
+	<script type="text/javascript" src="/statics/js/page.js"></script>
+	<!--#var(com.eshop.model.mongodb.ShopAndGoods query)-->
+	<script type="text/javascript">
+	$(document).ready(function(){
+		 $("#checkAll").click(function(){
+		  	$(".checkInput").attr("checked",$(this).attr("checked"));
+		  	getTotal();
+		 });
+		var getTotal = function(){
+			var total = 0.0;
+			$('.checkInput').each(function(i,cp){
+				if($(cp).attr('checked')){
+					total = total +　parseFloat($(cp).parent().parent().find("td[name='totalTd']").html());
+				}
+			});
+			$('#totalPrice').html(total);
+		};
+		$('.checkInput').click(function(){
+			getTotal();
+		});
+		getTotal();
+		
+		$('#submitCart').click(function(){
+			$('.checkInput').each(function(i,cp){
+//				console.log($(cp).val());
+				
+			});
+		});
+		$('#add_address').click(function(){
+			$('.address-pane').show();
+		});
+		$('#saveAddress').click(function(){
+			if($(this).hasClass("dis")){
+				alert("请定位您的收货地址，谢谢！");
+				return;
+			}
+//			var address = $('#address').val();
+			var receiver = $('#receiver').val();
+			if(receiver==""){
+				alert("请填写收货人，谢谢！");
+				return;
+			}
+			var mobile = $('#mobile').val();
+			if(mobile==""){
+				alert("请填写收货人电话，谢谢！");
+				return;
+			}
+//			var lng = $('#address_lng').val();
+//			var lat = $('#address_lat').val();
+			$('#addressForm').submit();
+			
+		});
+		$('#cancelAddress').click(function(){
+			$('.address-pane').hide();
+		});
+		
+		$('.goodsCount').each(function(i,gc){
+			$(gc).bind("change",function(){
+				  alert($(gc).val());
+			  });
+		});
+		$('.checkAds').each(function(i,ca){
+			$(ca).bind("change",function(){
+				  if($(ca).attr('checked')=='checked'||$(ca).attr('checked')==true){
+					  $('.checkAds').attr('checked',false);
+					  $(ca).attr('checked',true);
+				  }
+			  });
+		});
+	});
+	</script>
+</head>
+<body>
+	<div class="container">
+		${include("/common/header.httl")}
+		<div class="pageWrap">
+			<section class="wrap clearfix"> 
+				<div class="radius margin-top-20">
+				<div class="title-triangle-blue txt-blue-XL">我的购物车<div class="tip"></div></div>
+					<table class="cartTable" style="width:96%;margin:0 15px;">
+						<tr>
+							<th><input type="checkbox" id="checkAll" checked="true" />全选</th>
+							<th></th>
+							<th>商品</th>
+							<th>单价（元）</th>
+							<th>数量</th>
+							<th>小计（元）</th>
+							<th>操作</th>
+						</tr>
+						<!--#for(com.eshop.model.mongodb.ECartItem cartItem : itemList)-->
+							<tr>
+								<td><input class="checkInput" type="checkbox" value="${cartItem.id}" checked="true" /></td>
+								<td><img src="/coco.jpg" style="display: block;width: 100px;height: 100px;"></td>
+								<td>${cartItem.goods.goodsName}</td>
+								<td style="text-align:center;">${cartItem.goods.outPrice}</td>
+								<td style="text-align:center;"><input type="text" class="goodsCount" size=3 value="${cartItem.goodsCount}" /></td>
+								<td name="totalTd" style="text-align:center;">${cartItem.goods.outPrice*cartItem.goodsCount}</td>
+								<td style="text-align:center;"><a>删除</a></td>
+							</tr>
+						<!--#end-->
+					</table>
+					<div class="tr"style="font-size: 18px;">
+						总计：<a id="totalPrice" style='color:red;font-weight:bold;'></a>元&nbsp;&nbsp;&nbsp;&nbsp;<a id="submitCart" class="btn_blue30">提交订单</a>
+					</div>
+					<div class="radius mTop30 myTags">
+						<div class="blueLineS">
+							<span class="lineS_current">收货地址</span>
+							<a class="btn_blue30" id="add_address" style="float:right;cursor: pointer;">新增</a>
+						</div>
+						<form id="shippingForm" action = "/eshop/euser/saveShipping" method="post" >
+						</form>
+						<ul class="titleList topic">
+							<!--#for(com.eshop.model.mongodb.EUserAddress address : addressList)-->
+							<li>
+							<div class="picTxt">
+									<div class="txt two">
+										<div class="count"><input type="checkbox" class="checkAds" />${address.receiver}• ${address.mobile} • ${address.address}</div>
+									</div>
+								</div>
+								<a href="/topic/1768/edit" class="ui_icon i_redEdit" title="编辑">编辑</a>
+								<a href="javascript:;" class="del_topic ui_icon i_delete" p="1768" title="删除">删除</a>
+							</li>
+							<!--#end-->
+						</ul>
+						
+					</div>
+				</div>
+			</section>
+		</div>
+		${include("/common/footer.httl")}
+	</div>
+	<div class="address-pane">
+		<div class="left-pane">
+			<section style="width:400px;">
+				<h2>收货地址</h2>
+				<form action="/eshop/euser/saveAddress" method="post" id="addressForm">
+				<ul>
+					<li>
+						<span class="label">
+							<label>详细地址</label>
+						</span>
+						<input type="text"  size=33 class="ipt" id="address" name="address">				
+						<label id="labelRealName"><a  onclick="checkAddress();">定位</a></label>
+					</li>
+					<li>
+						<span class="label">
+							<label>收货人</label>
+						</span>
+						<input type="text"  size=15 id="receiver" name= "receiver" class="ipt">				
+					</li>
+					<li>
+						<span class="label">
+							<label>电话</label>
+						</span>
+						<input type="text" size=15 id="mobile" name="mobile" class="ipt">
+						<input type="hidden" name="lng" id="address_lng" />
+						<input type="hidden" name="lat" id="address_lat" />
+					</li>
+					</li>
+					<li style="text-align:center;">
+						<a class="btn_blue30 dis" id="saveAddress" style="cursor: pointer;">保存</a>
+						<a class="btn_blue30" id="cancelAddress" style="cursor: pointer;">取消</a>
+					</li>
+				</ul>
+				</form>
+			</section>
+		</div>
+		<div id="addressMap" style="width:400px;float:right;height:450px;border-bottom: 1px solid #e0e0e0;">
+		
+		</div>
+	</div>
+	<script type="text/javascript">
+		var map = new BMap.Map("addressMap");          
+		map.centerAndZoom("北京", 13);
+		// 初始化地图,设置城市和地图级别。
+		var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+		var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+		var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}); //右上角
+
+		map.addControl(top_left_control);        
+		map.addControl(top_left_navigation);     
+		map.addControl(top_right_navigation);
+		
+		map.enableScrollWheelZoom();    
+		var myGeo = new BMap.Geocoder();
+		// 将地址解析结果显示在地图上,并调整地图视野
+//		var local = new BMap.LocalSearch(map, {
+//			renderOptions:{map: map}
+//		});
+//		local.search("景点");
+		function checkAddress(){
+			map.clearOverlays();    //清除地图上所有覆盖物
+			myGeo.getPoint(document.getElementById("address").value, function(point){
+				if (point) {
+					map.centerAndZoom(point, 16);
+					map.addOverlay(new BMap.Marker(point));
+					document.getElementById("address_lng").value=point.lng;
+					document.getElementById("address_lat").value=point.lat;
+					document.getElementById("saveAddress").className="btn_blue30";
+				}else{
+					alert("您选择地址没有解析到结果!");
+				}
+			}, "北京市");
+		}
+	</script>
+</body>
+</html>

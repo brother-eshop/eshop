@@ -318,7 +318,7 @@
 	<header class="header">
 		<label>编辑售价</label>
 	</header>
-	<div id="editBody" class="body">
+	<div id="editBody" class="body goods_table_div">
 	</div>
 	<footer class="footer" style="text-align: center;" >
 		<input id="save_goon" type="button"  class="sure" value="保存" />&nbsp;
@@ -373,7 +373,7 @@
 							</div-->
 							
 						</div>
-						<div id="goods_table_div" style="height:800px;overflow: auto;">
+						<div id="goods_table_div" class="goods_table_div" style="height:800px;overflow: auto;">
 						</div>	
 						<!--div class="commonPage">
 		                        <a href="javascript:;">首页</a>

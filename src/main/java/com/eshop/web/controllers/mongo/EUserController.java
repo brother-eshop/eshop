@@ -1,7 +1,10 @@
 package com.eshop.web.controllers.mongo;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,10 +20,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.eshop.common.constant.CoreConstant;
 import com.eshop.frameworks.core.controller.BaseController;
+import com.eshop.model.mongodb.ECartItem;
 import com.eshop.model.mongodb.EShop;
 import com.eshop.model.mongodb.EUser;
+import com.eshop.model.mongodb.EUserAddress;
 import com.eshop.model.mongodb.Shipping;
+import com.eshop.model.mongodb.ShopAndGoods;
+import com.eshop.service.mongodb.ECartItemService;
 import com.eshop.service.mongodb.EShopService;
+import com.eshop.service.mongodb.EUserAddressService;
 import com.eshop.service.mongodb.EUserService;
 import com.eshop.service.mongodb.ShippingService;
 import com.eshop.service.mongodb.ShopAndGoodsService;
@@ -43,6 +51,14 @@ public class EUserController extends BaseController {
 	
 	@Autowired
 	private ShopAndGoodsService shopAndGoodsService;
+	
+	@Autowired
+	private ECartItemService ecartItemService;
+	
+	@Autowired
+	private EUserAddressService euserAddressService;
+	
+	private Map<String,EShop> shopMap = new HashMap<String,EShop>();
 
 	@RequestMapping("/ucenter")
 	public ModelAndView ucenter(HttpServletRequest request) {
@@ -63,6 +79,23 @@ public class EUserController extends BaseController {
 			return new ModelAndView("login.httl");
 		}
 		mav.addObject("user", user);
+		return mav;
+	}
+	
+	@RequestMapping("/cart")
+	public ModelAndView cart(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/eshop/euser/cart.httl");
+		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if(user==null){
+			return new ModelAndView("login.httl");
+		}
+		List<ECartItem> items = getMyItems(user.getId());
+		List<EUserAddress> addresses = euserAddressService.getAddressByUserId(user.getId());
+		mav.addObject("user", user);
+		mav.addObject("itemList", items);
+		mav.addObject("shopMap",shopMap);
+		mav.addObject("addressList",addresses);
+		
 		return mav;
 	}
 	
@@ -143,6 +176,79 @@ public class EUserController extends BaseController {
 			logger.error("EUserController.saveShipping", e);
 		}
 		return shopps;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/addCart", method = RequestMethod.POST)
+	public String addCart(@RequestBody ECartItem ecartItem, HttpServletRequest request,HttpServletResponse response) {
+		try{
+			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			if(user==null){
+				return "FALSE";
+			}
+			ECartItem myItem = ecartItemService.getMyItem(ecartItem.getGoodsId(),user.getId());
+			if(myItem!=null){
+				myItem.setGoodsCount(myItem.getGoodsCount()+1);
+				ecartItemService.save(myItem);
+			}else{
+				ecartItem.setAddTime(new Date());
+				ecartItem.setUserId(user.getId());
+				ecartItem.setGoodsCount(1);
+				ecartItem.setStatus(0);
+				ecartItemService.save(ecartItem);
+			}
+		} catch (Exception e) {
+			logger.error("EUserController.addCart", e);
+		}
+		return "SUCCESS";
+	}
+	
+	@RequestMapping(value = "/saveAddress", method = RequestMethod.POST)
+	public ModelAndView saveAddress(EUserAddress euserAddress, HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/cart");
+		try{
+			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			if(user==null){
+				return new ModelAndView("login.httl");
+			}
+			euserAddress.setUserId(user.getId());
+			euserAddressService.save(euserAddress);
+		} catch (Exception e) {
+			logger.error("EUserController.saveAddress", e);
+		}
+		return modelAndView;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/getMyECartItems", method = RequestMethod.POST)
+	public List<ECartItem> getMyECartItems(HttpServletRequest request,HttpServletResponse response) {
+		List<ECartItem> ecartItems = new ArrayList<ECartItem>();
+		try{
+			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			ecartItems = getMyItems(user.getId());
+		} catch (Exception e) {
+			logger.error("EUserController.getMyECartItems", e);
+		}
+		return ecartItems;
+	}
+	
+	private List<ECartItem> getMyItems(String userId){
+		shopMap = new HashMap<String,EShop>();
+		List<ECartItem> ecartItems = new ArrayList<ECartItem>();
+			ecartItems = ecartItemService.getItems(userId);
+			ShopAndGoods goods = null;
+			EShop eshop = null;
+			for(ECartItem item : ecartItems){
+				goods = shopAndGoodsService.findById(item.getGoodsId(), ShopAndGoods.class);
+				item.setGoods(goods);
+				eshop = eshopService.getEShopByUser(item.getShopId());
+				if(!shopMap.containsKey(item.getShopId())){
+					shopMap.put(item.getShopId(), eshop);
+				}
+				item.setEshop(eshop);
+			}
+		return ecartItems;
 	}
 	
 

@@ -131,6 +131,30 @@
 		$('.all_types').mouseout(function(){
 			_typeLMenu.hide();
 		});
+		
+		var addCart = function(el){
+			var shopId = $('#shop_userId').val();
+			var goodsId = el.parent().find("input[name='goodsId']").val();
+			$.ajax({
+				type: "post", 
+				contentType : 'application/json',  
+				url: "/eshop/euser/addCart",
+				data: JSON.stringify({shopId:shopId,goodsId:goodsId}),
+				success: function(data){
+					
+				},
+				error: function (){
+					alert("error")
+				}
+			});
+		}
+		
+		$('.addCart').each(function(i,ac){
+			  $(ac).bind("click",function(){
+				  addCart($(ac));
+			  });
+			
+		});
 	 //显示中间部分页数
 	  showPageNumber(${page.currentPage},${page.totalPageSize});
 	});
@@ -155,7 +179,7 @@
 				<form action="/eshop/listGoods" method="post" id="searchForm">
 					<input type="hidden" id="pageCurrentPage" name="page.currentPage" value="${page.currentPage}"/>
 					<input type="hidden" id="type_code" name="typeCode" value="${query.typeCode}"/>
-					<input type="hidden" id="type_code" name="userId" value="${shop.userId}"/>
+					<input type="hidden" id="shop_userId" name="userId" value="${shop.userId}"/>
 				</form>
 				<ul class="list-top20-left20 clearfix">
 					<!--#for(com.eshop.model.mongodb.ShopAndGoods goods : shopperGoods)-->
@@ -165,8 +189,9 @@
 							<p style="margin: 10px 0 2px 0;height: 16px;overflow: hidden;line-height: 16px;">${goods.goodsName}</p>
 						</a>
 						<p style="position: relative;width:160px;">
+							<input type="hidden" name="goodsId" value="${goods.id}" />
 							<span style="left: 0;color: red;font-weight: bold;">¥${goods.outPrice}</span>
-							<button style="float:right;">添加</button>
+							<button class="addCart" style="float:right;">添加</button>
 						</p>
 					</li>
 		        	<!--#end-->
