@@ -38,4 +38,9 @@ public class ECartItemServiceImpl extends AbstractService<ECartItem, String> imp
 		List<ECartItem> ecartItems =  ecartItemDao.findList(Criteria.where("userId").is(userId), ECartItem.class);
 		return ecartItems;
 	}
+
+	@Override
+	public List<ECartItem> getSubItems(String userId, String shopId) {
+		return ecartItemDao.findList(Criteria.where("userId").is(userId).andOperator(Criteria.where("shopId").is(shopId)), ECartItem.class);
+	}
 }

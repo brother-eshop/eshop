@@ -115,5 +115,10 @@ public class ShopAndGoodsServiceImpl extends AbstractService<ShopAndGoods, Strin
 	public void batchOutSale(String[] ids) {
 		shopAndGoodsDao.update(new Query().addCriteria(Criteria.where("id").in(ids)),Update.update("status", 2), ShopAndGoods.class);
 	}
+
+	@Override
+	public List<ShopAndGoods> getGoodsByIds(String[] ids) {
+		return shopAndGoodsDao.findList(Criteria.where("id").in(ids), ShopAndGoods.class);
+	}
 	
 }

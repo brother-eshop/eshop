@@ -28,7 +28,7 @@ public class Shipping extends MongoEntity{
 	private String userId;
 	
 	@Indexed(unique=false,name="shipping_range",direction=IndexDirection.ASCENDING)
-	private Integer range;//距离
+	private Double range;//距离
 	
 	@Indexed(unique=false,name="shipping_freeprice",direction=IndexDirection.ASCENDING)
 	private Double freePrice;//满多少元免费配送

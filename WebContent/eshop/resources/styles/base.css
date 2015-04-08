@@ -970,6 +970,45 @@ dl {
 	background-color: #fff;
 }
 
+.confirm-pane{
+	border: solid 1px #ccc;
+	border-radius: 5px;
+	position: fixed;
+	top: 10%;
+	left: 30%;
+	width:600px;
+	height:400px;
+	display:none;
+	z-index: 999 !important;
+	background-color: #fff;
+}
+.confirmFooter{
+	height: 50px;
+	text-align:center;
+	margin:0 10px;
+	padding:5px 0;
+	border-top: solid 1px #ccc;
+	
+}
+.confirmHeader {
+	height: 34px;
+	background: #684;
+	background: linear-gradient(to bottom, rgba(236, 236, 236, 1) 0%,
+		rgba(229, 229, 229, 1) 100%); /* W3C */
+	overflow: hidden;
+	border-radius: 3px 3px 0 0;
+	
+}
+.confirmHeader label{
+	height: 30px;
+	padding:5px;
+}
+.confirmBody {
+	height: 316px;
+	background: #fff;
+	overflow:auto;
+	padding: 0 5em;
+}
 .left-pane {width:400px;float:left;height:450px;}
 .left-pane section {margin-top: 10px;}
 .left-pane section h2 {font-size: 16px;padding-left: 30px;margin-bottom: 15px;}

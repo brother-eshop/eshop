@@ -16,4 +16,5 @@ public interface ShopAndGoodsService extends Service<ShopAndGoods,String>{
 	public void changeOutPrice(ShopAndGoods sad);
 	public void batchInSale(String[] ids);
 	public void batchOutSale(String[] ids);
+	public List<ShopAndGoods> getGoodsByIds(String[] ids);
 }

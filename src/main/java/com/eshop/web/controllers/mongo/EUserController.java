@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,14 +20,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eshop.common.constant.CoreConstant;
+import com.eshop.common.params.ConfirmParam;
 import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.model.mongodb.ECartItem;
+import com.eshop.model.mongodb.EOrder;
+import com.eshop.model.mongodb.EOrderDetail;
 import com.eshop.model.mongodb.EShop;
 import com.eshop.model.mongodb.EUser;
 import com.eshop.model.mongodb.EUserAddress;
 import com.eshop.model.mongodb.Shipping;
 import com.eshop.model.mongodb.ShopAndGoods;
 import com.eshop.service.mongodb.ECartItemService;
+import com.eshop.service.mongodb.EOrderDetailService;
+import com.eshop.service.mongodb.EOrderService;
 import com.eshop.service.mongodb.EShopService;
 import com.eshop.service.mongodb.EUserAddressService;
 import com.eshop.service.mongodb.EUserService;
@@ -57,6 +63,12 @@ public class EUserController extends BaseController {
 	
 	@Autowired
 	private EUserAddressService euserAddressService;
+	
+	@Autowired
+	private EOrderService eorderService;
+	
+	@Autowired
+	private EOrderDetailService eorderDetailService;
 	
 	private Map<String,EShop> shopMap = new HashMap<String,EShop>();
 
@@ -89,12 +101,121 @@ public class EUserController extends BaseController {
 		if(user==null){
 			return new ModelAndView("login.httl");
 		}
-		List<ECartItem> items = getMyItems(user.getId());
+//		List<ECartItem> items = geItems(user.getId());
+		Map<String,List<ECartItem>> itemMap = getItemsMap(user.getId());
 		List<EUserAddress> addresses = euserAddressService.getAddressByUserId(user.getId());
 		mav.addObject("user", user);
-		mav.addObject("itemList", items);
-		mav.addObject("shopMap",shopMap);
+		mav.addObject("itemMap", itemMap);
 		mav.addObject("addressList",addresses);
+		
+		return mav;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getConfirm")
+	public Map<String,Object> getConfirm(HttpServletRequest request,@RequestBody ConfirmParam cparam) {
+//		List<ShopAndGoods> goodsList = shopAndGoodsService.getGoodsByIds(idArray);
+		Map<String,Object> returnMap = new HashMap<String,Object>();
+		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		EUserAddress euserAddress = euserAddressService.getEUserAddressById(cparam.getAdsId());
+		EShop eshop = eshopService.getEShopByUser(cparam.getShopId());
+		Double distance = this.distance(eshop.getLng(), eshop.getLat(), euserAddress.getLng(),  euserAddress.getLat());//商户和店铺的距离
+		List<Shipping> sps = shippingService.getShippingByUser(cparam.getShopId());
+		Shipping shipping = null;
+		List<ECartItem> cartItems = ecartItemService.getSubItems(user.getId(), cparam.getShopId());
+//		if(distance>eshop.getDevliverScope()){
+//			returnMap.put("ERROR", "已经超出商家服务范围!");
+//			System.out.println("已经超出商家服务范围");
+//			return null;
+//		}
+		for(Shipping sp : sps){
+			if(sp.getRange()>distance){
+				continue;
+			}else{
+				shipping = sp;
+				break;
+			}
+		}
+		returnMap.put("address", euserAddress);
+		returnMap.put("distance", distance);
+		returnMap.put("shipping", shipping);
+		returnMap.put("eshop", eshop);
+		returnMap.put("ecartItems", cartItems);
+//		System.out.println("距离"+distance);
+//		System.out.println("距离规则："+shipping.getRange()+"满免"+shipping.getFreePrice()+"运费"+shipping.getShippingPrice());
+		return returnMap;
+	}
+	
+	//获取两个百度坐标点之间的距离
+	private double distance(double centerLon, double centerLat,
+			double targetLon, double targetLat) {
+		double jl_jd = 102834.74258026089786013677476285;// 每经度单位米;
+		double jl_wd = 111712.69150641055729984301412873;// 每纬度单位米;
+		double b = Math.abs((centerLat - targetLat) * jl_jd);
+		double a = Math.abs((centerLon - targetLon) * jl_wd);
+		return Math.sqrt((a * a + b * b));
+	}
+		
+	@RequestMapping("/subCart")
+	public ModelAndView subCart(String shopId, HttpServletRequest request,
+			String adsId) {
+		ModelAndView mav = new ModelAndView("/eshop/euser/cart.httl");
+		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if(user==null){
+			return new ModelAndView("login.httl");
+		}
+		EUserAddress euserAddress = euserAddressService.getEUserAddressById(adsId);
+		EShop eshop = eshopService.getEShopByUser(shopId);
+		Double distance = this.distance(eshop.getLng(), eshop.getLat(), euserAddress.getLng(),  euserAddress.getLat());//商户和店铺的距离
+		List<Shipping> sps = shippingService.getShippingByUser(shopId);
+		Shipping shipping = null;
+		List<ECartItem> cartItems = ecartItemService.getSubItems(user.getId(), shopId);
+		for(Shipping sp : sps){
+			if(sp.getRange()>distance){
+				continue;
+			}else{
+				shipping = sp;
+				break;
+			}
+		}
+		Double totalPrice = 0.0;
+		EOrder order = new EOrder();
+		order.setId(UUID.randomUUID().toString());
+		order.setOrderNumber(System.currentTimeMillis()+"");
+		order.setUserId(user.getId());
+		order.setOrderTime(new Date());
+		order.setShopperId(eshop.getUserId());
+		order.setShopName(eshop.getShopName());
+		order.setShopAddress(eshop.getShopAddress());
+		order.setStatus(0);
+		order.setOrderAddress(euserAddress.getAddress());
+		order.setOrderReceiver(euserAddress.getReceiver());
+		order.setReceiverMobile(euserAddress.getMobile());
+		order.setUserLng(euserAddress.getLng());
+		order.setUserLat(euserAddress.getLat());
+		
+		for(ECartItem item : cartItems){
+			EOrderDetail od = new EOrderDetail();
+			od.setOrderId(order.getId());
+			od.setOrderNumber(order.getOrderNumber());
+			od.setGoodsId(item.getGoodsId());
+			ShopAndGoods sad = shopAndGoodsService.findById(item.getGoodsId(), ShopAndGoods.class);
+			od.setGoodsName(sad.getGoodsName());
+			od.setOutPirce(sad.getOutPrice());
+			od.setGoodsCount(item.getGoodsCount());
+			od.setSubtotal(item.getGoodsCount()*sad.getOutPrice());
+			totalPrice+=od.getSubtotal();
+			eorderDetailService.save(od);
+			ecartItemService.remove(item);
+		}
+		if(shipping.getFreePrice()>totalPrice){
+			totalPrice+=shipping.getShippingPrice();
+		}
+		order.setTotalPrice(totalPrice);
+		eorderService.save(order);
+		
+//		List<ShopAndGoods> goodsList = shopAndGoodsService.getGoodsByIds(idArray);
+//		EUserAddress euserAddress = euserAddressService.getEUserAddressById(adsId);
 		
 		return mav;
 	}
@@ -231,6 +352,24 @@ public class EUserController extends BaseController {
 			logger.error("EUserController.getMyECartItems", e);
 		}
 		return ecartItems;
+	}
+	
+	private Map<String,List<ECartItem>> getItemsMap(String userId){
+		Map<String,List<ECartItem>> ecartMap =new HashMap<String, List<ECartItem>>();
+		List<ECartItem> ecartItems = ecartItemService.getItems(userId);
+			ShopAndGoods goods = null;
+			EShop eshop = null;
+			for(ECartItem item : ecartItems){
+				goods = shopAndGoodsService.findById(item.getGoodsId(), ShopAndGoods.class);
+				item.setGoods(goods);
+				eshop = eshopService.getEShopByUser(item.getShopId());
+				item.setEshop(eshop);
+				if(!ecartMap.containsKey(eshop.getShopName())){
+					ecartMap.put(eshop.getShopName(), new ArrayList<ECartItem>());
+				}
+				ecartMap.get(eshop.getShopName()).add(item);
+			}
+		return ecartMap;
 	}
 	
 	private List<ECartItem> getMyItems(String userId){

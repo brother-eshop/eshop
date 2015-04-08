@@ -6,7 +6,6 @@
 			contentType : 'application/json',  
 			url: "/eshop/euser/getMyECartItems",
 			success: function(data){
-				$('#msgNum').html(data.length);
 				showItems(data);
 			},
 			error: function (){
@@ -30,6 +29,7 @@
 		
 		var showItems = function(items){
 			var total = 0;
+			var goodsTotal=0
 			var table = $('<table style="line-height: 1.5em;">').appendTo('#ecartTable');
 			$(items).each(function(i,item){
 				var tr = $('<tr>').appendTo(table);
@@ -39,8 +39,10 @@
 //				$('<td>').append(countInp).appendTo(tr);
 				$('<td>').html("¥"+item.goods.outPrice+"×"+item.goodsCount).appendTo(tr);
 				total = total +item.goodsCount*item.goods.outPrice;
+				goodsTotal = goodsTotal + item.goodsCount;
 			});
 			$('#totalPay').html(total);
+			$('#msgNum').html(goodsTotal);
 		}
 	});
 </script>

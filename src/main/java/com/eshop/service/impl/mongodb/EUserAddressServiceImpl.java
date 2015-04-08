@@ -29,4 +29,9 @@ public class EUserAddressServiceImpl extends AbstractService<EUserAddress, Strin
 		return euserAddressDao.findList(Criteria.where("userId").is(userId), EUserAddress.class);
 	}
 
+	@Override
+	public EUserAddress getEUserAddressById(String id) {
+		return euserAddressDao.findOne(Criteria.where("id").is(id), EUserAddress.class);
+	}
+
 }

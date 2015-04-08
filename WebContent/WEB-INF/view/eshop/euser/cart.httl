@@ -12,32 +12,122 @@
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
 	<script type="text/javascript" src="/statics/js/page.js"></script>
 	<!--#var(com.eshop.model.mongodb.ShopAndGoods query)-->
+	<!--#set(com.eshop.model.mongodb.EUser user)-->
 	<script type="text/javascript">
 	$(document).ready(function(){
-		 $("#checkAll").click(function(){
-		  	$(".checkInput").attr("checked",$(this).attr("checked"));
-		  	getTotal();
-		 });
-		var getTotal = function(){
-			var total = 0.0;
-			$('.checkInput').each(function(i,cp){
-				if($(cp).attr('checked')){
-					total = total +　parseFloat($(cp).parent().parent().find("td[name='totalTd']").html());
-				}
-			});
-			$('#totalPrice').html(total);
-		};
-		$('.checkInput').click(function(){
-			getTotal();
-		});
-		getTotal();
-		
-		$('#submitCart').click(function(){
-			$('.checkInput').each(function(i,cp){
-//				console.log($(cp).val());
-				
-			});
-		});
+		var _checkIds = "";
+//		 $("#checkAll").click(function(){
+//		  	$(".checkInput").attr("checked",$(this).attr("checked"));
+//		  	getTotal();
+//		 });
+//		var getTotal = function(){
+//			var total = 0.0;
+//			$('.checkInput').each(function(i,cp){
+//				if($(cp).attr('checked')){
+//					total = total +　parseFloat($(cp).parent().parent().find("td[name='totalTd']").html());
+//				}
+//			});
+//			$('#totalPrice').html(total);
+//		};
+//		$('.checkInput').click(function(){
+//			getTotal();
+//		});
+//		getTotal();
+		$('.subCart').click(function(){
+			$('#shop_id').val($(this).attr('value'));
+			var obj = $(this);
+			if($('#ads_id').val()==""||$('#ads_id').val()==null){
+				alert("请选择收货地址，谢谢！");
+				return;
+			}
+			  $.ajax({
+					type: "post", 
+					contentType : 'application/json',  
+					url: "/eshop/euser/getConfirm",
+					data: JSON.stringify({shopId:$('#shop_id').val(),adsId:$('#ads_id').val()}),
+					success: function(data){
+						console.log(data);
+						$('#confirmBody').html('');
+						$('.confirm-pane').show();
+						var ul = $('<ul>').appendTo('#confirmBody');
+						var shopNameLi = $('<li>').appendTo(ul);
+						$('<span style=" height:36px; line-height:36px; color:#000;">').html('店铺名称：').appendTo(shopNameLi);
+						$('<a>').html(data.eshop.shopName).appendTo(shopNameLi);
+						
+						var shopAddressLi = $('<li>').appendTo(ul);
+						$('<span style=" height:36px; line-height:36px; color:#000;">').html('店铺地址：').appendTo(shopAddressLi);
+						$('<a>').html(data.eshop.shopAddress).appendTo(shopAddressLi);
+						
+						var recevierLi = $('<li>').appendTo(ul);
+						$('<span style=" height:36px; line-height:36px; color:#000;">').html('收货人：').appendTo(recevierLi);
+						$('<a>').html(data.address.receiver).appendTo(recevierLi);
+						
+						var reMobileLi = $('<li>').appendTo(ul);
+						$('<span style=" height:36px; line-height:36px; color:#000;">').html('电话：').appendTo(reMobileLi);
+						$('<a>').html(data.address.mobile).appendTo(reMobileLi);
+						
+						var reAddressLi = $('<li>').appendTo(ul);
+						$('<span style=" height:36px; line-height:36px; color:#000;">').html('收货地址：').appendTo(reAddressLi);
+						$('<a>').html(data.address.address).appendTo(reAddressLi);
+						
+						var orderMessage = obj.parent().find("div[name='orderMessage']").html();
+						var totalPrice = obj.parent().find("span[name='totalPrice']").html();
+						var orderLi =  $('<li>').appendTo(ul);
+						$('<span style=" height:36px; line-height:36px; color:#000;">').html('订单信息：').appendTo(orderLi);
+						$('<a>').html(orderMessage).appendTo(orderLi);
+						
+						
+						var distanceLi = $('<li>').appendTo(ul);
+						$('<span style=" height:36px; line-height:36px; color:#000;">').html('距离：').appendTo(distanceLi);
+						var sp=0;
+						if(data.shipping!=null){
+							if(data.shipping.freePrice<=parseFloat(totalPrice)){
+								sp=0;
+							}else{
+								sp=data.shipping.shippingPrice;
+							}
+						}
+						$('<a>').html(data.distance.toFixed(0)+"米，运费：<span class='symbol-rmb cart-cost'>"+sp+"</span>").appendTo(distanceLi);
+						
+						var totalLi = $('<li>').appendTo(ul);
+						$('<span style=" height:36px; line-height:36px; color:#000;">').html('总计：').appendTo(totalLi);
+						var total = $('<span class="symbol-rmb cart-cost">').html(parseFloat(totalPrice)+sp);
+						$('<a>').html(total).appendTo(totalLi);
+						$('#comit_confirm').click(function(){
+							$('#subCart').submit();
+						})
+					},
+					error: function (){
+					}
+				});
+//			<ul>
+//			<li><span style=" height:36px; line-height:36px; color:#000;">店铺地址：</span><a>惠新里北街</a></li>
+//		</ul>
+//			if(confirm("您确定要提交订单吗？")){
+//				$('#subCart').submit();
+//			}
+		})
+//		$('#submitCart').click(function(){
+//			_checkIds = "";
+//			$('.checkInput').each(function(i,cp){
+//				if($(cp).attr('checked')){
+//					if(_checkIds.length>0){
+//						_checkIds+=",";
+//					}
+//					_checkIds+=$(cp).val();
+//				}
+//			});
+//			if(_checkIds==""){
+//				alert("没有选中的商品！");
+//				return;
+//			}
+//			$('#goods_ids').val(_checkIds);
+//			if($('#ads_id').val()==""||$('#ads_id').val()==null){
+//				alert("请选择收货地址，谢谢！");
+//				return;
+//			}
+//			$('#subCart').submit();
+//		});
 		$('#add_address').click(function(){
 			$('.address-pane').show();
 		});
@@ -68,14 +158,17 @@
 		
 		$('.goodsCount').each(function(i,gc){
 			$(gc).bind("change",function(){
-				  alert($(gc).val());
 			  });
+		});
+		$('#close_confirm').click(function(){
+			$('.confirm-pane').hide();
 		});
 		$('.checkAds').each(function(i,ca){
 			$(ca).bind("change",function(){
 				  if($(ca).attr('checked')=='checked'||$(ca).attr('checked')==true){
 					  $('.checkAds').attr('checked',false);
 					  $(ca).attr('checked',true);
+					  $('#ads_id').val($(ca).val());
 				  }
 			  });
 		});
@@ -83,50 +176,74 @@
 	</script>
 </head>
 <body>
+<form action="/eshop/euser/subCart" method="post" id="subCart">
+	<input type="hidden" id="shop_id" name="shopId" />
+	<input type="hidden" id="ads_id" name="adsId" />
+</form>
 	<div class="container">
 		${include("/common/header.httl")}
 		<div class="pageWrap">
 			<section class="wrap clearfix"> 
 				<div class="radius margin-top-20">
 				<div class="title-triangle-blue txt-blue-XL">我的购物车<div class="tip"></div></div>
-					<table class="cartTable" style="width:96%;margin:0 15px;">
-						<tr>
-							<th><input type="checkbox" id="checkAll" checked="true" />全选</th>
-							<th></th>
-							<th>商品</th>
-							<th>单价（元）</th>
-							<th>数量</th>
-							<th>小计（元）</th>
-							<th>操作</th>
-						</tr>
-						<!--#for(com.eshop.model.mongodb.ECartItem cartItem : itemList)-->
-							<tr>
-								<td><input class="checkInput" type="checkbox" value="${cartItem.id}" checked="true" /></td>
-								<td><img src="/coco.jpg" style="display: block;width: 100px;height: 100px;"></td>
-								<td>${cartItem.goods.goodsName}</td>
-								<td style="text-align:center;">${cartItem.goods.outPrice}</td>
-								<td style="text-align:center;"><input type="text" class="goodsCount" size=3 value="${cartItem.goodsCount}" /></td>
-								<td name="totalTd" style="text-align:center;">${cartItem.goods.outPrice*cartItem.goodsCount}</td>
-								<td style="text-align:center;"><a>删除</a></td>
-							</tr>
+				<article class="cart-table">
+				<!--#var(java.util.HashMap<String,java.util.List<com.eshop.model.mongodb.ECartItem>> itemMap) -->
+				<!--#for(java.util.Map.Entry<String,java.util.List<com.eshop.model.mongodb.ECartItem>> entity : itemMap)-->
+				<!--#set(totalPrice = 0)-->
+				<!--#set(totalCount = 0)-->
+					<header class="ctable-header group">
+						<h2 class="ctable-title">${entity.key}</h2>
+						<span class="ctable-categ">单价</span>
+						<span class="ctable-categ">数量</span>
+						<span class="ctable-categ">总计</span>
+					</header>
+					
+					<section class="cart-group cart_group" data-id="0">
+						<ul class="cgroup-list">
+						<!--#for(com.eshop.model.mongodb.ECartItem cartItem : entity.value)-->
+						<!--#set(shopId = cartItem.eshop.userId)-->
+							<li class="cgroup-item s_food">
+								<div class="cdish-name">
+								${cartItem.goods.goodsName}
+								</div>
+								<div class="cdish-price symbol-rmb">${cartItem.goods.outPrice}</div>
+								<div class="cdish-modify">
+									<a class="cdish-action desc dec_btn">-</a>
+									<input class="cdish-qty set_num" type="text" class="goodsCount" value="${cartItem.goodsCount}">				
+									<a class="cdish-action incr inc_btn">+</a>
+								</div>
+								<!--#set(totalPrice = totalPrice+(cartItem.goods.outPrice*cartItem.goodsCount))-->
+								<!--#set(totalCount = totalCount+cartItem.goodsCount)-->
+								<div class="cdish-total symbol-rmb">${cartItem.goods.outPrice*cartItem.goodsCount}</div>
+								<div class="cdish-del">
+									<a class="del del_btn">×</a>
+								</div>
+							</li>
 						<!--#end-->
-					</table>
-					<div class="tr"style="font-size: 18px;">
-						总计：<a id="totalPrice" style='color:red;font-weight:bold;'></a>元&nbsp;&nbsp;&nbsp;&nbsp;<a id="submitCart" class="btn_blue30">提交订单</a>
-					</div>
+						</ul>
+					</section>
+					<footer class="ctable-footer group">
+						<div class="fr">
+							<div class="cart-summary basket_info" name="orderMessage">
+								共${totalCount}个商品　订单金额：
+								<span name="totalPrice" class="symbol-rmb cart-cost">${totalPrice}</span>
+							</div>
+							<a class="btn_blue30 subCart" value="${shopId}">提交订单</a>
+						</div>
+					</footer>
+					</article>
+					<!--#end-->
 					<div class="radius mTop30 myTags">
 						<div class="blueLineS">
 							<span class="lineS_current">收货地址</span>
 							<a class="btn_blue30" id="add_address" style="float:right;cursor: pointer;">新增</a>
 						</div>
-						<form id="shippingForm" action = "/eshop/euser/saveShipping" method="post" >
-						</form>
 						<ul class="titleList topic">
 							<!--#for(com.eshop.model.mongodb.EUserAddress address : addressList)-->
 							<li>
 							<div class="picTxt">
 									<div class="txt two">
-										<div class="count"><input type="checkbox" class="checkAds" />${address.receiver}• ${address.mobile} • ${address.address}</div>
+										<div class="count"><input type="checkbox" value="${address.id}" class="checkAds" />${address.receiver}• ${address.mobile} • ${address.address}</div>
 									</div>
 								</div>
 								<a href="/topic/1768/edit" class="ui_icon i_redEdit" title="编辑">编辑</a>
@@ -140,6 +257,18 @@
 			</section>
 		</div>
 		${include("/common/footer.httl")}
+	</div>
+	<div id="orderConfirm" class="confirm-pane">
+		<header class="confirmHeader">
+			<label>订单确认</label>
+		</header>
+		<div id="confirmBody" class="confirmBody">
+			
+		</div>
+		<footer class="confirmFooter">
+			<a id="comit_confirm" class="btn_blue30">确认</a>&nbsp;
+			<a id="close_confirm" class="btn_blue30">取消</a>&nbsp;
+		</footer>
 	</div>
 	<div class="address-pane">
 		<div class="left-pane">
