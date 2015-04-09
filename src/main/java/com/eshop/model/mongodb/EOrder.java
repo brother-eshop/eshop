@@ -1,6 +1,7 @@
 package com.eshop.model.mongodb;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -64,6 +65,8 @@ public class EOrder extends MongoEntity{
 	private Double userLat;//用户收货地址的纬度
 	
 	private Double devliverPirce;//配送费
+	
+	private List<EOrderDetail> details;
 	
 	
 	

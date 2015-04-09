@@ -794,6 +794,7 @@ dl {
 	border-radius: 5px;
 	z-index: 999;
 }
+
 /* 最后一个panel充满右边 */
 /* 当没有detail的时候，list充满窗口 
 .uqe-pane:last-child {
@@ -1020,4 +1021,79 @@ dl {
 
 .dis{
 	background-color:gray;border:1px solid gray
+}
+
+.detail-pane {
+	border: solid 1px #d9d9d9;
+	border-radius: 5px;
+	z-index: 999;
+	width: 1100px;
+	display:none;
+	position: absolute;
+	border-radius: 5px;
+	background-color: #FFFFFF;
+	top: 100px;
+	bottom: 10px;
+	left:10%;
+	right:10%;
+	border: none;
+}
+
+/* 最后一个panel充满右边 */
+/* 当没有detail的时候，list充满窗口 
+.uqe-pane:last-child {
+	right: 1em;
+}*/
+
+.detail-pane>.header {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: auto;
+	left: 0;
+	height: 3em;
+	background: #684;
+	background: linear-gradient(to bottom, rgba(236, 236, 236, 1) 0%,
+		rgba(229, 229, 229, 1) 100%); /* W3C */
+	overflow: hidden;
+	border-radius: 3px 3px 0 0;
+}
+
+.detail-pane>.body {
+	position: absolute;
+	top: 3.5em;
+	right: 0;
+	bottom: 3.5em;
+	left: 0;
+	height: auto;
+	background: #fff;
+	overflow:auto;
+	padding: 0 .5em;
+}
+
+.detail-pane>.body table{
+	width: 100%;
+}
+
+.detail-pane>.footer {
+	position: absolute;
+	top: auto;
+	right: 2em;
+	bottom: 0;
+	left: 2em;
+	height: 3em;
+	border-top: solid 1px #ccc;
+	overflow: hidden;
+	background:#fff;  
+	clear:both; 
+	padding:0 0;
+	color:#000;
+	width: auto;
+}
+
+.detail-pane>.header>label {
+	display: block;
+	padding: .5em 1em;
+	width: 100%;
+	line-height: 2em;
 }

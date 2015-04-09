@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -341,6 +342,23 @@ public class EUserController extends BaseController {
 	}
 	
 	
+	@RequestMapping(value = "/subAddress", method = RequestMethod.POST)
+	public ModelAndView subAddress(EUserAddress euserAddress, HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/address");
+		try{
+			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			if(user==null){
+				return new ModelAndView("login.httl");
+			}
+			euserAddress.setUserId(user.getId());
+			euserAddressService.save(euserAddress);
+		} catch (Exception e) {
+			logger.error("EUserController.saveAddress", e);
+		}
+		return modelAndView;
+	}
+	
+	
 	@ResponseBody
 	@RequestMapping(value = "/getMyECartItems", method = RequestMethod.POST)
 	public List<ECartItem> getMyECartItems(HttpServletRequest request,HttpServletResponse response) {
@@ -407,6 +425,58 @@ public class EUserController extends BaseController {
 	@RequestMapping(value = "/getByMobile", method = RequestMethod.POST)
 	public EUser getByMobile(EUser euser, HttpServletRequest request) {
 		return euserService.getByMobile(euser);
+	}
+	
+	@RequestMapping("/myBills")
+	public ModelAndView myBills(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/eshop/euser/mybill.httl");
+		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if(user==null){
+			return new ModelAndView("login.httl");
+		}
+		List<EOrder> orders = eorderService.findList(Criteria.where("userId").is(user.getId()), EOrder.class);
+		mav.addObject("user", user);
+		mav.addObject("orders", orders);
+		return mav;
+	}
+	
+	@RequestMapping("/shopBills")
+	public ModelAndView shopBills(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/eshop/euser/shopbill.httl");
+		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if(user==null){
+			return new ModelAndView("login.httl");
+		}
+		List<EOrder> orders = eorderService.findList(Criteria.where("shopperId").is(user.getId()), EOrder.class);
+		mav.addObject("user", user);
+		mav.addObject("orders", orders);
+		return mav;
+	}
+	
+	@RequestMapping("/address")
+	public ModelAndView address(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/eshop/euser/address.httl");
+		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if(user==null){
+			return new ModelAndView("login.httl");
+		}
+		List<EUserAddress> addressList = euserAddressService.getAddressByUserId(user.getId());
+		mav.addObject("user", user);
+		mav.addObject("addressList", addressList);
+		return mav;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getBillDetail", method = RequestMethod.POST)
+	public EOrder getBillDetail(@RequestBody EOrder eorder, HttpServletRequest request,HttpServletResponse response) {
+		try{
+			eorder = eorderService.findById(eorder.getId(), EOrder.class);
+			List<EOrderDetail> details = eorderDetailService.getOrderDetail(eorder.getId());
+			eorder.setDetails(details);
+		} catch (Exception e) {
+			logger.error("EUserController.getBillDetail", e);
+		}
+		return eorder;
 	}
 
 	// @ResponseBody

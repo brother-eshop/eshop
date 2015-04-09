@@ -1,6 +1,9 @@
 package com.eshop.service.impl.mongodb;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import com.eshop.dao.mongodb.EOrderDetailDao;
@@ -19,5 +22,10 @@ public class EOrderDetailServiceImpl extends AbstractService<EOrderDetail, Strin
 	@Override
 	public DAO<EOrderDetail, String> getDao() {
 		return eorderDetailDao;
+	}
+
+	@Override
+	public List<EOrderDetail> getOrderDetail(String orderId) {
+		return eorderDetailDao.findList(Criteria.where("orderId").is(orderId), EOrderDetail.class);
 	}
 }

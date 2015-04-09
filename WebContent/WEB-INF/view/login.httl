@@ -70,8 +70,8 @@
 	<div class="container">
 		<header class="loginHeader">
     		<h1 class="header-hd" title="">
-      			<a class="logo" role="logo" href="http://ele.me">
-        			<img class="logo-img" src="resources/images/logo.png" alt="">
+      			<a class="logo" role="logo">
+        			<img class="logo-img" src="/ehsop/resources/images/logo.png" alt="">
       			</a>
     		</h1>
   		</header>
