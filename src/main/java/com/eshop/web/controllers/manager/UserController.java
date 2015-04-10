@@ -5,10 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.eshop.common.constant.CoreConstant;
 import com.eshop.common.util.security.MD5;
 import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.model.manager.User;
+import com.eshop.model.mongodb.EUser;
 import com.eshop.service.manager.UserService;
 
 import org.apache.log4j.Logger;
@@ -118,4 +120,5 @@ public class UserController extends BaseController {
 		}
 		return rv;
 	}
+	
 }

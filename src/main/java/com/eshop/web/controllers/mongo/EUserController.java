@@ -501,4 +501,9 @@ public class EUserController extends BaseController {
 	// }
 	// return mav;
 	// }
+	 @RequestMapping("/merchantSocket")
+     public ModelAndView webSocket(HttpServletRequest request) {
+         ModelAndView mav = new ModelAndView("/eshop/euser/webSocket.httl");
+         return mav;
+     }
 }
