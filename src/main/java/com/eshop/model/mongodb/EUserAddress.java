@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -34,8 +35,9 @@ public class EUserAddress extends MongoEntity{
 	
 	@Indexed(unique=false,name="address_mobile",direction=IndexDirection.ASCENDING)
 	private String mobile;
-	
-
+	//可用此bean代替下面经纬度，加快搜索
+	//@GeoSpatialIndexed//声明该字段为地理信息的索引
+	//private LatLonPoint latlon;
 	@Indexed(unique=false,name="address_lng",direction=IndexDirection.ASCENDING)
 	private Double lng;//经度
 	
