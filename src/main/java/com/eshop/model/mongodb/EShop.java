@@ -52,9 +52,9 @@ public class EShop extends MongoEntity {
 	// TODO 已经删除本字段，考虑到同步代码时需要同步数据库，你们那边会报错，所以本字段暂时未删除
 	@Indexed(unique = false, name = "shopPoint", direction = IndexDirection.ASCENDING)
 	private String shopPoint;
-	// 可用此bean代替下面经纬度，加快搜索
-	// @GeoSpatialIndexed//声明该字段为地理信息的索引
-	// private LatLonPoint latlon;
+	//可用此bean代替下面经纬度，加快搜索
+	//@GeoSpatialIndexed(type=GeoSpatialIndexType.GEO_2D)//声明该字段为地理信息的索引
+	//private Point latlon;
 	@Indexed(unique = false, name = "shop_lng", direction = IndexDirection.ASCENDING)
 	private Double lng;// 经度
 
