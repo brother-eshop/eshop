@@ -28,11 +28,6 @@ public class CoreConstant {
 	 */
 	public static String uploadStaticUrl = propertyUtil.getProperty("uploadStaticUrl");
 
-	public static String scriptFilePath = propertyUtil.getProperty("scriptFilePath");
-
-	public static String indexFilePath = propertyUtil.getProperty("indexFilePath");
-
-
 	public static String USER_SECURITY_KEY = "user_security_key";
 
 
