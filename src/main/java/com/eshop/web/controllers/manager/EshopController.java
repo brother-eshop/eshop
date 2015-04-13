@@ -31,59 +31,63 @@ import com.eshop.web.controllers.mongo.EUserController;
 @Controller
 @RequestMapping("/eshop")
 public class EshopController extends BaseController {
-	
-	private static final Logger logger = Logger
-			.getLogger(EUserController.class);
-	
+
+	private static final Logger logger = Logger.getLogger(EUserController.class);
+
 	@Autowired
 	private EUserService euserService;
-	
+
 	@Autowired
 	private EShopService eshopService;
-	
+
 	@Autowired
 	private ShopAndGoodsService shopAndGoodsService;
 
 	@RequestMapping("/regist")
 	public ModelAndView regist() {
 		ModelAndView mav = new ModelAndView("regist.httl");
+		setVar(mav);
 		return mav;
 	}
-	
+
 	@RequestMapping("/login")
 	public ModelAndView login() {
 		ModelAndView mav = new ModelAndView("login.httl");
+		setVar(mav);
 		return mav;
 	}
-	
+
 	@RequestMapping("/index")
 	public ModelAndView index(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("index.httl");
-		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
-		if(user==null){
+		setVar(mav);
+		EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if (user == null) {
 			return new ModelAndView("login.httl");
 		}
 		mav.addObject("user", user);
 		return mav;
 	}
-	
+
 	@RequestMapping("/startShop")
 	public ModelAndView startShop(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("startShop.httl");
-		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
-		if(user==null){
+		setVar(mav);
+		EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		if (user == null) {
 			return new ModelAndView("login.httl");
 		}
 		mav.addObject("user", user);
 		return mav;
 	}
-	
+
 	@RequestMapping("/enterShop")
-	public ModelAndView enterShop(EShop eshop,HttpServletRequest request) {
+	public ModelAndView enterShop(EShop eshop, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/eshop/shop.httl");
+		setVar(mav);
 		try {
-			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
-			if(user==null){
+			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			if (user == null) {
 				return new ModelAndView("login.httl");
 			}
 			EShop shop = eshopService.getEShopByUser(eshop.getUserId());
@@ -91,8 +95,7 @@ public class EshopController extends BaseController {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
 			ShopAndGoods query = new ShopAndGoods();
-			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(eshop.getUserId(),
-					query, page);
+			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(eshop.getUserId(), query, page);
 			mav.addObject("query", query);
 			mav.addObject("shopperGoods", list);
 			mav.addObject("page", this.getPage());
@@ -103,22 +106,20 @@ public class EshopController extends BaseController {
 		}
 		return mav;
 	}
-	
+
 	@RequestMapping("/listGoods")
-	public ModelAndView listGoods(HttpServletRequest request,
-			HttpServletResponse response, ShopAndGoods query,
-			@ModelAttribute("page") PageEntity page) {
+	public ModelAndView listGoods(HttpServletRequest request, HttpServletResponse response, ShopAndGoods query, @ModelAttribute("page") PageEntity page) {
 		ModelAndView modelAndView = new ModelAndView("/eshop/shop.httl");
+		setVar(modelAndView);
 		try {
-			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			EShop shop = eshopService.getEShopByUser(query.getUserId());
-			if(user==null){
+			if (user == null) {
 				return new ModelAndView("login.httl");
 			}
 			this.setPage(page);
 			this.getPage().setPageSize(20);
-			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(query.getUserId(),
-					query, page);
+			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(query.getUserId(), query, page);
 			modelAndView.addObject("query", query);
 			modelAndView.addObject("shopperGoods", list);
 			modelAndView.addObject("page", this.getPage());
@@ -130,15 +131,15 @@ public class EshopController extends BaseController {
 
 		return modelAndView;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
-	public ModelAndView regist(EUser euser, HttpServletRequest request,HttpServletResponse response) {
+	public ModelAndView regist(EUser euser, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/index");
 		String captcha = (String) this.getSessionAttribute(request, CoreConstant.RAND_CODE);
-		try{
-			if(!euser.getCaptcha().equals(captcha)){
-				modelAndView.addObject("user",euser);
+		try {
+			if (!euser.getCaptcha().equals(captcha)) {
+				modelAndView.addObject("user", euser);
 				modelAndView.setViewName("regsit.httl");
 				modelAndView.addObject("captcha_error", true);
 				return modelAndView;
@@ -146,64 +147,62 @@ public class EshopController extends BaseController {
 			euser.setPassword(MD5.getMD5(euser.getPassword()));
 			euser.setRegTime(new Date());
 			List<EUser> users = euserService.getUserByObj(euser);
-			if(users.size()>0){
+			if (users.size() > 0) {
 				return new ModelAndView("regsit.httl");
-			}else{
+			} else {
 				euserService.insert(euser);
-				this.setSessionAttribute(request, response,CoreConstant.USER_SESSION_NAME, euserService.getByUserName(euser));
+				this.setSessionAttribute(request, response, CoreConstant.USER_SESSION_NAME, euserService.getByUserName(euser));
 			}
 		} catch (Exception e) {
 			logger.error("EUserController.insert", e);
 		}
 		return modelAndView;
 	}
-	
-	
+
 	@ResponseBody
-	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public ModelAndView login(EUser euser, HttpServletRequest request,HttpServletResponse response){
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView login(EUser euser, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("redirect:/eshop/index");
 		EUser user = euserService.getByUserName(euser);
 		String password = MD5.getMD5(euser.getPassword());
 		String captcha = (String) this.getSessionAttribute(request, CoreConstant.RAND_CODE);
-		if(user==null){
-			mav.addObject("user",euser);
+		if (user == null) {
+			mav.addObject("user", euser);
 			mav.setViewName("login.httl");
 			mav.addObject("name_error", true);
-		}else if(!password.equals(user.getPassword())){
-			mav.addObject("user",euser);
+		} else if (!password.equals(user.getPassword())) {
+			mav.addObject("user", euser);
 			mav.setViewName("login.httl");
 			mav.addObject("password_error", true);
-		}else if(!euser.getCaptcha().equals(captcha)){
-			mav.addObject("user",euser);
+		} else if (!euser.getCaptcha().equals(captcha)) {
+			mav.addObject("user", euser);
 			mav.setViewName("login.httl");
 			mav.addObject("captcha_error", true);
-		}else if(user!=null&&password.equals(user.getPassword())){
-			this.setSessionAttribute(request, response,CoreConstant.USER_SESSION_NAME, user);
-			if(user.getIsShopper()!=null&&user.getIsShopper()==1){
+		} else if (user != null && password.equals(user.getPassword())) {
+			this.setSessionAttribute(request, response, CoreConstant.USER_SESSION_NAME, user);
+			if (user.getIsShopper() != null && user.getIsShopper() == 1) {
 				mav.setViewName("redirect:/eshop/euser/ucenter");
 			}
-			mav.addObject("user",user);
+			mav.addObject("user", user);
 			return mav;
 		}
 		return mav;
 	}
-	
+
 	@RequestMapping("/logout")
-	public RedirectView logout(HttpServletRequest request,
-			HttpServletResponse response) {
+	public RedirectView logout(HttpServletRequest request, HttpServletResponse response) {
 		this.clear(request, response);
 		RedirectView r = new RedirectView("/eshop/login");
 		return r;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/shopSub", method = RequestMethod.POST)
 	public ModelAndView startShop(EShop eshop, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/addGoods");
-		try{
-			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
-			if(user==null){
+		try {
+			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			if (user == null) {
 				return new ModelAndView("login.httl");
 			}
 			modelAndView.addObject("user", user);

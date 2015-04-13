@@ -38,6 +38,7 @@ public class ProvinceController extends BaseController {
 	@RequestMapping("/list")
 	public ModelAndView listAll(HttpServletRequest request, HttpServletResponse response, Province query, @ModelAttribute("page") PageEntity page) {
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
@@ -58,6 +59,7 @@ public class ProvinceController extends BaseController {
 	@RequestMapping(value="/add",method=RequestMethod.GET)
 	public ModelAndView toAdd() {
 		ModelAndView modelAndView = new ModelAndView(toAdd);
+		setVar(modelAndView);
 		try {
 		} catch (Exception e) {
 			logger.error("ProvinceController.toAdd", e);
@@ -78,6 +80,7 @@ public class ProvinceController extends BaseController {
 	@RequestMapping(value="/edit",method=RequestMethod.GET)
 	public ModelAndView toEdit(Long id) {
 		ModelAndView modelAndView = new ModelAndView(toEdit);
+		setVar(modelAndView);
 		try {
 			Province province = provinceService.getProvinceById(id);
 			modelAndView.addObject(province);

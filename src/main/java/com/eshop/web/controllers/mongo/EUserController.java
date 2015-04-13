@@ -76,6 +76,7 @@ public class EUserController extends BaseController {
 	@RequestMapping("/ucenter")
 	public ModelAndView ucenter(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/eshop/euser/ucenter.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
 			return new ModelAndView("login.httl");
@@ -87,6 +88,7 @@ public class EUserController extends BaseController {
 	@RequestMapping("/addGoods")
 	public ModelAndView goAddGoods(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/eshop/euser/addGoods.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
 			return new ModelAndView("login.httl");
@@ -98,6 +100,7 @@ public class EUserController extends BaseController {
 	@RequestMapping("/cart")
 	public ModelAndView cart(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/eshop/euser/cart.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
 			return new ModelAndView("login.httl");
@@ -161,6 +164,7 @@ public class EUserController extends BaseController {
 	public ModelAndView subCart(String shopId, HttpServletRequest request,
 			String adsId) {
 		ModelAndView mav = new ModelAndView("/eshop/euser/cart.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
 			return new ModelAndView("login.httl");
@@ -225,6 +229,7 @@ public class EUserController extends BaseController {
 	@RequestMapping("/shopManage")
 	public ModelAndView shopManage(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/eshop/euser/shopinfo.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
 			return new ModelAndView("login.httl");
@@ -430,6 +435,7 @@ public class EUserController extends BaseController {
 	@RequestMapping("/myBills")
 	public ModelAndView myBills(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/eshop/euser/mybill.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
 			return new ModelAndView("login.httl");
@@ -443,6 +449,7 @@ public class EUserController extends BaseController {
 	@RequestMapping("/shopBills")
 	public ModelAndView shopBills(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/eshop/euser/shopbill.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
 			return new ModelAndView("login.httl");
@@ -456,6 +463,7 @@ public class EUserController extends BaseController {
 	@RequestMapping("/address")
 	public ModelAndView address(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/eshop/euser/address.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
 			return new ModelAndView("login.httl");
@@ -504,6 +512,7 @@ public class EUserController extends BaseController {
 	 @RequestMapping("/merchantSocket")
      public ModelAndView webSocket(HttpServletRequest request) {
          ModelAndView mav = new ModelAndView("/eshop/euser/webSocket.httl");
+         setVar(mav);
          return mav;
      }
 }
