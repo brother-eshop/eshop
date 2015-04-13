@@ -6,10 +6,10 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/resources/styles/base.css">
+	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
+	<script type="text/javascript" src="/resources/scripts/placeholder.js"></script>
 	<script language="javascript" type="text/javascript">
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
     $(function(){
@@ -85,7 +85,7 @@
       				<h2 class="title">登陆</h2>
     			</div>
     			<div class="panel-bd">
-      				<form id="login_form" class="form" action="/eshop/login" method="post" autocomplete="off" novalidate="true">
+      				<form id="login_form" class="form" action="/login" method="post" autocomplete="off" novalidate="true">
         				<div class="form-item">
           					<input id="login_username" value="${user.username}" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="">
           					<!--#if(name_error)-->
@@ -127,7 +127,7 @@
     					<a class="weibo oauth-sns" href="/weibo/auth" target="_blank" title="通过微博登录"></a>
     					<a class="renren oauth-sns" href="/renren/auth" target="_blank" title="通过人人登录"></a>
       				</div>
-      				<a class="g-link" href="/eshop/regist">免费注册</a>
+      				<a class="g-link" href="/regist">免费注册</a>
     			</div>
   			</div>
 		</section>

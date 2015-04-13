@@ -138,7 +138,7 @@
 			$.ajax({
 				type: "post", 
 				contentType : 'application/json',  
-				url: "/eshop/euser/addCart",
+				url: "/euser/addCart",
 				data: JSON.stringify({shopId:shopId,goodsId:goodsId}),
 				success: function(data){
 					
@@ -159,7 +159,7 @@
 	  showPageNumber(${page.currentPage},${page.totalPageSize});
 	});
 	function search(){
-		$("#searchForm").attr("action","/eshop/listGoods");
+		$("#searchForm").attr("action","/listGoods");
 		$("#searchForm").submit();
 	}
 	var totalPageSize="${page.totalPageSize}";//总页码
@@ -176,7 +176,7 @@
 					<a class="all_types">全部商品分类</a><div id="type_path"></div>
 				</div>
 				</div>
-				<form action="/eshop/listGoods" method="post" id="searchForm">
+				<form action="/listGoods" method="post" id="searchForm">
 					<input type="hidden" id="pageCurrentPage" name="page.currentPage" value="${page.currentPage}"/>
 					<input type="hidden" id="type_code" name="typeCode" value="${query.typeCode}"/>
 					<input type="hidden" id="shop_userId" name="userId" value="${shop.userId}"/>

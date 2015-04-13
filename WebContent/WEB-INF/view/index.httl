@@ -8,7 +8,7 @@
     <meta name="description" content="">
 	<meta name="keywords" content="">
 	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 	
@@ -20,7 +20,7 @@
 			$.ajax({
 				type: "post", 
 				contentType : 'application/json',  
-				url: "/eshop/euser/getShopps",
+				url: "/euser/getShopps",
 				data: JSON.stringify({
 					 lng:lng,
 					 lat:lat
@@ -141,7 +141,7 @@
 				var sContent =
 					"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>店铺名称："+shop.shopName+"</h4>" + 
 					"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>店铺地址："+shop.shopAddress+"</h4>"+
-					"<form method='post'  action='/eshop/enterShop'>"+
+					"<form method='post'  action='/enterShop'>"+
 					"<input type='hidden' name='userId' value='"+shop.userId+"'/>"+
 					"<button>点击进入</button>"+ 
 					"</form>";

@@ -4,7 +4,7 @@
 		$.ajax({
 			type: "post", 
 			contentType : 'application/json',  
-			url: "/eshop/euser/getMyECartItems",
+			url: "/euser/getMyECartItems",
 			success: function(data){
 				showItems(data);
 			},
@@ -49,18 +49,18 @@
 <div class="ecartInfo">
 	<div id="ecartTable"></div>
 	<div class="ecartFooter">
-		总计：<a id="totalPay"></a>元<a id="saveEShop" href="/eshop/euser/cart" target="_blank" style="float:right;" class="btn_blue30">去结算</a>
+		总计：<a id="totalPay"></a>元<a id="saveEShop" href="/euser/cart" target="_blank" style="float:right;" class="btn_blue30">去结算</a>
 	</div>
 </div>
 <header class="header">
 	<div class="topBar">
 		<div class="wrap clearfix">
 			<div class="topL">
-				<a class="logo" href="/"><img src="/eshop/resources/images/logo.png" alt="云码"></a>
+				<a class="logo" href="/"><img src="/resources/images/logo.png" alt="云码"></a>
 				<nav>
 					<ul id="topMenu">
 						<li class="current"><a href="#">首页</a></li>
-						<li><a href="/eshop/startShop" target="_black">店铺入驻</a></li>
+						<li><a href="/startShop" target="_black">店铺入驻</a></li>
                 	</ul>				
 				</nav>
 			</div>
@@ -79,9 +79,9 @@
             	</div>
 				<!--登陆后-->
 				<div class="tLogin">
-					<a href="/eshop/euser/ucenter">${user.username}</a>
+					<a href="/euser/ucenter">${user.username}</a>
 					&nbsp;&nbsp;
-					<a href="/eshop/logout">退出</a>
+					<a href="/logout">退出</a>
 				</div>
 			</div>
 		</div>

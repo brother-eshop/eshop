@@ -6,11 +6,11 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/resources/styles/base.css">
+	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
+	<script type="text/javascript" src="/resources/scripts/placeholder.js"></script>
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 	<script type="text/javascript">
 	$(document).ready(function(){
@@ -22,7 +22,7 @@
 				  $.ajax({
 						type: "post", 
 						contentType : 'application/json',  
-						url: "/eshop/euser/getBillDetail",
+						url: "/euser/getBillDetail",
 						data: JSON.stringify({id:orderId}),
 						success: function(eorder){
 							$('#details_ul').html('');
@@ -104,7 +104,7 @@
 				<div class="left250">
 					<div class="snTitle">个人</div>
 					<ul class="snList">
-						<li><a href="/eshop/euser/ucenter"><i class="ui_icon i_grxx"></i><span>个人中心</span></a></li>
+						<li><a href="/euser/ucenter"><i class="ui_icon i_grxx"></i><span>个人中心</span></a></li>
 						<li><a href="/user/headphoto/toHeadPhotoIndex"><i class="ui_icon i_wdtx"></i><span>修改密码</span></a></li>
 						<li class="current"><a href="/user/userInfo/safe"><i class="ui_icon i_zhaq"></i><span>我的订单</span></a></li>
 						<li><a href="/user/binding"><i class="ui_icon i_zhbd"></i><span>地址管理</span></a></li>
@@ -113,9 +113,9 @@
 					
 					<div class="snTitle">店铺</div>
 						<ul class="snList">
-								<li><a href="/eshop/euser/shopManage"><i class="ui_icon i_wdjf"></i><span>店铺管理</span></a></li>
+								<li><a href="/euser/shopManage"><i class="ui_icon i_wdjf"></i><span>店铺管理</span></a></li>
 								<li><a href="/manager/shopperGoods/goodsManage"><i class="ui_icon i_wdjf"></i><span>商品管理</span></a></li>
-								<li><a href="/eshop/euser/addGoods"><i class="ui_icon i_wdjf"></i><span>添加商品</span></a></li>
+								<li><a href="/euser/addGoods"><i class="ui_icon i_wdjf"></i><span>添加商品</span></a></li>
 								<li><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>历史订单</span></a></li>
 								<li><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>开始接单</span></a></li>
 						</ul> 

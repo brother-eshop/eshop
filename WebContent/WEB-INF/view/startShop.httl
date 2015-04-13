@@ -7,11 +7,11 @@
     <title>开店页面</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/resources/styles/base.css">
+	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
+	<script type="text/javascript" src="/resources/scripts/placeholder.js"></script>
 	<script language="javascript" type="text/javascript">
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 	</script>
@@ -53,7 +53,7 @@
 		<div class="pageWrap">
 		<section class="wrap clearfix">
 			<div class="left250">
-			<form id="start_form" class="form" action="/eshop/shopSub" method="post" autocomplete="off" novalidate="true">
+			<form id="start_form" class="form" action="/shopSub" method="post" autocomplete="off" novalidate="true">
 				<input id="userid" class="leftInput" name="userId" value="${user.id}" type="hidden" required="">
 				<input id="suggestId" class="leftInput" type = 'text' minlength="5" placeholder="搜索" required="">
 				<input id="shopName" class="leftInput" name="shopName" type = 'text' minlength="5" placeholder="店铺名称" required="">

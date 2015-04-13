@@ -6,8 +6,8 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/resources/styles/base.css">
+	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5P1c3eRMNlbZ1khNOu3vh1pT"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
 	<script type="text/javascript" src="/statics/js/page.js"></script>
@@ -43,7 +43,7 @@
 			  $.ajax({
 					type: "post", 
 					contentType : 'application/json',  
-					url: "/eshop/euser/getConfirm",
+					url: "/euser/getConfirm",
 					data: JSON.stringify({shopId:$('#shop_id').val(),adsId:$('#ads_id').val()}),
 					success: function(data){
 						console.log(data);
@@ -176,7 +176,7 @@
 	</script>
 </head>
 <body>
-<form action="/eshop/euser/subCart" method="post" id="subCart">
+<form action="/euser/subCart" method="post" id="subCart">
 	<input type="hidden" id="shop_id" name="shopId" />
 	<input type="hidden" id="ads_id" name="adsId" />
 </form>
@@ -274,7 +274,7 @@
 		<div class="left-pane">
 			<section style="width:400px;">
 				<h2>收货地址</h2>
-				<form action="/eshop/euser/saveAddress" method="post" id="addressForm">
+				<form action="/euser/saveAddress" method="post" id="addressForm">
 				<ul>
 					<li>
 						<span class="label">
