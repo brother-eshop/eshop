@@ -38,10 +38,9 @@ public class UserController extends BaseController {
 	private String toEdit = "/manager/user/user_edit.httl";// 修改页
 
 	@RequestMapping("/list")
-	public ModelAndView listAll(HttpServletRequest request,
-			HttpServletResponse response, User query,
-			@ModelAttribute("page") PageEntity page) {
+	public ModelAndView listAll(HttpServletRequest request, HttpServletResponse response, User query, @ModelAttribute("page") PageEntity page) {
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
@@ -62,6 +61,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView toAdd() {
 		ModelAndView modelAndView = new ModelAndView(toAdd);
+		setVar(modelAndView);
 		try {
 		} catch (Exception e) {
 			logger.error("UserController.toAdd", e);
@@ -83,6 +83,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView toEdit(Long id) {
 		ModelAndView modelAndView = new ModelAndView(toEdit);
+		setVar(modelAndView);
 		try {
 			User user = userService.getUserById(id);
 			modelAndView.addObject(user);
@@ -104,9 +105,7 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping("/delete")
-	public RedirectView delete(String ids, HttpServletRequest request,
-			User query, @ModelAttribute("page") PageEntity page,
-			RedirectAttributes attr) {
+	public RedirectView delete(String ids, HttpServletRequest request, User query, @ModelAttribute("page") PageEntity page, RedirectAttributes attr) {
 		RedirectView rv = new RedirectView("/manager/user/list");
 		String[] idArray = ids.split(",");
 		try {// 软删除状态设置为2
@@ -120,5 +119,5 @@ public class UserController extends BaseController {
 		}
 		return rv;
 	}
-	
+
 }

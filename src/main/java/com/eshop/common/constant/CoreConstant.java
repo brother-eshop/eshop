@@ -23,15 +23,11 @@ public class CoreConstant {
 
 	// 上传服务用服务器地址，访问时用imagesPath，数据库中不存储域名
 	public static String uploadServerUrl = propertyUtil.getProperty("uploadServerUrl");
+	public static String VERSION = propertyUtil.getProperty("version");
 	/*
 	 * 上传图片后访问的地址，使用imagesPath或者uploadServerUrl防止项目部署到多台机器，单独定义此变量
 	 */
 	public static String uploadStaticUrl = propertyUtil.getProperty("uploadStaticUrl");
-
-	public static String scriptFilePath = propertyUtil.getProperty("scriptFilePath");
-
-	public static String indexFilePath = propertyUtil.getProperty("indexFilePath");
-
 
 	public static String USER_SECURITY_KEY = "user_security_key";
 

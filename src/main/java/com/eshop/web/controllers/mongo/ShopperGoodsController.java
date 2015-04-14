@@ -35,15 +35,14 @@ import com.eshop.service.mongodb.ShopAndGoodsService;
 @RequestMapping("/manager/shopperGoods")
 public class ShopperGoodsController extends BaseController {
 
-	private static final Logger logger = Logger
-			.getLogger(ShopperGoodsController.class);
+	private static final Logger logger = Logger.getLogger(ShopperGoodsController.class);
 
 	@Autowired
 	private GoodsService goodsService;
-	
+
 	@Autowired
 	private ShopAndGoodsService shopAndGoodsService;
-	
+
 	@Autowired
 	private GoodTypeService goodTypeService;
 
@@ -53,19 +52,17 @@ public class ShopperGoodsController extends BaseController {
 	private String toEdit = "/manager/shop_goods/mygoods_edit.httl";// 修改页
 
 	@RequestMapping("/list")
-	public ModelAndView listAll(HttpServletRequest request,
-			HttpServletResponse response, ShopAndGoods query,
-			@ModelAttribute("page") PageEntity page) {
-		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+	public ModelAndView listAll(HttpServletRequest request, HttpServletResponse response, ShopAndGoods query, @ModelAttribute("page") PageEntity page) {
+		EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
 			if (query == null) {
 				query = new ShopAndGoods();
 			}
-			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(user.getId(),
-					query, page);
+			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(user.getId(), query, page);
 			modelAndView.addObject("query", query);
 			modelAndView.addObject("shopperGoods", list);
 			modelAndView.addObject("page", this.getPage());
@@ -79,6 +76,7 @@ public class ShopperGoodsController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView toAdd() {
 		ModelAndView modelAndView = new ModelAndView(toAdd);
+		setVar(modelAndView);
 		try {
 		} catch (Exception e) {
 			logger.error("GoodsController.toAdd", e);
@@ -88,17 +86,16 @@ public class ShopperGoodsController extends BaseController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView add(ShopAndGoods sGoods, HttpServletRequest request) {
-		EUser user = (EUser) sessionProvider.getAttribute(request,
-				"USER_SESSION_NAME");
+		EUser user = (EUser) sessionProvider.getAttribute(request, "USER_SESSION_NAME");
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			shopAndGoodsService.insertShopAndGoods(sGoods);
 			PageEntity page = new PageEntity();
 			this.setPage(page);
 			this.getPage().setPageSize(20);
 			ShopAndGoods query = new ShopAndGoods();
-			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(user.getId(),
-					query, page);
+			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(user.getId(), query, page);
 			modelAndView.addObject("query", query);
 			modelAndView.addObject("shopperGoods", list);
 			modelAndView.addObject("page", this.getPage());
@@ -111,6 +108,7 @@ public class ShopperGoodsController extends BaseController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView toEdit(String id) {
 		ModelAndView modelAndView = new ModelAndView(toEdit);
+		setVar(modelAndView);
 		try {
 			Goods goods = goodsService.getByid(id);
 			modelAndView.addObject(goods);
@@ -131,9 +129,7 @@ public class ShopperGoodsController extends BaseController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public RedirectView delete(String ids, HttpServletRequest request,
-			User query, @ModelAttribute("page") PageEntity page,
-			RedirectAttributes attr) {
+	public RedirectView delete(String ids, HttpServletRequest request, User query, @ModelAttribute("page") PageEntity page, RedirectAttributes attr) {
 		RedirectView rv = new RedirectView("/manager/goods/list");
 		String[] idArray = ids.split(",");
 		try {// 软删除状态设置为2
@@ -149,18 +145,16 @@ public class ShopperGoodsController extends BaseController {
 	}
 
 	@RequestMapping("/search")
-	public ModelAndView searchGoods(HttpServletRequest request,
-			HttpServletResponse response, Goods query,
-			@ModelAttribute("page") PageEntity page) {
+	public ModelAndView searchGoods(HttpServletRequest request, HttpServletResponse response, Goods query, @ModelAttribute("page") PageEntity page) {
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
 			if (query == null) {
 				query = new Goods();
 			}
-			List<Goods> list = goodsService.searchGoods(query.getCode(),
-					query.getName(), page);
+			List<Goods> list = goodsService.searchGoods(query.getCode(), query.getName(), page);
 			modelAndView.addObject("query", query);
 			modelAndView.addObject("goodsList", list);
 			modelAndView.addObject("page", this.getPage());
@@ -172,14 +166,13 @@ public class ShopperGoodsController extends BaseController {
 
 		return modelAndView;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/insertBatch", method = RequestMethod.POST)
-	public String insertBatch(@RequestBody GoodsParams goodsParams,HttpServletRequest request,
-			HttpServletResponse response) {
+	public String insertBatch(@RequestBody GoodsParams goodsParams, HttpServletRequest request, HttpServletResponse response) {
 		List<ShopAndGoods> sgoods = goodsParams.getSgoods();
 		try {
-			if(sgoods.size()>0){
+			if (sgoods.size() > 0) {
 				shopAndGoodsService.insertBatch(sgoods, ShopAndGoods.class);
 			}
 		} catch (Exception e) {
@@ -188,38 +181,36 @@ public class ShopperGoodsController extends BaseController {
 		}
 		return "SUCCESS";
 	}
-	
+
 	@RequestMapping("/goodsManage")
-	public ModelAndView goodsManage(HttpServletRequest request,
-			HttpServletResponse response, ShopAndGoods query,
-			@ModelAttribute("page") PageEntity page) {
-		ModelAndView mav = new ModelAndView("/eshop/euser/goodsManage.httl");
-		
-		try{
-			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
-			if(user==null){
-				return new ModelAndView("login.httl");
+	public ModelAndView goodsManage(HttpServletRequest request, HttpServletResponse response, ShopAndGoods query, @ModelAttribute("page") PageEntity page) {
+		ModelAndView mav = new ModelAndView("/euser/goodsManage.httl");
+		setVar(mav);
+		try {
+			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+			if (user == null) {
+				mav.setViewName("login.httl");
+				return mav;
 			}
 			mav.addObject("user", user);
 			this.setPage(page);
 			this.getPage().setPageSize(20);
-			if(query == null){
+			if (query == null) {
 				query = new ShopAndGoods();
 			}
 			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(user.getId(), query, page);
 			mav.addObject("query", query);
 			mav.addObject("goodsList", list);
 			mav.addObject("page", this.getPage());
-		}catch(Exception e){
+		} catch (Exception e) {
 			logger.error("EUserController.goodsManage", e);
 		}
 		return mav;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/changeOutPrice", method = RequestMethod.POST)
-	public String changeOutPrice(@RequestBody ShopAndGoods shopAndGoods,HttpServletRequest request,
-			HttpServletResponse response) {
+	public String changeOutPrice(@RequestBody ShopAndGoods shopAndGoods, HttpServletRequest request, HttpServletResponse response) {
 		try {
 			shopAndGoodsService.changeOutPrice(shopAndGoods);
 		} catch (Exception e) {
@@ -228,11 +219,9 @@ public class ShopperGoodsController extends BaseController {
 		}
 		return "SUCCESS";
 	}
-	
+
 	@RequestMapping("/batchInSale")
-	public RedirectView batchInSale(String ids, HttpServletRequest request,
-			User query, @ModelAttribute("page") PageEntity page,
-			RedirectAttributes attr) {
+	public RedirectView batchInSale(String ids, HttpServletRequest request, User query, @ModelAttribute("page") PageEntity page, RedirectAttributes attr) {
 		RedirectView rv = new RedirectView("/manager/shopperGoods/goodsManage");
 		String[] idArray = ids.split(",");
 		try {
@@ -242,10 +231,9 @@ public class ShopperGoodsController extends BaseController {
 		}
 		return rv;
 	}
+
 	@RequestMapping("/batchOutSale")
-	public RedirectView batchOutSale(String ids, HttpServletRequest request,
-			User query, @ModelAttribute("page") PageEntity page,
-			RedirectAttributes attr) {
+	public RedirectView batchOutSale(String ids, HttpServletRequest request, User query, @ModelAttribute("page") PageEntity page, RedirectAttributes attr) {
 		RedirectView rv = new RedirectView("/manager/shopperGoods/goodsManage");
 		String[] idArray = ids.split(",");
 		try {
@@ -255,5 +243,5 @@ public class ShopperGoodsController extends BaseController {
 		}
 		return rv;
 	}
-	
+
 }

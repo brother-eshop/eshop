@@ -12,9 +12,11 @@ import org.slf4j.LoggerFactory;
  * 图片缩小类 根据环境情况选择java图片缩小方式或专业的magick图片缩小方式
  */
 public class ImageScale {
+	
 	private static final Logger log = LoggerFactory.getLogger(ImageScale.class);
 
 	public static void resizeFix(File srcFile, File destFile, int boxWidth, int boxHeight) throws Exception {
+		init();
 		if (isMagick) {
 			MagickImageScale.resizeFix(srcFile, destFile, boxWidth, boxHeight);
 		} else {
@@ -23,6 +25,7 @@ public class ImageScale {
 	}
 
 	public static void cut(File srcFile, File destFile, int cutTop, int cutLeft, int cutWidth, int catHeight) throws Exception {
+		init();
 		if (isMagick) {
 			MagickImageScale.cut(srcFile, destFile, cutTop, cutLeft, cutWidth, catHeight);
 		} else {
@@ -32,6 +35,7 @@ public class ImageScale {
 
 	public static void resizeFix(File srcFile, File destFile, int boxWidth, int boxHeight, int cutTop, int cutLeft, int cutWidth, int catHeight)
 			throws Exception {
+		init();
 		if (isMagick) {
 			MagickImageScale.resizeFix(srcFile, destFile, boxWidth, boxHeight, cutTop, cutLeft, cutWidth, catHeight);
 		} else {
@@ -41,6 +45,7 @@ public class ImageScale {
 
 	public static void imageMark(File srcFile, File destFile, int minWidth, int minHeight, int pos, int offsetX, int offsetY, String text, Color color,
 			int size, int alpha) throws Exception {
+		init();
 		if (isMagick) {
 			MagickImageScale.imageMark(srcFile, destFile, minWidth, minHeight, pos, offsetX, offsetY, text, color, size, alpha);
 		} else {
@@ -49,6 +54,7 @@ public class ImageScale {
 	}
 
 	public static void imageMark(File srcFile, File destFile, int minWidth, int minHeight, int pos, int offsetX, int offsetY, File markFile) throws Exception {
+		init();
 		if (isMagick) {
 			MagickImageScale.imageMark(srcFile, destFile, minWidth, minHeight, pos, offsetX, offsetY, markFile);
 		} else {
@@ -60,7 +66,7 @@ public class ImageScale {
 	 * 检查是否安装magick
 	 */
 	public static void init() {
-		if (tryMagick) {
+		if ((!IS_INIT)&&tryMagick) {
 			try {
 				System.setProperty("jmagick.systemclassloader", "no");
 				new Magick();
@@ -74,12 +80,10 @@ public class ImageScale {
 			log.info("jmagick is disabled.");
 			isMagick = false;
 		}
+		IS_INIT=true;
 	}
 
 	private static boolean isMagick = false;
-	private static boolean tryMagick = false;
-
-	public void setTryMagick(boolean tryMagick) {
-		ImageScale.tryMagick = tryMagick;
-	}
+	private static boolean tryMagick = true;
+	private static boolean IS_INIT=false;
 }

@@ -7,55 +7,24 @@
     <title>开店页面</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
-	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?_v=${v}">
+	
+	<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
+	<script type="text/javascript" src="${img}/resources/scripts/placeholder.js?_v=${v}"></script>
 	<script language="javascript" type="text/javascript">
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 	</script>
 </head>
 <body>
 	<div class="container">
-		<header class="header">
-			<div class="topBar">
-				<div class="wrap clearfix">
-					<div class="topL">
-						<a class="logo" href="/"><img src="resources/images/logo.png" alt="云码"></a>
-							<nav>
-								<ul id="topMenu">
-									<li class="current"><a href="#">首页</a></li>
-                                </li>				
-							</nav>
-					</div>
-					<div class="topR">
-						<div class="tMsg">
-            				<span class="msgNum">10</span>
-            				<a href="javascript:;" class="i_car">购物车</a>                            
-                			<div class="tMsgBox">
-                				<ul class="tMsgList">
-                					<li><a href="#">asdfghfgjkl</a>
-                					<li><a href="#">asdfghfgjkl</a>
-                					<li><a href="#">asdfghfgjkl</a>
-                					<li><a href="#">asdfghfgjkl</a>
-                				</ul>
-                			</div>
-            			</div>
-						<!--登陆后-->
-						<div class="tLogin">
-							<a href="#">${user.username}</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</header>
+	${include("/common/header.httl")}
 		<div class="pageWrap">
 		<section class="wrap clearfix">
 			<div class="left250">
-			<form id="start_form" class="form" action="/eshop/shopSub" method="post" autocomplete="off" novalidate="true">
+			<form id="start_form" class="form" action="/shopSub" method="post" autocomplete="off" novalidate="true">
 				<input id="userid" class="leftInput" name="userId" value="${user.id}" type="hidden" required="">
-				<input id="suggestId" class="leftInput" type = 'text' minlength="5" placeholder="搜索" required="">
+				<input id="suggestId" class="leftInput" type = 'text' minlength="5" placeholder="搜索/定位店铺" required="">
 				<input id="shopName" class="leftInput" name="shopName" type = 'text' minlength="5" placeholder="店铺名称" required="">
 				<input id="shopAddress" class="leftInput" name="shopAddress" type = 'text' minlength="5" placeholder="详细地址" required="">
 				<input id="deliverScope" class="leftInput" onchange="setDeliverScope();" name="devliverScope" type = 'text' placeholder="配送范围（米）" required="">
@@ -69,25 +38,7 @@
 			<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
 		</section>
 	</div>
-		<footer class="footer">
-			<section class="wrap clearfix">
-				<ul>
-					<li>
-						<a href="#">关于我们</a>
-					</li>
-					<li>
-						<a href="#">联系我们</a>
-					</li>
-					<li>
-						<a href="#">帮助中心</a>
-					</li>
-					<li>
-						<a href="#">免责声明</a>
-					</li>
-				</ul>
-				<p><a href="#">eshop</a>版权所有 © 2015-2020 eshop公司  京ICP备09083730号</p>
-			</section>
-		</footer>
+	${include("/common/footer.httl")}
 	</div>
 </body>
 
@@ -113,11 +64,13 @@ map.addControl(top_left_control);
 map.addControl(top_left_navigation);     
 map.addControl(top_right_navigation);
 
+map.enableScrollWheelZoom();//启用鼠标滚轮
 
 var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
 		{"input" : "suggestId"
 		,"location" : map
 	});
+
 
 ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
 	var str = "";

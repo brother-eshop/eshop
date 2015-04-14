@@ -16,15 +16,16 @@ import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eshop.cache.SessionProvider;
+import com.eshop.common.constant.CoreConstant;
 import com.eshop.common.util.date.CustomTimestampEditor;
 import com.eshop.frameworks.core.entity.PageEntity;
 import com.eshop.frameworks.core.spring.StringEscapeEditor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
-
 
 public class BaseController {
 
@@ -65,6 +66,14 @@ public class BaseController {
 
 	public String getUuid() {
 		return UUID.randomUUID().toString();
+	}
+	
+	public void setVar(ModelAndView model){
+		model.addObject("ctx", CoreConstant.contextPath);
+		model.addObject("img", CoreConstant.imagesPath);
+		model.addObject("upload", CoreConstant.uploadServerUrl);
+		model.addObject("file", CoreConstant.uploadStaticUrl);
+		model.addObject("v", CoreConstant.VERSION);
 	}
 
 	/**

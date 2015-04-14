@@ -5,8 +5,8 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=yor84ePpTvwkYBBc037lly4X"></script>
 <title>无标题文档</title>
-<link href="/statics/css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/statics/js/jquery.js"></script>
+<link href="${img}/statics/css/style.css?_v=${v}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$.post("/manager/province/getProvinces",

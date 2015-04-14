@@ -62,5 +62,15 @@ public class EShop extends MongoEntity {
 	private Double lat;// 纬度
 
 	private String remark;
+	
+	private String businessLicence;//营业执照
+	
+	private String peopleCard;//身份证
+	
+	private Integer shopVerify;//店铺认证
+	
+	private String tobaccoCard;//烟草证
+	
+	private Integer tobacooVerify;//烟草认证
 
 }

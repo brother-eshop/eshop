@@ -22,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.eshop.common.constant.CoreConstant;
 import com.eshop.common.params.ConfirmParam;
+import com.eshop.common.params.ResetPwdParams;
+import com.eshop.common.util.security.MD5;
 import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.model.mongodb.ECartItem;
 import com.eshop.model.mongodb.EOrder;
@@ -41,7 +43,7 @@ import com.eshop.service.mongodb.ShippingService;
 import com.eshop.service.mongodb.ShopAndGoodsService;
 
 @Controller
-@RequestMapping("/eshop/euser")
+@RequestMapping("/euser")
 public class EUserController extends BaseController {
 
 	private static final Logger logger = Logger
@@ -75,7 +77,8 @@ public class EUserController extends BaseController {
 
 	@RequestMapping("/ucenter")
 	public ModelAndView ucenter(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/eshop/euser/ucenter.httl");
+		ModelAndView mav = new ModelAndView("/euser/ucenter.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
 			return new ModelAndView("login.httl");
@@ -84,12 +87,50 @@ public class EUserController extends BaseController {
 		return mav;
 	}
 
+@RequestMapping("/resetPwd")
+	public ModelAndView resetPwd(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/euser/resetPwd.httl");
+		setVar(mav);
+		EUser user = (EUser) this.getSessionAttribute(request,
+				CoreConstant.USER_SESSION_NAME);
+		if (user == null) {
+			mav.setViewName("login.httl");
+			return mav;
+		}
+		mav.addObject("user", user);
+		return mav;
+	}
+
+	@RequestMapping("/commitePwd")
+	public ModelAndView commitePwd(HttpServletRequest request,
+			HttpServletResponse response, ResetPwdParams pwd) {
+		ModelAndView mav = new ModelAndView("login.httl");
+		setVar(mav);
+		EUser user = (EUser) this.getSessionAttribute(request,
+				CoreConstant.USER_SESSION_NAME);
+		if (user == null) {
+			return mav;
+		}
+		EUser reUser = euserService.getByUserName(user);
+		if (MD5.getMD5(pwd.getOldPassword()).equals(reUser.getPassword())) {
+			reUser.setPassword(MD5.getMD5(pwd.getNewPassword()));
+			euserService.save(reUser);
+			this.clear(request, response);
+		} else {
+			mav.setViewName("/euser/resetPwd.httl");
+			mav.addObject("passwordError", true);
+			return mav;
+		}
+		return mav;
+	}
 	@RequestMapping("/addGoods")
 	public ModelAndView goAddGoods(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/eshop/euser/addGoods.httl");
+		ModelAndView mav = new ModelAndView("/euser/addGoods.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		mav.addObject("user", user);
 		return mav;
@@ -97,10 +138,12 @@ public class EUserController extends BaseController {
 	
 	@RequestMapping("/cart")
 	public ModelAndView cart(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/eshop/euser/cart.httl");
+		ModelAndView mav = new ModelAndView("/euser/cart.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 //		List<ECartItem> items = geItems(user.getId());
 		Map<String,List<ECartItem>> itemMap = getItemsMap(user.getId());
@@ -111,6 +154,31 @@ public class EUserController extends BaseController {
 		
 		return mav;
 	}
+	
+		@RequestMapping("/deleteCartItem")
+	public ModelAndView deleteCartItem(HttpServletRequest request,
+			ECartItem ecartItem) {
+		ModelAndView mav = new ModelAndView("/euser/cart.httl");
+		EUser user = (EUser) this.getSessionAttribute(request,
+				CoreConstant.USER_SESSION_NAME);
+		setVar(mav);
+		if (user == null) {
+			return new ModelAndView("login.httl");
+		}
+		// List<ECartItem> items = geItems(user.getId());
+		ecartItem = ecartItemService.findById(ecartItem.getId(),
+				ECartItem.class);
+		ecartItemService.remove(ecartItem);
+		Map<String, List<ECartItem>> itemMap = getItemsMap(user.getId());
+		List<EUserAddress> addresses = euserAddressService
+				.getAddressByUserId(user.getId());
+		mav.addObject("user", user);
+		mav.addObject("itemMap", itemMap);
+		mav.addObject("addressList", addresses);
+
+		return mav;
+	}
+
 	
 	@ResponseBody
 	@RequestMapping("/getConfirm")
@@ -160,10 +228,12 @@ public class EUserController extends BaseController {
 	@RequestMapping("/subCart")
 	public ModelAndView subCart(String shopId, HttpServletRequest request,
 			String adsId) {
-		ModelAndView mav = new ModelAndView("/eshop/euser/cart.httl");
+		ModelAndView mav = new ModelAndView("/euser/cart.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		EUserAddress euserAddress = euserAddressService.getEUserAddressById(adsId);
 		EShop eshop = eshopService.getEShopByUser(shopId);
@@ -224,10 +294,12 @@ public class EUserController extends BaseController {
 	
 	@RequestMapping("/shopManage")
 	public ModelAndView shopManage(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/eshop/euser/shopinfo.httl");
+		ModelAndView mav = new ModelAndView("/euser/shopinfo.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		EShop eshop = eshopService.getEShopByUser(user.getId());
 		List<Shipping> shippings = shippingService.getShippingByUser(user.getId());
@@ -241,7 +313,8 @@ public class EUserController extends BaseController {
 	
 	@RequestMapping(value = "/saveEShop", method = RequestMethod.POST)
 	public ModelAndView saveEShop(EShop eshop, HttpServletRequest request,HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		ModelAndView modelAndView = new ModelAndView("redirect:/euser/shopManage");
+		setVar(modelAndView);
 		try{
 //			eshopService.updateByObj(eshop);
 			eshopService.save(eshop);
@@ -253,7 +326,8 @@ public class EUserController extends BaseController {
 	
 	@RequestMapping(value = "/deleteShipping", method = RequestMethod.POST)
 	public ModelAndView deleteShipping(Shipping shipping, HttpServletRequest request,HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		ModelAndView modelAndView = new ModelAndView("redirect:/euser/shopManage");
+		setVar(modelAndView);
 		try{
 //			eshopService.updateByObj(eshop);
 			shippingService.remove(shipping);
@@ -265,7 +339,8 @@ public class EUserController extends BaseController {
 	
 	@RequestMapping(value = "/updateShipping", method = RequestMethod.POST)
 	public ModelAndView updateShipping(Shipping shipping, HttpServletRequest request,HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		ModelAndView modelAndView = new ModelAndView("redirect:/euser/shopManage");
+		setVar(modelAndView);
 		try{
 //			eshopService.updateByObj(eshop);
 			shippingService.save(shipping);
@@ -277,7 +352,8 @@ public class EUserController extends BaseController {
 	
 	@RequestMapping(value = "/saveShipping", method = RequestMethod.POST)
 	public ModelAndView saveShipping(Shipping shipping, HttpServletRequest request,HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		ModelAndView modelAndView = new ModelAndView("redirect:/euser/shopManage");
+		setVar(modelAndView);
 		try{
 //			eshopService.updateByObj(eshop);
 			shippingService.insert(shipping);
@@ -327,11 +403,13 @@ public class EUserController extends BaseController {
 	
 	@RequestMapping(value = "/saveAddress", method = RequestMethod.POST)
 	public ModelAndView saveAddress(EUserAddress euserAddress, HttpServletRequest request,HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/cart");
+		ModelAndView modelAndView = new ModelAndView("redirect:/euser/cart");
+		setVar(modelAndView);
 		try{
 			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if(user==null){
-				return new ModelAndView("login.httl");
+				modelAndView.setViewName("login.httl");
+				return modelAndView;
 			}
 			euserAddress.setUserId(user.getId());
 			euserAddressService.save(euserAddress);
@@ -344,11 +422,13 @@ public class EUserController extends BaseController {
 	
 	@RequestMapping(value = "/subAddress", method = RequestMethod.POST)
 	public ModelAndView subAddress(EUserAddress euserAddress, HttpServletRequest request,HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/address");
+		ModelAndView modelAndView = new ModelAndView("redirect:/euser/address");
+		setVar(modelAndView);
 		try{
 			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if(user==null){
-				return new ModelAndView("login.httl");
+				modelAndView.setViewName("login.httl");
+				return modelAndView;
 			}
 			euserAddress.setUserId(user.getId());
 			euserAddressService.save(euserAddress);
@@ -429,10 +509,12 @@ public class EUserController extends BaseController {
 	
 	@RequestMapping("/myBills")
 	public ModelAndView myBills(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/eshop/euser/mybill.httl");
+		ModelAndView mav = new ModelAndView("/euser/mybill.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		List<EOrder> orders = eorderService.findList(Criteria.where("userId").is(user.getId()), EOrder.class);
 		mav.addObject("user", user);
@@ -442,10 +524,12 @@ public class EUserController extends BaseController {
 	
 	@RequestMapping("/shopBills")
 	public ModelAndView shopBills(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/eshop/euser/shopbill.httl");
+		ModelAndView mav = new ModelAndView("/euser/shopbill.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		List<EOrder> orders = eorderService.findList(Criteria.where("shopperId").is(user.getId()), EOrder.class);
 		mav.addObject("user", user);
@@ -455,10 +539,12 @@ public class EUserController extends BaseController {
 	
 	@RequestMapping("/address")
 	public ModelAndView address(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/eshop/euser/address.httl");
+		ModelAndView mav = new ModelAndView("/euser/address.httl");
+		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		List<EUserAddress> addressList = euserAddressService.getAddressByUserId(user.getId());
 		mav.addObject("user", user);
@@ -483,7 +569,7 @@ public class EUserController extends BaseController {
 	// @RequestMapping(value="/login",method=RequestMethod.POST)
 	// public ModelAndView login(EUser euser, HttpServletRequest
 	// request,HttpServletResponse response){
-	// ModelAndView mav = new ModelAndView("redirect:/eshop/euser/ucenter");
+	// ModelAndView mav = new ModelAndView("redirect:/euser/ucenter");
 	// EUser user = euserService.getByUserName(euser);
 	// String password = MD5.getMD5(euser.getPassword());
 	// if(user==null){
@@ -503,7 +589,8 @@ public class EUserController extends BaseController {
 	// }
 	 @RequestMapping("/merchantSocket")
      public ModelAndView webSocket(HttpServletRequest request) {
-         ModelAndView mav = new ModelAndView("/eshop/euser/webSocket.httl");
+         ModelAndView mav = new ModelAndView("/euser/webSocket.httl");
+         setVar(mav);
          return mav;
      }
 }

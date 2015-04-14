@@ -44,6 +44,7 @@ public class GoodTypeController extends BaseController {
 	public ModelAndView listAll(HttpServletRequest request,
 			HttpServletResponse response, GoodType query) {
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			if (query == null) {
 				query = new GoodType();
@@ -62,6 +63,7 @@ public class GoodTypeController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView toAdd() {
 		ModelAndView modelAndView = new ModelAndView(toAdd);
+		setVar(modelAndView);
 		try {
 		} catch (Exception e) {
 			logger.error("GoodTypeController.toAdd", e);
@@ -82,6 +84,7 @@ public class GoodTypeController extends BaseController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView toEdit(String id) {
 		ModelAndView modelAndView = new ModelAndView(toEdit);
+		setVar(modelAndView);
 		try {
 			GoodType goodType = goodTypeService.getByid(id);
 			modelAndView.addObject(goodType);

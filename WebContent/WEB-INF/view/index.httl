@@ -7,9 +7,12 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
-	<script type="text/javascript" src="/statics/js/jquery.js"></script>
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?v=${v}">
+	
+	<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
+	
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/new.css?v=${v}">
+	<script type="text/javascript" src="${img}/resources/scripts/placeholder.js?v=${v}"></script>
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 	
 	<script type="text/javascript">
@@ -20,7 +23,7 @@
 			$.ajax({
 				type: "post", 
 				contentType : 'application/json',  
-				url: "/eshop/euser/getShopps",
+				url: "/euser/getShopps",
 				data: JSON.stringify({
 					 lng:lng,
 					 lat:lat
@@ -37,18 +40,29 @@
 </head>
 <body>
 	<div class="container">
-		${include("/common/header.httl")}
+		${include("/common/header1.httl")}
 		<div class="pageWrap">
-		<section class="wrap clearfix">
+		<section class="clearfix">
 		<div class="topNavBar" style="text-align:center;">
 			<input id="my_lng" type="hidden" name="lng" required="">
 			<input id="my_lat" type="hidden" name="lat" required="">
-			<input type="text" id="searchInput"  placeholder="请输入您的送货地址" size=40 style="height:34px;" name="address" /><button id="search_button">搜索</button>
+			<div class="logo_mid"></div>
+			<div class="search_div">
+				<input type="text" id="searchInput" name="address" placeholder="住宅楼/写字楼搜索附近商店" class="search_input" accesskey="s" id="key">
+				<span id="search_button" class="search_button"><img src="${img}/resources/images/search.png"></span>
+			</div>
+			<!--input type="text" id="searchInput"  placeholder="住宅楼/写字楼搜索附近商店" size=40 name="address" />
+			<a id="search_button" class="btn_blue30">搜索</a-->
+			<div class="cart">
+				<i class="ci-count" id="shopping-amount">0</i>
+				<img style="height:30px;" src="${img}/resources/images/shopping.png">
+			</div>
 		</div>
-		<div class="left250">
+		
+		<!--div class="left250">
 			<div class="snTitle">最近光顾</div>
-		</div>
-		<div id="searchMap" class="right720" style="height:500px;border-radius: 5px;border:1px solid #bebebe;">
+		</div-->
+		<div id="searchMap" class="clearfix" style="height:580px;width:1200px;border-radius: 5px;border:1px solid #c8c8c8;margin-top:20px;margin-left:auto;margin-right:auto;">
 		</div>
 		<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
 	</section>
@@ -74,7 +88,7 @@
 		map.addControl(top_left_control);        
 		map.addControl(top_left_navigation);     
 		map.addControl(top_right_navigation);
-		map.enableScrollWheelZoom();    
+//		map.enableScrollWheelZoom();    
 		
 		var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
 				{"input" : "searchInput"
@@ -141,7 +155,7 @@
 				var sContent =
 					"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>店铺名称："+shop.shopName+"</h4>" + 
 					"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>店铺地址："+shop.shopAddress+"</h4>"+
-					"<form method='post'  action='/eshop/enterShop'>"+
+					"<form method='post'  action='/enterShop'>"+
 					"<input type='hidden' name='userId' value='"+shop.userId+"'/>"+
 					"<button>点击进入</button>"+ 
 					"</form>";

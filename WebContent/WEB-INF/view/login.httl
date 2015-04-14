@@ -6,10 +6,9 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
-	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?_v=${v}">
+	<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
+	<script type="text/javascript" src="${img}/resources/scripts/placeholder.js?_v=${v}"></script>
 	<script language="javascript" type="text/javascript">
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
     $(function(){
@@ -65,29 +64,30 @@
         });
     });
  </script>
+
 </head>
 <body>
 	<div class="container">
 		<header class="loginHeader">
     		<h1 class="header-hd" title="">
       			<a class="logo" role="logo">
-        			<img class="logo-img" src="/ehsop/resources/images/logo.png" alt="">
+        			<img class="logo-img" src="${img}/resources/images/logo.png" alt="" />
       			</a>
     		</h1>
   		</header>
 		<div class="pageWrap">
 		<section class="wrap clearfix">
 			<aside class="loginBanner">
-      			<img class="img" src="https://static2.ele.me/forward/dist/img/account/banner-app.75596728.png" alt="">
+      			<img class="img" src="https://static2.ele.me/forward/dist/img/account/banner-app.75596728.png" alt="" />
     		</aside>
     		<div class="panel">
     			<div class="panel-hd clearfix">
       				<h2 class="title">登陆</h2>
     			</div>
     			<div class="panel-bd">
-      				<form id="login_form" class="form" action="/eshop/login" method="post" autocomplete="off" novalidate="true">
+      				<form id="login_form" class="form" action="/login" method="post" autocomplete="off" novalidate="true">
         				<div class="form-item">
-          					<input id="login_username" value="${user.username}" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="">
+          					<input id="login_username" value="${user.username}" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="" />
           					<!--#if(name_error)-->
           					<div id="name_error" class="g-error-tip" style="display:block;">用户名不存在！</div>
           					<!--#else-->
@@ -95,7 +95,7 @@
           					 <!--#end-->
         				</div>
         				<div class="form-item">
-          					<input id="login_password" class="inputbox js_inputbox" value="${user.password}" name="password" type="password" minlength="6" maxlength="20" placeholder="密码" required="">
+          					<input id="login_password" class="inputbox js_inputbox" value="${user.password}" name="password" type="password" minlength="6" maxlength="20" placeholder="密码" required="" />
           					
           					<!--#if(password_error)-->
           						<div id="password_error" style="display:block;" class="g-error-tip">密码错误！</div>
@@ -104,22 +104,22 @@
           					 <!--#end-->
         				</div>
         				<div class="form-item clearfix">
-  							<input id="captcha_input" class="inputbox input-captcha" type="text" name="captcha" minlength="4" maxlength="4" placeholder="验证码" autocomplete="off" required="">
+  							<input id="captcha_input" class="inputbox input-captcha" type="text" name="captcha" minlength="4" maxlength="4" placeholder="验证码" autocomplete="off" required="" />
   							<!--#if(captcha_error)-->
-  							<div id="captcha_error" class="g-error-tip">验证吗错误</div>
+  							<div id="captcha_error" class="g-error-tip">验证码错误</div>
   							<!--#else-->
   							<div id="captcha_error" class="g-error-tip" style="display:none;"></div>
   							<!--#end-->
   							<img class="captcha-img" src="/ran/random" id="captch-img" title="点击刷新验证码" />
 						</div>
 						<div class="form-helper">
-        					<label class="login-checkbox">
+        					<!--label class="login-checkbox">
           						<input class="login-remember" type="checkbox" name="remember" checked="">
            						下次自动登录
-        					</label>
+        					</label-->
         					<a class="g-link" href="/forgetPassword">忘记密码了？</a>
       					</div>
-        				<div class="g-btn g-btn-l g-btn-submit" id="login_submit">登录</div>
+        				<button class="g-btn g-btn-l g-btn-submit" id="login_submit">登录</button>
      				 </form>
     			</div>
     			<div class="panel-ft">
@@ -127,30 +127,12 @@
     					<a class="weibo oauth-sns" href="/weibo/auth" target="_blank" title="通过微博登录"></a>
     					<a class="renren oauth-sns" href="/renren/auth" target="_blank" title="通过人人登录"></a>
       				</div>
-      				<a class="g-link" href="/eshop/regist">免费注册</a>
+      				<a class="g-link" href="/regist">免费注册</a>
     			</div>
   			</div>
 		</section>
 		</div>
-		<footer class="footer">
-			<section class="wrap clearfix">
-				<ul>
-					<li>
-						<a href="#">关于我们</a>
-					</li>
-					<li>
-						<a href="#">联系我们</a>
-					</li>
-					<li>
-						<a href="#">帮助中心</a>
-					</li>
-					<li>
-						<a href="#">免责声明</a>
-					</li>
-				</ul>
-				<p><a href="#">eshop</a>版权所有 © 2015-2020 eshop公司  京ICP备09083730号</p>
-			</section>
-		</footer>
+		${include("/common/footer.httl")}
 	</div>
 </body>
 </html>
