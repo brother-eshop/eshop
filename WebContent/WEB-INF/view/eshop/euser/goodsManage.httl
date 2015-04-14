@@ -305,7 +305,7 @@
 				        		<td>${goods.unit }</td>
 				        		<td>${goods.manufacturer }</td-->
 				        		<!--#if(goods.status==1)-->
-				        		<td>在售</td>
+				        		<td style="color:#00CD00;">在售</td>
 				        		<!--#elseif(goods.status==0)-->
 				        		<td>未售</td>
 				        		<!--#elseif(goods.status==2)-->

@@ -109,4 +109,9 @@ public class EShopServiceImpl extends AbstractService<EShop, String> implements
 		double a = Math.abs((centerLon - targetLon) * jl_wd);
 		return Math.sqrt((a * a + b * b));
 	}
+
+	@Override
+	public void updateLicVerify(EShop eshop) {
+		eshopDao.update(new Query(Criteria.where("userId").is(eshop.getUserId())), new Update().set("businessLicence", eshop.getBusinessLicence()), EShop.class);
+	}
 }

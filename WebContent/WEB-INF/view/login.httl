@@ -64,14 +64,36 @@
         	validateCode();
         });
     });
+    var websocket;
+    if ('WebSocket' in window) {
+        websocket = new WebSocket("ws://127.0.0.1/webSocketServer");
+    } else if ('MozWebSocket' in window) {
+        websocket = new MozWebSocket("ws://127.0.0.1/webSocketServer");
+    } else {
+        websocket = new SockJS("http://127.0.0.1/sockjs/webSocketServer");
+    }
+    websocket.onopen = function (evnt) {
+    	 console.log('open');
+    };
+    websocket.onmessage = function (evnt) {
+    	console.log('message', evnt.data);
+//        $("#msgcount").html("(<font color='red'>"+evnt.data+"</font>)")
+    	alert("--");
+    };
+    websocket.onerror = function (evnt) {
+    };
+    websocket.onclose = function (evnt) {
+    	console.log('close');
+    }
  </script>
+
 </head>
 <body>
 	<div class="container">
 		<header class="loginHeader">
     		<h1 class="header-hd" title="">
       			<a class="logo" role="logo">
-        			<img class="logo-img" src="/ehsop/resources/images/logo.png" alt="">
+        			<img class="logo-img" src="/eshop/resources/images/logo.png" alt="">
       			</a>
     		</h1>
   		</header>
@@ -106,20 +128,20 @@
         				<div class="form-item clearfix">
   							<input id="captcha_input" class="inputbox input-captcha" type="text" name="captcha" minlength="4" maxlength="4" placeholder="验证码" autocomplete="off" required="">
   							<!--#if(captcha_error)-->
-  							<div id="captcha_error" class="g-error-tip">验证吗错误</div>
+  							<div id="captcha_error" class="g-error-tip">验证码错误</div>
   							<!--#else-->
   							<div id="captcha_error" class="g-error-tip" style="display:none;"></div>
   							<!--#end-->
   							<img class="captcha-img" src="/ran/random" id="captch-img" title="点击刷新验证码" />
 						</div>
 						<div class="form-helper">
-        					<label class="login-checkbox">
+        					<!--label class="login-checkbox">
           						<input class="login-remember" type="checkbox" name="remember" checked="">
            						下次自动登录
-        					</label>
+        					</label-->
         					<a class="g-link" href="/forgetPassword">忘记密码了？</a>
       					</div>
-        				<div class="g-btn g-btn-l g-btn-submit" id="login_submit">登录</div>
+        				<button class="g-btn g-btn-l g-btn-submit" id="login_submit">登录</button>
      				 </form>
     			</div>
     			<div class="panel-ft">
@@ -132,25 +154,7 @@
   			</div>
 		</section>
 		</div>
-		<footer class="footer">
-			<section class="wrap clearfix">
-				<ul>
-					<li>
-						<a href="#">关于我们</a>
-					</li>
-					<li>
-						<a href="#">联系我们</a>
-					</li>
-					<li>
-						<a href="#">帮助中心</a>
-					</li>
-					<li>
-						<a href="#">免责声明</a>
-					</li>
-				</ul>
-				<p><a href="#">eshop</a>版权所有 © 2015-2020 eshop公司  京ICP备09083730号</p>
-			</section>
-		</footer>
+		${include("/common/footer.httl")}
 	</div>
 </body>
 </html>

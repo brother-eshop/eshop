@@ -46,7 +46,6 @@
 					url: "/euser/getConfirm",
 					data: JSON.stringify({shopId:$('#shop_id').val(),adsId:$('#ads_id').val()}),
 					success: function(data){
-						console.log(data);
 						$('#confirmBody').html('');
 						$('.confirm-pane').show();
 						var ul = $('<ul>').appendTo('#confirmBody');
@@ -87,8 +86,12 @@
 								sp=data.shipping.shippingPrice;
 							}
 						}
-						$('<a>').html(data.distance.toFixed(0)+"米，运费：<span class='symbol-rmb cart-cost'>"+sp+"</span>").appendTo(distanceLi);
-						
+						if(data.distance>data.eshop.devliverScope){
+							$('<a style="color:red;">').html(data.distance.toFixed(0)+"米，超出商家服务范围【"+data.eshop.devliverScope+"米】").appendTo(distanceLi);
+							$('#comit_confirm').hide();
+						}else{
+							$('<a>').html(data.distance.toFixed(0)+"米，运费：<span class='symbol-rmb cart-cost'>"+sp+"</span>").appendTo(distanceLi);
+						}
 						var totalLi = $('<li>').appendTo(ul);
 						$('<span style=" height:36px; line-height:36px; color:#000;">').html('总计：').appendTo(totalLi);
 						var total = $('<span class="symbol-rmb cart-cost">').html(parseFloat(totalPrice)+sp);
@@ -160,6 +163,14 @@
 			$(gc).bind("change",function(){
 			  });
 		});
+		$('.del_btn').each(function(i,delBtn){
+			$(delBtn).bind("click",function(){
+				if(confirm("您确定要删除此商品吗？")){
+					$('#del_citem_id').val($(delBtn).attr("value"));
+					$('#delCartItem').submit();
+				}
+			  });
+		});
 		$('#close_confirm').click(function(){
 			$('.confirm-pane').hide();
 		});
@@ -205,6 +216,9 @@
 							<li class="cgroup-item s_food">
 								<div class="cdish-name">
 								${cartItem.goods.goodsName}
+								<!--#if(cartItem.goods.status!=1)-->
+									<a style="color:red;">已下架</a>
+								<!--#end-->
 								</div>
 								<div class="cdish-price symbol-rmb">${cartItem.goods.outPrice}</div>
 								<div class="cdish-modify">
@@ -212,11 +226,14 @@
 									<input class="cdish-qty set_num" type="text" class="goodsCount" value="${cartItem.goodsCount}">				
 									<a class="cdish-action incr inc_btn">+</a>
 								</div>
-								<!--#set(totalPrice = totalPrice+(cartItem.goods.outPrice*cartItem.goodsCount))-->
-								<!--#set(totalCount = totalCount+cartItem.goodsCount)-->
+								<!--#if(cartItem.goods.status==1)-->
+									<!--#set(totalPrice = totalPrice+(cartItem.goods.outPrice*cartItem.goodsCount))-->
+									<!--#set(totalCount = totalCount+cartItem.goodsCount)-->
+								<!--#end-->
+								
 								<div class="cdish-total symbol-rmb">${cartItem.goods.outPrice*cartItem.goodsCount}</div>
 								<div class="cdish-del">
-									<a class="del del_btn">×</a>
+									<a class="del del_btn" value="${cartItem.id}" title="删除">×</a>
 								</div>
 							</li>
 						<!--#end-->

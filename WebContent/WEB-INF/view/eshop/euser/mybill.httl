@@ -99,7 +99,7 @@
 		<div class="pageWrap">
 			<section class="wrap clearfix">
 				<div class="topNavBar">
-					<a href="/">首页</a><span>&gt;</span><a href="#">个人中心</a><span>&gt;</span>个人信息
+					<a href="/">首页</a><span>&gt;</span><a href="#">个人中心</a><span>&gt;</span>我的订单
 				</div>
 				<div class="left250">
 					<div class="snTitle">个人</div>

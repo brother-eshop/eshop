@@ -96,13 +96,13 @@
 									</ul>
 								</section>
 								<!--div class="tr">
-									<a id="saveEShop" class="btn_blue30">保存</a>
+									<a class="btn_blue30">保存</a>
 								</div-->
 							</form>
 						</div>
-					<div class="radius mTop30 myTags">
+					<!--div class="radius mTop30 myTags">
 						<h2>最近订单</h2>
-					</div>
+					</div-->
 				</div>
 			</section>
 		</div>
