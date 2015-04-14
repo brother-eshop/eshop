@@ -189,7 +189,8 @@ public class ShopperGoodsController extends BaseController {
 		try {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if (user == null) {
-				return new ModelAndView("login.httl");
+				mav.setViewName("login.httl");
+				return mav;
 			}
 			mav.addObject("user", user);
 			this.setPage(page);

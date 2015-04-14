@@ -94,7 +94,8 @@ public class EUserController extends BaseController {
 		EUser user = (EUser) this.getSessionAttribute(request,
 				CoreConstant.USER_SESSION_NAME);
 		if (user == null) {
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		mav.addObject("user", user);
 		return mav;
@@ -116,10 +117,9 @@ public class EUserController extends BaseController {
 			euserService.save(reUser);
 			this.clear(request, response);
 		} else {
-			ModelAndView modelAndView = new ModelAndView(
-					"/euser/resetPwd.httl");
-			modelAndView.addObject("passwordError", true);
-			return modelAndView;
+			mav.setViewName("/euser/resetPwd.httl");
+			mav.addObject("passwordError", true);
+			return mav;
 		}
 		return mav;
 	}
@@ -129,7 +129,8 @@ public class EUserController extends BaseController {
 		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		mav.addObject("user", user);
 		return mav;
@@ -141,7 +142,8 @@ public class EUserController extends BaseController {
 		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 //		List<ECartItem> items = geItems(user.getId());
 		Map<String,List<ECartItem>> itemMap = getItemsMap(user.getId());
@@ -230,7 +232,8 @@ public class EUserController extends BaseController {
 		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		EUserAddress euserAddress = euserAddressService.getEUserAddressById(adsId);
 		EShop eshop = eshopService.getEShopByUser(shopId);
@@ -295,7 +298,8 @@ public class EUserController extends BaseController {
 		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		EShop eshop = eshopService.getEShopByUser(user.getId());
 		List<Shipping> shippings = shippingService.getShippingByUser(user.getId());
@@ -404,7 +408,8 @@ public class EUserController extends BaseController {
 		try{
 			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if(user==null){
-				return new ModelAndView("login.httl");
+				modelAndView.setViewName("login.httl");
+				return modelAndView;
 			}
 			euserAddress.setUserId(user.getId());
 			euserAddressService.save(euserAddress);
@@ -422,7 +427,8 @@ public class EUserController extends BaseController {
 		try{
 			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if(user==null){
-				return new ModelAndView("login.httl");
+				modelAndView.setViewName("login.httl");
+				return modelAndView;
 			}
 			euserAddress.setUserId(user.getId());
 			euserAddressService.save(euserAddress);
@@ -507,7 +513,8 @@ public class EUserController extends BaseController {
 		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		List<EOrder> orders = eorderService.findList(Criteria.where("userId").is(user.getId()), EOrder.class);
 		mav.addObject("user", user);
@@ -521,7 +528,8 @@ public class EUserController extends BaseController {
 		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		List<EOrder> orders = eorderService.findList(Criteria.where("shopperId").is(user.getId()), EOrder.class);
 		mav.addObject("user", user);
@@ -535,7 +543,8 @@ public class EUserController extends BaseController {
 		setVar(mav);
 		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if(user==null){
-			return new ModelAndView("login.httl");
+			mav.setViewName("login.httl");
+			return mav;
 		}
 		List<EUserAddress> addressList = euserAddressService.getAddressByUserId(user.getId());
 		mav.addObject("user", user);
