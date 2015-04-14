@@ -24,14 +24,12 @@ import com.google.gson.JsonObject;
 @Controller
 @RequestMapping(value = "/upload")
 public class ImageUploadController {
-	// 读取配置文件类
-	public static PropertyUtil propertyUtil = PropertyUtil.getInstance("project");
-	public ImageScale imageScale;
+	//public ImageScale imageScale;
 
-	@Autowired
-	public void setImageScale(ImageScale imageScale) {
-		this.imageScale = imageScale;
-	}
+	//@Autowired
+	//public void setImageScale(ImageScale imageScale) {
+		//this.imageScale = imageScale;
+	//}
 
 	/**
 	 * 上传图片方法
