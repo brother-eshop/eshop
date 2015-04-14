@@ -184,7 +184,7 @@ public class ShopperGoodsController extends BaseController {
 
 	@RequestMapping("/goodsManage")
 	public ModelAndView goodsManage(HttpServletRequest request, HttpServletResponse response, ShopAndGoods query, @ModelAttribute("page") PageEntity page) {
-		ModelAndView mav = new ModelAndView("/eshop/euser/goodsManage.httl");
+		ModelAndView mav = new ModelAndView("/euser/goodsManage.httl");
 		setVar(mav);
 		try {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);

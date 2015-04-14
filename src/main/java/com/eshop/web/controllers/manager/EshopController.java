@@ -29,7 +29,6 @@ import com.eshop.service.mongodb.ShopAndGoodsService;
 import com.eshop.web.controllers.mongo.EUserController;
 
 @Controller
-@RequestMapping("/eshop")
 public class EshopController extends BaseController {
 
 	private static final Logger logger = Logger.getLogger(EUserController.class);
@@ -90,7 +89,7 @@ public class EshopController extends BaseController {
 
 	@RequestMapping("/enterShop")
 	public ModelAndView enterShop(EShop eshop, HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/eshop/shop.httl");
+		ModelAndView mav = new ModelAndView("/shop.httl");
 		setVar(mav);
 		try {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
@@ -117,7 +116,7 @@ public class EshopController extends BaseController {
 
 	@RequestMapping("/listGoods")
 	public ModelAndView listGoods(HttpServletRequest request, HttpServletResponse response, ShopAndGoods query, @ModelAttribute("page") PageEntity page) {
-		ModelAndView modelAndView = new ModelAndView("/eshop/shop.httl");
+		ModelAndView modelAndView = new ModelAndView("/shop.httl");
 		setVar(modelAndView);
 		try {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
@@ -144,7 +143,7 @@ public class EshopController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	public ModelAndView regist(EUser euser, HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/index");
+		ModelAndView modelAndView = new ModelAndView("redirect:/index");
 		setVar(modelAndView);
 		String captcha = (String) this.getSessionAttribute(request, CoreConstant.RAND_CODE);
 		try {
@@ -172,7 +171,7 @@ public class EshopController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(EUser euser, HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView mav = new ModelAndView("redirect:/eshop/index");
+		ModelAndView mav = new ModelAndView("redirect:/index");
 		setVar(mav);
 		EUser user = euserService.getByUserName(euser);
 		String password = MD5.getMD5(euser.getPassword());
@@ -192,7 +191,7 @@ public class EshopController extends BaseController {
 		} else if (user != null && password.equals(user.getPassword())) {
 			this.setSessionAttribute(request, response, CoreConstant.USER_SESSION_NAME, user);
 			if (user.getIsShopper() != null && user.getIsShopper() == 1) {
-				mav.setViewName("redirect:/eshop/euser/ucenter");
+				mav.setViewName("redirect:/euser/ucenter");
 			}
 			mav.addObject("user", user);
 			return mav;
@@ -203,14 +202,14 @@ public class EshopController extends BaseController {
 	@RequestMapping("/logout")
 	public RedirectView logout(HttpServletRequest request, HttpServletResponse response) {
 		this.clear(request, response);
-		RedirectView r = new RedirectView("/eshop/login");
+		RedirectView r = new RedirectView("/login");
 		return r;
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/shopSub", method = RequestMethod.POST)
 	public ModelAndView startShop(EShop eshop, HttpServletRequest request) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/addGoods");
+		ModelAndView modelAndView = new ModelAndView("redirect:/euser/addGoods");
 		setVar(modelAndView);
 		try {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
