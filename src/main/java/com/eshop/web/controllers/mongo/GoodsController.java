@@ -30,8 +30,7 @@ import com.eshop.service.mongodb.GoodsService;
 @RequestMapping("/manager/goods")
 public class GoodsController extends BaseController {
 
-	private static final Logger logger = Logger
-			.getLogger(GoodsController.class);
+	private static final Logger logger = Logger.getLogger(GoodsController.class);
 
 	@Autowired
 	private GoodsService goodsService;
@@ -45,12 +44,10 @@ public class GoodsController extends BaseController {
 	private String toEdit = "/manager/goods/goods_edit.httl";// 修改页
 
 	@RequestMapping("/list")
-	public ModelAndView listAll(HttpServletRequest request,
-			HttpServletResponse response, Goods query,
-			@ModelAttribute("page") PageEntity page) {
-		System.out.println(sessionProvider.getAttribute(request,
-				"USER_SESSION_NAME"));
+	public ModelAndView listAll(HttpServletRequest request, HttpServletResponse response, Goods query, @ModelAttribute("page") PageEntity page) {
+		System.out.println(sessionProvider.getAttribute(request, "USER_SESSION_NAME"));
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
@@ -72,9 +69,7 @@ public class GoodsController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/getGoods")
-	public List<Goods> getGoods(HttpServletRequest request,
-			HttpServletResponse response,
-			@ModelAttribute("page") PageEntity page) {
+	public List<Goods> getGoods(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("page") PageEntity page) {
 		System.out.println(page.getCurrentPage());
 		List<Goods> list = new ArrayList<Goods>();
 		Goods query = new Goods();
@@ -92,6 +87,7 @@ public class GoodsController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView toAdd() {
 		ModelAndView modelAndView = new ModelAndView(toAdd);
+		setVar(modelAndView);
 		try {
 		} catch (Exception e) {
 			logger.error("GoodsController.toAdd", e);
@@ -101,8 +97,8 @@ public class GoodsController extends BaseController {
 
 	@RequestMapping(value = "/import", method = RequestMethod.GET)
 	public ModelAndView toImport() {
-		ModelAndView modelAndView = new ModelAndView(
-				"/manager/goods/goods_import.httl");
+		ModelAndView modelAndView = new ModelAndView("/manager/goods/goods_import.httl");
+		setVar(modelAndView);
 		try {
 		} catch (Exception e) {
 			logger.error("GoodsController.toImport", e);
@@ -112,6 +108,8 @@ public class GoodsController extends BaseController {
 
 	@RequestMapping(value = "/importExcel", method = RequestMethod.POST)
 	public ModelAndView importExcel(MultipartFile file) {
+		ModelAndView mav = new ModelAndView(toList);
+		setVar(mav);
 		try {
 			goodsService.importExcel(file);
 		} catch (IOException e) {
@@ -124,6 +122,7 @@ public class GoodsController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView add(Goods goods, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			goodsService.insert(goods);
 			PageEntity page = new PageEntity();
@@ -143,6 +142,7 @@ public class GoodsController extends BaseController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView toEdit(String id) {
 		ModelAndView modelAndView = new ModelAndView(toEdit);
+		setVar(modelAndView);
 		try {
 			Goods goods = goodsService.getByid(id);
 			modelAndView.addObject(goods);
@@ -163,9 +163,7 @@ public class GoodsController extends BaseController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public RedirectView delete(String ids, HttpServletRequest request,
-			User query, @ModelAttribute("page") PageEntity page,
-			RedirectAttributes attr) {
+	public RedirectView delete(String ids, HttpServletRequest request, User query, @ModelAttribute("page") PageEntity page, RedirectAttributes attr) {
 		RedirectView rv = new RedirectView("/manager/goods/list");
 		String[] idArray = ids.split(",");
 		try {// 软删除状态设置为2
@@ -181,18 +179,16 @@ public class GoodsController extends BaseController {
 	}
 
 	@RequestMapping("/search")
-	public ModelAndView searchGoods(HttpServletRequest request,
-			HttpServletResponse response, Goods query,
-			@ModelAttribute("page") PageEntity page) {
+	public ModelAndView searchGoods(HttpServletRequest request, HttpServletResponse response, Goods query, @ModelAttribute("page") PageEntity page) {
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
 			if (query == null) {
 				query = new Goods();
 			}
-			List<Goods> list = goodsService.searchGoods(query.getCode(),
-					query.getName(), page);
+			List<Goods> list = goodsService.searchGoods(query.getCode(), query.getName(), page);
 			modelAndView.addObject("query", query);
 			modelAndView.addObject("goodsList", list);
 			modelAndView.addObject("page", this.getPage());

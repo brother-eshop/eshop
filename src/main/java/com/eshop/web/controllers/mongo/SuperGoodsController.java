@@ -37,25 +37,23 @@ import com.eshop.service.mongodb.SuperGoodsService;
 @RequestMapping("/manager/super_goods")
 public class SuperGoodsController extends BaseController {
 
-	private static final Logger logger = Logger
-			.getLogger(SuperGoodsController.class);
+	private static final Logger logger = Logger.getLogger(SuperGoodsController.class);
 
 	@Autowired
 	private SuperGoodsService superGoodsService;
-	
+
 	@Autowired
 	private GoodTypeService goodTypeService;
-	
+
 	// 路径
 	private String toList = "/manager/super_goods/goods_list.httl";// 产品表页
 	private String toAdd = "/manager/super_goods/goods_add.httl";// 添加页面
 	private String toEdit = "/manager/super_goods/goods_edit.httl";// 修改页
 
 	@RequestMapping("/list")
-	public ModelAndView listAll(HttpServletRequest request,
-			HttpServletResponse response, SuperGoods query,
-			@ModelAttribute("page") PageEntity page) {
+	public ModelAndView listAll(HttpServletRequest request, HttpServletResponse response, SuperGoods query, @ModelAttribute("page") PageEntity page) {
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
@@ -77,10 +75,8 @@ public class SuperGoodsController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping("/getGoods")
-	public List<SuperGoods> getGoods(SuperGoods query,HttpServletRequest request,
-			HttpServletResponse response,
-			@ModelAttribute("page") PageEntity page) {
-		EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+	public List<SuperGoods> getGoods(SuperGoods query, HttpServletRequest request, HttpServletResponse response, @ModelAttribute("page") PageEntity page) {
+		EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		List<SuperGoods> list = new ArrayList<SuperGoods>();
 		try {
 			this.setPage(page);
@@ -100,6 +96,7 @@ public class SuperGoodsController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView toAdd() {
 		ModelAndView modelAndView = new ModelAndView(toAdd);
+		setVar(modelAndView);
 		try {
 		} catch (Exception e) {
 			logger.error("GoodsController.toAdd", e);
@@ -109,8 +106,8 @@ public class SuperGoodsController extends BaseController {
 
 	@RequestMapping(value = "/import", method = RequestMethod.GET)
 	public ModelAndView toImport() {
-		ModelAndView modelAndView = new ModelAndView(
-				"/manager/goods/goods_import.httl");
+		ModelAndView modelAndView = new ModelAndView("/manager/goods/goods_import.httl");
+		setVar(modelAndView);
 		try {
 		} catch (Exception e) {
 			logger.error("GoodsController.toImport", e);
@@ -132,6 +129,7 @@ public class SuperGoodsController extends BaseController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView add(SuperGoods goods, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			superGoodsService.insert(goods);
 			PageEntity page = new PageEntity();
@@ -151,6 +149,7 @@ public class SuperGoodsController extends BaseController {
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView toEdit(String id) {
 		ModelAndView modelAndView = new ModelAndView(toEdit);
+		setVar(modelAndView);
 		try {
 			SuperGoods goods = superGoodsService.getByid(id);
 			modelAndView.addObject(goods);
@@ -171,9 +170,7 @@ public class SuperGoodsController extends BaseController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public RedirectView delete(String ids, HttpServletRequest request,
-			User query, @ModelAttribute("page") PageEntity page,
-			RedirectAttributes attr) {
+	public RedirectView delete(String ids, HttpServletRequest request, User query, @ModelAttribute("page") PageEntity page, RedirectAttributes attr) {
 		RedirectView rv = new RedirectView("/manager/goods/list");
 		String[] idArray = ids.split(",");
 		try {// 软删除状态设置为2
@@ -189,18 +186,16 @@ public class SuperGoodsController extends BaseController {
 	}
 
 	@RequestMapping("/search")
-	public ModelAndView searchGoods(HttpServletRequest request,
-			HttpServletResponse response, SuperGoods query,
-			@ModelAttribute("page") PageEntity page) {
+	public ModelAndView searchGoods(HttpServletRequest request, HttpServletResponse response, SuperGoods query, @ModelAttribute("page") PageEntity page) {
 		ModelAndView modelAndView = new ModelAndView(toList);
+		setVar(modelAndView);
 		try {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
 			if (query == null) {
 				query = new SuperGoods();
 			}
-			List<SuperGoods> list = superGoodsService.searchGoods(query.getCode(),
-					query.getName(), page);
+			List<SuperGoods> list = superGoodsService.searchGoods(query.getCode(), query.getName(), page);
 			modelAndView.addObject("query", query);
 			modelAndView.addObject("goodsList", list);
 			modelAndView.addObject("page", this.getPage());
@@ -218,7 +213,7 @@ public class SuperGoodsController extends BaseController {
 	// File file = new FIle
 	// }
 	// 文件所在的层数
-	
+
 	@RequestMapping(value = "/insertSuperGoods", method = RequestMethod.POST)
 	public void insertSuperGoods(HttpServletRequest request) {
 		System.out.println("go-------------------------!");
@@ -230,25 +225,25 @@ public class SuperGoodsController extends BaseController {
 		File file = new File("E:\\goods_type\\");
 
 		// ------------------导入商品
-//		insertGoods(file);
+		// insertGoods(file);
 	}
 
 	private void insertGoods(File file) {
 		if (file.isFile()) {// 如果是文件
 			String parengName = file.getParentFile().getName();
 			String goodsName = file.getName();
-			String fileName = System.currentTimeMillis()+".jpg";
+			String fileName = System.currentTimeMillis() + ".jpg";
 			GoodType type = goodTypeService.getByName(parengName);
 			File target = new File("E:\\goods_pic\\" + fileName);
 			SuperGoods g = new SuperGoods();
 			g.setName(goodsName);
 			g.setPicPath(target.getAbsolutePath());
 			g.setTypeCode(type.getCode());
-			if(superGoodsService.getByName(goodsName)==null){
-				fileChannelCopy(file,target);
-				System.out.println("insert:::::"+goodsName+"=="+target.getAbsolutePath()+"=="+type.getCode());
+			if (superGoodsService.getByName(goodsName) == null) {
+				fileChannelCopy(file, target);
+				System.out.println("insert:::::" + goodsName + "==" + target.getAbsolutePath() + "==" + type.getCode());
 				superGoodsService.insert(g);
-			}else{
+			} else {
 				System.out.println("have");
 			}
 		}
@@ -267,10 +262,10 @@ public class SuperGoodsController extends BaseController {
 				goodsName = goodsName.substring(0, goodsName.lastIndexOf("."));
 			}
 			// Stirng picName = now.t
-			//手动创建文件夹吧
-			
-			File target = new File("E:\\goods_pic\\" + goodsName+ ".jpg");
-//			fileChannelCopy(file,target);
+			// 手动创建文件夹吧
+
+			File target = new File("E:\\goods_pic\\" + goodsName + ".jpg");
+			// fileChannelCopy(file,target);
 		}
 		if (file.isDirectory()) {
 			for (File f : file.listFiles()) {
