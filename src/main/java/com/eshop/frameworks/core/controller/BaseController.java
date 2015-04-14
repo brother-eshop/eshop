@@ -73,6 +73,7 @@ public class BaseController {
 		model.addObject("img", CoreConstant.imagesPath);
 		model.addObject("upload", CoreConstant.uploadServerUrl);
 		model.addObject("file", CoreConstant.uploadStaticUrl);
+		model.addObject("v", CoreConstant.VERSION);
 	}
 
 	/**
