@@ -69,7 +69,8 @@ public class EshopController extends BaseController {
 		setVar(mav);
 		EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if (user == null) {
-			return new ModelAndView("login.httl");
+			mav.setViewName("index.httl");
+			return mav;
 		}
 		mav.addObject("user", user);
 		return mav;
