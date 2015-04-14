@@ -17,7 +17,7 @@ import com.google.gson.JsonObject;
 
 public class SessionIntercepter extends HandlerInterceptorAdapter {
 
-	private static String redirect_login = "http://passport.eshop.com/login";// 登录页面
+	private static String redirect_login = "/login";// 登录页面
 
 	public String[] allowUrls;// 允许例外的url
 
