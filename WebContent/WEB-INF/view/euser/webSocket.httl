@@ -34,13 +34,13 @@
         }  
     </style>  
   
-    <script src="http://cdn.sockjs.org/sockjs-0.3.min.js?_v=${v}"></script>  
+    <script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>  
   
     <script type="text/javascript">  
         var ws = null;  
         var url = null;  
         var transports = [];  
-  
+        var heartbeat_msg = 'heartbeat', heartbeat_interval = null, missed_heartbeats = 0,neworder_msg='neworder';
         function setConnected(connected) {  
             document.getElementById('connect').disabled = connected;  
             document.getElementById('disconnect').disabled = !connected;  
@@ -48,29 +48,57 @@
         }  
   
         function connect() {  
-            alert("url:"+url);  
             if (!url) {  
                 alert('Select whether to use W3C WebSocket or SockJS');  
                 return;  
             }  
-  
-            ws = (url.indexOf('sockjs') != -1) ?   
-                new SockJS(url, undefined, {protocols_whitelist: transports}) : new WebSocket(url);  
-  
+            try{
+	            ws = (url.indexOf('sockjs') != -1) ?   
+	                new SockJS(url, undefined, {protocols_whitelist: transports}) : new WebSocket(url);
+            }catch(e){
+            	console.warn('server is not alive!');
+            }
+            heartBeat(ws);
             ws.onopen = function () {  
                 setConnected(true);  
                 log('Info: connection opened.');  
             };  
             ws.onmessage = function (event) {  
-                log('Received: ' + event.data);  
+                log('Received: ' + event.data);
+                if (event.data == heartbeat_msg) {
+                    // reset the counter for missed heartbeats
+                    missed_heartbeats = 0;
+                }else if(event.data == neworder_msg){
+                	alert('您有新订单,请注意接单！');
+                }
             };  
-            ws.onclose = function (event) {  
+            ws.onclose = function (event) {
+            	ws.close();
                 setConnected(false);  
                 log('Info: connection closed.');  
                 log(event);  
             };  
         }  
-  
+        function heartBeat(ws){
+        	 if (heartbeat_interval === null) {
+                 missed_heartbeats = 0;
+                 heartbeat_interval = setInterval(function() {
+                 	console.info("heartbeat is running!");
+                     missed_heartbeats++;
+                     if (missed_heartbeats >= 3){
+                     	console.warn("Too many missed heartbeats.prepare to reconnect");
+                     	clearInterval(heartbeat_interval);
+                         heartbeat_interval = null;
+                         connect();
+                         return;
+                     }
+                     if(ws.readyState == 1){
+                     	ws.send(heartbeat_msg);
+                     }
+                 }, 5000);
+             }
+             
+        }
         function disconnect() {  
             if (ws != null) {  
                 ws.close();  
@@ -82,7 +110,8 @@
         function echo() {  
             if (ws != null) {  
                 var message = document.getElementById('message').value;  
-                log('Sent: ' + message);  
+                log('Sent: ' + message);
+                heartbeat_msg = message;
                 ws.send(message);  
             } else {  
                 alert('connection not established, please connect.');  
@@ -128,10 +157,10 @@
     Javascript and reload this page!</h2></noscript>  
 <div>  
     <div id="connect-container">  
-        <input id="radio1" type="radio" name="group1" onclick="updateUrl('/websocket');">  
+        <input id="radio1" type="radio" name="group1" onclick="updateUrl('/userLink');">  
             <label for="radio1">W3C WebSocket</label>  
         <br>  
-        <input id="radio2" type="radio" name="group1" onclick="updateUrl('/websocket');">  
+        <input id="radio2" type="radio" name="group1" onclick="updateUrl('/userLink');">  
             <label for="radio2">SockJS</label>  
         <div id="sockJsTransportSelect" style="visibility:hidden;">  
             <span>SockJS transport:</span>  
