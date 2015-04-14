@@ -170,10 +170,10 @@
 		<!-- 默认HTTP状态码 -->    
 		<property name="defaultStatusCode" value="500"></property>    
 	</bean>    
-	<bean id="serLink" class="com.eshop.web.controllers.websocket.UserLinkHandler"/>  
+	<bean id="userLink" class="com.eshop.web.controllers.websocket.UserLinkHandler"/>  
   
 	<websocket:handlers>  
-	    <websocket:mapping path="/userLink" handler="serLink"/>  
+	    <websocket:mapping path="/userLink" handler="userLink"/>  
 	    <websocket:handshake-interceptors>  
 	    <bean class="com.eshop.web.controllers.websocket.HandshakeInterceptor"/>  
 	    </websocket:handshake-interceptors>  
