@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta content="IE=EmulateIE7, IE=9" http-equiv="X-UA-Compatible">
+    <title>eshop</title>
+    <meta name="description" content="">
+	<meta name="keywords" content="">
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?_v=${v}">
+	
+	<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
+	<script type="text/javascript">
+	<!--#var(com.eshop.model.mongodb.EUser user)-->
+	</script>
+</head>
+<body>
+	<div class="container">
+		${include("/common/header.httl")}
+		<div class="pageWrap">
+			<section class="wrap clearfix">
+				<div class="topNavBar">
+					<a href="/">首页</a><span>&gt;</span><a href="#">个人中心</a><span>&gt;</span>个人信息
+				</div>
+				<div class="left250">
+					<div class="snTitle">个人</div>
+					<ul class="snList">
+						<li class="current"><a href="/euser/ucenter"><i class="ui_icon i_grxx"></i><span>个人中心</span></a></li>
+						<li><a href="/user/headphoto/toHeadPhotoIndex"><i class="ui_icon i_wdtx"></i><span>修改密码</span></a></li>
+						<li><a href="/euser/myBills"><i class="ui_icon i_zhaq"></i><span>我的订单</span></a></li>
+						<li><a href="/euser/address"><i class="ui_icon i_zhbd"></i><span>地址管理</span></a></li>
+					</ul>
+					<!--#if(user.isShopper==1)-->
+					
+					<div class="snTitle">店铺</div>
+						<ul class="snList">
+								<li><a href="/euser/shopManage"><i class="ui_icon i_wdjf"></i><span>店铺管理</span></a></li>
+								<li><a href="/manager/shopperGoods/goodsManage"><i class="ui_icon i_wdjf"></i><span>商品管理</span></a></li>
+								<li><a href="/euser/addGoods"><i class="ui_icon i_wdjf"></i><span>添加商品</span></a></li>
+								<li><a href="/euser/shopBills"><i class="ui_icon i_wdjf"></i><span>历史订单</span></a></li>
+								<li><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>开始接单</span></a></li>
+						</ul> 
+						<!--#end-->
+				</div>
+					
+				<div class="right720">
+					<div class="radius">
+						<div class="blueLineS"><span class="lineS_current">个人信息</span></div>
+							<form method="post" id="infoForm" class="setForm" action="/euser/saveEUser">
+							<input type="hidden" name="id" value="${user.id}" />
+								<section>
+									<h2>基本信息</h2>
+									<ul>
+										<li>
+											<span class="label">
+												<label>用户名</label>
+											</span>
+											<input type="text" name="username" value="${user.username}" onblur="validateNickName()" class="ipt">				
+											<label id="labelNickName" style="display:none"></label>
+										</li>
+										<li>
+											<span class="label">
+												<label>邮箱</label>
+											</span>
+											<input type="text" class="ipt" id="email" name="email" value="${user.email}" onblur="validateRealName()">				
+											<label id="labelRealName"><a>修改</a></label>
+										</li>
+										<li>
+											<span class="label">
+												<label>电话</label>
+											</span>
+											<input type="text" class="ipt" id="mobile" name="mobile" value="${user.mobile}" onblur="validateRealName()">				
+											<label id="labelRealName"><a>绑定</a></label>
+										</li>
+										<li>
+											<span class="label">
+												<label>注册时间</label>
+											</span>
+											<input type="text" class="ipt" id="regTime" name="regTime" value="${user.regTime}" onblur="validateRealName()">				
+											<label id="labelRealName" style="display:none"></label>
+										</li>
+										<li>
+											<span class="label">
+												<label>最后登录IP</label>
+											</span>
+											<input type="text" class="ipt" id="lastLoginIP" name="lastLoginIP" value="${user.lastLoginIP}" onblur="validateRealName()">				
+											<label id="labelRealName" style="display:none"></label>
+										</li>
+										<li>
+											<span class="label">
+												<label>最后登录时间</label>
+											</span>
+											<input type="text" class="ipt" id="lastLoginTime" name="lastLoginTime" value="${user.lastLoginTime}" onblur="validateRealName()">				
+											<label id="labelRealName" style="display:none"></label>
+										</li>
+										
+									</ul>
+								</section>
+								<!--div class="tr">
+									<a class="btn_blue30">保存</a>
+								</div-->
+							</form>
+						</div>
+					<!--div class="radius mTop30 myTags">
+						<h2>最近订单</h2>
+					</div-->
+				</div>
+			</section>
+		</div>
+		${include("/common/footer.httl")}
+	</div>
+</body>
+</html>
