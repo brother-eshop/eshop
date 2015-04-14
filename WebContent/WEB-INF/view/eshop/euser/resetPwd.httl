@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta content="IE=EmulateIE7, IE=9" http-equiv="X-UA-Compatible">
+    <title>eshop</title>
+    <meta name="description" content="">
+	<meta name="keywords" content="">
+	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
+	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<script type="text/javascript" src="/statics/js/jquery.js"></script>
+</head>
+<body>
+	<div class="container">
+	${include("/common/header.httl")}
+		<div class="pageWrap">
+			<section class="wrap clearfix">
+				<div class="topNavBar">
+					<a href="/">首页</a><span>&gt;</span><a href="#">个人中心</a><span>&gt;</span>个人信息
+				</div>
+				<div class="left250">
+					<div class="snTitle">个人</div>
+					<ul class="snList">
+						<li><a href="/eshop/euser/ucenter"><i class="ui_icon i_grxx"></i><span>个人中心</span></a></li>
+						<li class="current"><a href="/eshop/euser/resetPwd"><i class="ui_icon i_wdtx"></i><span>修改密码</span></a></li>
+						<li><a href="/eshop/euser/myBills"><i class="ui_icon i_zhaq"></i><span>我的订单</span></a></li>
+						<li><a href="/eshop/euser/address"><i class="ui_icon i_zhbd"></i><span>地址管理</span></a></li>
+					</ul>
+					<div class="snTitle">店铺</div>
+					<ul class="snList">
+						<li><a href="/eshop/euser/shopManage"><i class="ui_icon i_wdjf"></i><span>店铺管理</span></a></li>
+						<li><a href="/manager/shopperGoods/goodsManage"><i class="ui_icon i_wdjf"></i><span>商品管理</span></a></li>
+						<li><a href="/eshop/euser/addGoods"><i class="ui_icon i_wdjf"></i><span>添加商品</span></a></li>
+						<li><a href="/eshop/euser/shopBills"><i class="ui_icon i_wdjf"></i><span>历史订单</span></a></li>
+						<!--li><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>开始接单</span></a></li-->
+					</ul>
+				</div>
+				<div class="right720">
+					<div class="radius">
+						<div class="blueLineS"><span class="lineS_current">修改密码</span></div>
+							<form method="post" action="/eshop/euser/commitePwd" id="pwdForm" class="setForm">
+								<section>
+									<ul>
+										<li>
+											<span class="label"><label>当前密码</label></span>
+											<input type="password" placeholder="请输入当前密码" name="oldPassword" class="ipt" id="">
+										</li>
+										<li>
+											<span class="label"><label>新密码</label></span>
+											<input type="password" placeholder="请输入新密码" name="newPassword" class="ipt" id="">
+										</li>
+										<li>
+											<span class="label"><label>确认密码</label></span>
+											<input type="password" placeholder="请输入确认密码" name="resetPassword" class="ipt" id="">
+										</li>
+										<li>
+											<span class="label"></span>
+											<button class="btn_blue30" >保存</button>
+										</li>
+									</ul>
+								</section>
+							</form>
+					</div>
+				</div>
+			</section>
+		</div>
+		${include("/common/footer.httl")}
+	</div>
+</body>
+</html>

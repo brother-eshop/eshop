@@ -7,9 +7,9 @@
     <meta name="description" content="">
 	<meta name="keywords" content="">
 	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
 	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
+	<script type="text/javascript" src="/resources/scripts/placeholder.js"></script>
 	<script language="javascript" type="text/javascript">
     $(function(){
     	var canReg = true;
@@ -43,7 +43,7 @@
           	            }
 
           	
-   	    	$.post("/eshop/euser/getByEmail",
+   	    	$.post("/euser/getByEmail",
 			  {
   				email:register_email
 			  },
@@ -58,7 +58,7 @@
         		canReg = false;
         		return;
         	}
-	    	$.post("/eshop/euser/getByUserName",
+	    	$.post("/euser/getByUserName",
   			  {
     				username:register_username
   			  },
@@ -152,7 +152,7 @@
       				<h2 class="title">注册</h2>
     			</div>
     			<div class="panel-bd">
-      				<form id="register_form" class="form" method="post" action="/eshop/regist" autocomplete="off" novalidate="true">
+      				<form id="register_form" class="form" method="post" action="/regist" autocomplete="off" novalidate="true">
 	      				<div class="form-item">
 	  						<input id="register_email" class="inputbox js_inputbox async" name="email" type="email" placeholder="电子邮箱" required="">
 	  					<div id="email_error" class="g-error-tip" style="display:none;"></div>
@@ -179,9 +179,9 @@
   							<img class="captcha-img" src="/ran/random" id="captch-img" title="点击刷新验证码" />
 						</div>
         				<div class="form-helper form-text">
-          					<a class="g-link" href="#" target="_blank">使用条款和协议</a>
+          					<a class="g-link" href="/eshop/agreement" target="_blank">使用条款和协议</a>
         				</div>
-        				<div class="g-btn g-btn-l g-btn-submit" id="reg_submit">同意协议并注册</div>
+        				<button class="g-btn g-btn-l g-btn-submit" id="reg_submit">同意协议并注册</button>
      				 </form>
     			</div>
     			<div class="panel-ft">
@@ -189,7 +189,7 @@
     					<a class="weibo oauth-sns" href="/weibo/auth" target="_blank" title="通过微博登录"></a>
     					<a class="renren oauth-sns" href="/renren/auth" target="_blank" title="通过人人登录"></a>
       				</div>
-      				<a class="g-link" href="/eshop/login">登录</a>
+      				<a class="g-link" href="/login">登录</a>
     			</div>
   			</div>
 		</section>

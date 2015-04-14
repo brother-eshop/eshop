@@ -53,6 +53,7 @@ public class ShopAndGoodsServiceImpl extends AbstractService<ShopAndGoods, Strin
 		String goodsCode = sGoods.getGoodsCode();
 		String goodsManufacturer = sGoods.getManufacturer();
 		String typeCode = sGoods.getTypeCode();
+		Integer status = sGoods.getStatus();
 		if (!"".equals(goodsName) && goodsName != null) {
 			query.addCriteria(Criteria.where("goodsName").regex(
 					Pattern.compile("^.*" + goodsName + ".*$",
@@ -72,12 +73,16 @@ public class ShopAndGoodsServiceImpl extends AbstractService<ShopAndGoods, Strin
 			List<String> codeList = getTypesByPath(typeCode);
 			query.addCriteria(Criteria.where("typeCode").in(codeList));
 		}
+		if(status!=null&&status!=0){
+			query.addCriteria(Criteria.where("status").is(status));
+		}
 		int count = (int) this.getShopperGoodsCount(query);
 		page.setTotalResultSize(count);
 		List<Order> orders = new ArrayList<Order>();
 		orders.add(new Order(Direction.ASC, "code"));
 		query.with(new Sort(orders));
 		query.skip(page.getStartRow()).limit(page.getPageSize());
+		System.out.println(query.getQueryObject().toString());
 		return shopAndGoodsDao.findList(query, ShopAndGoods.class);
 	} 
 	

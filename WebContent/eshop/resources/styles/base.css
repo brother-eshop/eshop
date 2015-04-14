@@ -55,8 +55,8 @@ a:hover,.floor_t a:hover{text-decoration:none; color:#00a1e4;}
 .content-no-padding {position: relative;background: #fff;border-radius: 5px;padding: 0 0 15px 0;}
 /*布局*/
 #content{width:1000px; margin:30px auto 0 auto;}
-.pageWrap{padding-bottom:120px;}
-.wrap,.wrap_t{width:1000px;margin:0 auto;position:relative;}
+.pageWrap{padding-bottom:20px;}
+.wrap,.wrap_t{width:90%;margin:0 auto;position:relative;}
 .area{margin-top:20px;}
 .noBorder{border:0 none !important;}
 .noContTip{padding:20px;}
@@ -64,13 +64,14 @@ a:hover,.floor_t a:hover{text-decoration:none; color:#00a1e4;}
 .margin-top-20 {margin-top: 20px !important;}
 
 /*页面内容少的时候Footer也显示在底部*/
-html,body{height:100%;background:#ebf3f7;}
-.container{min-height:100%; height:auto !important; height:100%; position:relative;}
-.footer{position: absolute !important;bottom: 0; width: 100%;height: 60px; background:#00b2fc;  clear:both; padding:15px 0; color:#fff;}
-.footer ul{text-align:center;margin-bottom:25px;}
-.footer ul li{display:inline;margin-right:75px;}
-.footer a{color:#fff;}
-.footer p{text-align:center; font-size:12px;}
+.container{min-height:100%; height:auto !important; height:100%; position:relative;background-color:#fff;}
+.footer{position: relative;bottom: 0; width: 100%;height: 145px; clear:both; padding:15px 0;background: #9ab906 url(../images/ruler.png) repeat-x top;}
+.footer ul{text-align:center;height:45px;padding-top: 50px;}
+.footer ul li{display:inline;}
+.footer ul li:nth-child(n+2){border-left: 1px solid #ccf601;}
+.footer ul li a{color:#ccf601;font-size:14px;margin:0 30px;}
+.footer p{text-align:center; font-size:12px;height:30px;color:#2e3800;padding-top: 20px;}
+.footer p a{font-size:12px;color:#2e3800;}
 
 /*ui_icon*/
 .ui_icon{display:inline-block; *display:inline; zoom:1; font-size:0; line-height:0; overflow:hidden; vertical-align:middle; background:url(../images/icon.png) no-repeat;}
@@ -472,7 +473,7 @@ html,body{height:100%;background:#ebf3f7;}
 
 
 /*个人中心*/
-.topNavBar {height: 42px;line-height: 42px;padding-left: 25px;margin: 30px 0;color: #9fa3af;background: #fff;border-radius: 5px;}
+.topNavBar {height: 92px;padding-left: 25px;color: #9fa3af;background: #f8f8f8;}
 .left250 {float: left;width: 250px;background: #fff;border-radius: 5px;padding: 0 0 15px 0;}
 .right720 {float: right;width: 720px;}
 .myTags {padding-left: 30px;}
@@ -808,7 +809,7 @@ dl {
 	bottom: auto;
 	left: 0;
 	height: 3em;
-	background: #684;
+	background: #969696;
 	background: linear-gradient(to bottom, rgba(236, 236, 236, 1) 0%,
 		rgba(229, 229, 229, 1) 100%); /* W3C */
 	overflow: hidden;
@@ -993,7 +994,7 @@ dl {
 }
 .confirmHeader {
 	height: 34px;
-	background: #684;
+	background: #969696;
 	background: linear-gradient(to bottom, rgba(236, 236, 236, 1) 0%,
 		rgba(229, 229, 229, 1) 100%); /* W3C */
 	overflow: hidden;
@@ -1052,7 +1053,7 @@ dl {
 	bottom: auto;
 	left: 0;
 	height: 3em;
-	background: #684;
+	background: #969696;
 	background: linear-gradient(to bottom, rgba(236, 236, 236, 1) 0%,
 		rgba(229, 229, 229, 1) 100%); /* W3C */
 	overflow: hidden;
@@ -1096,4 +1097,8 @@ dl {
 	padding: .5em 1em;
 	width: 100%;
 	line-height: 2em;
+}
+
+.readonly{
+	border: solid 1px #fff;
 }

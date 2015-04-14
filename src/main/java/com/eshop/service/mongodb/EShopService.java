@@ -11,4 +11,5 @@ public interface EShopService extends Service<EShop,String>{
 	EShop getEShopByUser(String userId);
 	void updateByObj(EShop eshop);
 	List<EShop> searchShopps(Double lng,Double lat);
+	void updateLicVerify(EShop eshop);
 }
