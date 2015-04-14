@@ -41,7 +41,7 @@ public class ImageUploadController {
 	 * @throws NumberFormatException
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/imagess")
+	@RequestMapping(value = "/images")
 	@ResponseBody
 	public String img(HttpServletRequest request, HttpServletResponse response) throws NumberFormatException, Exception {
 		String dateStr = DateUtils.toString(new Date(), "yyyyMMdd");
