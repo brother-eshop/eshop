@@ -10,6 +10,9 @@
 	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?v=${v}">
 	
 	<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
+	
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/new.css?v=${v}">
+	<script type="text/javascript" src="${img}/resources/scripts/placeholder.js?v=${v}"></script>
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 	
 	<script type="text/javascript">
@@ -46,13 +49,13 @@
 			<div class="logo_mid"></div>
 			<div class="search_div">
 				<input type="text" id="searchInput" name="address" placeholder="住宅楼/写字楼搜索附近商店" class="search_input" accesskey="s" id="key">
-				<span id="search_button" class="search_button"><img src="/eshop/resources/images/search.png"></span>
+				<span id="search_button" class="search_button"><img src="${img}/resources/images/search.png"></span>
 			</div>
 			<!--input type="text" id="searchInput"  placeholder="住宅楼/写字楼搜索附近商店" size=40 name="address" />
 			<a id="search_button" class="btn_blue30">搜索</a-->
 			<div class="cart">
 				<i class="ci-count" id="shopping-amount">0</i>
-				<img style="height:30px;" src="/eshop/resources/images/shopping.png">
+				<img style="height:30px;" src="${img}/resources/images/shopping.png">
 			</div>
 		</div>
 		

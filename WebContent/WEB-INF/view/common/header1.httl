@@ -49,7 +49,7 @@
 <div class="ecartInfo">
 	<div id="ecartTable"></div>
 	<div class="ecartFooter">
-		总计：<a id="totalPay"></a>元<a href="/eshop/euser/cart" target="_blank" style="float:right;" class="btn_blue30">去结算</a>
+		总计：<a id="totalPay"></a>元<a href="/euser/cart" target="_blank" style="float:right;" class="btn_blue30">去结算</a>
 	</div>
 </div>
 <header class="header">
@@ -58,10 +58,10 @@
 			<div class="topL">
 				<nav>
 					<ul id="topMenu">
-						<li><a href="/eshop/index">首页</a></li>
+						<li><a href="index">首页</a></li>
 						<li><a>|</a></li>
 						<!--#if(user.isShopper!=1)-->
-						<li><a href="/eshop/startShop" target="_black">店铺入驻</a></li>
+						<li><a href="startShop" target="_black">店铺入驻</a></li>
 						<!--#end-->
                 	</ul>				
 				</nav>
@@ -70,9 +70,9 @@
 				<!--登陆后-->
 				<div class="tLogin">
 					
-					<a href="/eshop/euser/ucenter"><img src="/eshop/resources/images/people.png">&nbsp;&nbsp;${user.username}</a>
+					<a href="euser/ucenter"><img src="${img}/resources/images/people.png">&nbsp;&nbsp;${user.username}</a>
 					&nbsp;&nbsp;
-					<a href="/eshop/logout">退出</a>
+					<a href="logout">退出</a>
 				</div>
 			</div>
 		</div>
