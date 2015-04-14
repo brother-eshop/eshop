@@ -64,27 +64,6 @@
         	validateCode();
         });
     });
-    var websocket;
-    if ('WebSocket' in window) {
-        websocket = new WebSocket("ws://127.0.0.1/webSocketServer");
-    } else if ('MozWebSocket' in window) {
-        websocket = new MozWebSocket("ws://127.0.0.1/webSocketServer");
-    } else {
-        websocket = new SockJS("http://127.0.0.1/sockjs/webSocketServer");
-    }
-    websocket.onopen = function (evnt) {
-    	 console.log('open');
-    };
-    websocket.onmessage = function (evnt) {
-    	console.log('message', evnt.data);
-//        $("#msgcount").html("(<font color='red'>"+evnt.data+"</font>)")
-    	alert("--");
-    };
-    websocket.onerror = function (evnt) {
-    };
-    websocket.onclose = function (evnt) {
-    	console.log('close');
-    }
  </script>
 
 </head>

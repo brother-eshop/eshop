@@ -22,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.eshop.common.constant.CoreConstant;
 import com.eshop.common.params.ConfirmParam;
+import com.eshop.common.params.ResetPwdParams;
+import com.eshop.common.util.security.MD5;
 import com.eshop.frameworks.core.controller.BaseController;
 import com.eshop.model.mongodb.ECartItem;
 import com.eshop.model.mongodb.EOrder;
@@ -85,6 +87,42 @@ public class EUserController extends BaseController {
 		return mav;
 	}
 
+@RequestMapping("/resetPwd")
+	public ModelAndView resetPwd(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/eshop/euser/resetPwd.httl");
+		setVar(mav);
+		EUser user = (EUser) this.getSessionAttribute(request,
+				CoreConstant.USER_SESSION_NAME);
+		if (user == null) {
+			return new ModelAndView("login.httl");
+		}
+		mav.addObject("user", user);
+		return mav;
+	}
+
+	@RequestMapping("/commitePwd")
+	public ModelAndView commitePwd(HttpServletRequest request,
+			HttpServletResponse response, ResetPwdParams pwd) {
+		ModelAndView mav = new ModelAndView("login.httl");
+		setVar(mav);
+		EUser user = (EUser) this.getSessionAttribute(request,
+				CoreConstant.USER_SESSION_NAME);
+		if (user == null) {
+			return mav;
+		}
+		EUser reUser = euserService.getByUserName(user);
+		if (MD5.getMD5(pwd.getOldPassword()).equals(reUser.getPassword())) {
+			reUser.setPassword(MD5.getMD5(pwd.getNewPassword()));
+			euserService.save(reUser);
+			this.clear(request, response);
+		} else {
+			ModelAndView modelAndView = new ModelAndView(
+					"/eshop/euser/resetPwd.httl");
+			modelAndView.addObject("passwordError", true);
+			return modelAndView;
+		}
+		return mav;
+	}
 	@RequestMapping("/addGoods")
 	public ModelAndView goAddGoods(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/eshop/euser/addGoods.httl");
@@ -114,6 +152,31 @@ public class EUserController extends BaseController {
 		
 		return mav;
 	}
+	
+		@RequestMapping("/deleteCartItem")
+	public ModelAndView deleteCartItem(HttpServletRequest request,
+			ECartItem ecartItem) {
+		ModelAndView mav = new ModelAndView("/eshop/euser/cart.httl");
+		EUser user = (EUser) this.getSessionAttribute(request,
+				CoreConstant.USER_SESSION_NAME);
+		setVar(mav);
+		if (user == null) {
+			return new ModelAndView("login.httl");
+		}
+		// List<ECartItem> items = geItems(user.getId());
+		ecartItem = ecartItemService.findById(ecartItem.getId(),
+				ECartItem.class);
+		ecartItemService.remove(ecartItem);
+		Map<String, List<ECartItem>> itemMap = getItemsMap(user.getId());
+		List<EUserAddress> addresses = euserAddressService
+				.getAddressByUserId(user.getId());
+		mav.addObject("user", user);
+		mav.addObject("itemMap", itemMap);
+		mav.addObject("addressList", addresses);
+
+		return mav;
+	}
+
 	
 	@ResponseBody
 	@RequestMapping("/getConfirm")
@@ -247,6 +310,7 @@ public class EUserController extends BaseController {
 	@RequestMapping(value = "/saveEShop", method = RequestMethod.POST)
 	public ModelAndView saveEShop(EShop eshop, HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		setVar(modelAndView);
 		try{
 //			eshopService.updateByObj(eshop);
 			eshopService.save(eshop);
@@ -259,6 +323,7 @@ public class EUserController extends BaseController {
 	@RequestMapping(value = "/deleteShipping", method = RequestMethod.POST)
 	public ModelAndView deleteShipping(Shipping shipping, HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		setVar(modelAndView);
 		try{
 //			eshopService.updateByObj(eshop);
 			shippingService.remove(shipping);
@@ -271,6 +336,7 @@ public class EUserController extends BaseController {
 	@RequestMapping(value = "/updateShipping", method = RequestMethod.POST)
 	public ModelAndView updateShipping(Shipping shipping, HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		setVar(modelAndView);
 		try{
 //			eshopService.updateByObj(eshop);
 			shippingService.save(shipping);
@@ -283,6 +349,7 @@ public class EUserController extends BaseController {
 	@RequestMapping(value = "/saveShipping", method = RequestMethod.POST)
 	public ModelAndView saveShipping(Shipping shipping, HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/shopManage");
+		setVar(modelAndView);
 		try{
 //			eshopService.updateByObj(eshop);
 			shippingService.insert(shipping);
@@ -333,6 +400,7 @@ public class EUserController extends BaseController {
 	@RequestMapping(value = "/saveAddress", method = RequestMethod.POST)
 	public ModelAndView saveAddress(EUserAddress euserAddress, HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/cart");
+		setVar(modelAndView);
 		try{
 			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if(user==null){
@@ -350,6 +418,7 @@ public class EUserController extends BaseController {
 	@RequestMapping(value = "/subAddress", method = RequestMethod.POST)
 	public ModelAndView subAddress(EUserAddress euserAddress, HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/address");
+		setVar(modelAndView);
 		try{
 			EUser user= (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if(user==null){

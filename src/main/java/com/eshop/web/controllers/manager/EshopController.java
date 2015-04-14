@@ -56,6 +56,13 @@ public class EshopController extends BaseController {
 		setVar(mav);
 		return mav;
 	}
+	
+	@RequestMapping("/agreement")
+	public ModelAndView agreement(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("agreement.httl");
+		setVar(mav);
+		return mav;
+	}
 
 	@RequestMapping("/index")
 	public ModelAndView index(HttpServletRequest request) {
@@ -95,6 +102,7 @@ public class EshopController extends BaseController {
 			this.setPage(page);
 			this.getPage().setPageSize(20);
 			ShopAndGoods query = new ShopAndGoods();
+			query.setStatus(1);
 			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(eshop.getUserId(), query, page);
 			mav.addObject("query", query);
 			mav.addObject("shopperGoods", list);
@@ -119,6 +127,7 @@ public class EshopController extends BaseController {
 			}
 			this.setPage(page);
 			this.getPage().setPageSize(20);
+			query.setStatus(1);
 			List<ShopAndGoods> list = shopAndGoodsService.getShopperGoods(query.getUserId(), query, page);
 			modelAndView.addObject("query", query);
 			modelAndView.addObject("shopperGoods", list);
@@ -136,6 +145,7 @@ public class EshopController extends BaseController {
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	public ModelAndView regist(EUser euser, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/index");
+		setVar(modelAndView);
 		String captcha = (String) this.getSessionAttribute(request, CoreConstant.RAND_CODE);
 		try {
 			if (!euser.getCaptcha().equals(captcha)) {
@@ -163,6 +173,7 @@ public class EshopController extends BaseController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(EUser euser, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("redirect:/eshop/index");
+		setVar(mav);
 		EUser user = euserService.getByUserName(euser);
 		String password = MD5.getMD5(euser.getPassword());
 		String captcha = (String) this.getSessionAttribute(request, CoreConstant.RAND_CODE);
@@ -200,6 +211,7 @@ public class EshopController extends BaseController {
 	@RequestMapping(value = "/shopSub", method = RequestMethod.POST)
 	public ModelAndView startShop(EShop eshop, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/eshop/euser/addGoods");
+		setVar(modelAndView);
 		try {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if (user == null) {
