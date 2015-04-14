@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link href="/statics/css/style.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" src="/statics/js/jquery.js"></script>
+<link href="${img}/statics/css/style.css?_v=${v}" rel="stylesheet" type="text/css" />
+<script language="JavaScript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
 <script type="text/javascript">
 $(function(){	
 	//顶部导航切换
@@ -22,16 +22,16 @@ $(function(){
 <body style="background:url(/statics/images/topbg.gif) repeat-x;">
 <!--#var(com.eshop.model.manager.User user)-->
     <div class="topleft">
-    <a href="/manager/index" target="_parent"><img src="/statics/images/logo.png" title="系统首页" /></a>
+    <a href="/manager/index" target="_parent"><img src="${img}/statics/images/logo.png" title="系统首页" /></a>
     </div>
         
     <ul class="nav">
-    <li><a href="/manager/left?pid=1" target="leftFrame" class="selected"><img src="/statics/images/icon01.png" title="测试" /><h2>测试</h2></a></li>
+    <li><a href="/manager/left?pid=1" target="leftFrame" class="selected"><img src="${img}/statics/images/icon01.png" title="测试" /><h2>测试</h2></a></li>
     </ul>
             
     <div class="topright">    
     <ul>
-    <li><span><img src="/statics/images/help.png" title="帮助"  class="helpimg"/></span><a href="#">帮助</a></li>
+    <li><span><img src="${img}/statics/images/help.png" title="帮助"  class="helpimg"/></span><a href="#">帮助</a></li>
     <li><a href="#">关于</a></li>
     <li><a href="/manager/logout" target="_parent">退出</a></li>
     </ul>

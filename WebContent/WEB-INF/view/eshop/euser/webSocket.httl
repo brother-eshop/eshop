@@ -34,7 +34,7 @@
         }  
     </style>  
   
-    <script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>  
+    <script src="http://cdn.sockjs.org/sockjs-0.3.min.js?_v=${v}"></script>  
   
     <script type="text/javascript">  
         var ws = null;  

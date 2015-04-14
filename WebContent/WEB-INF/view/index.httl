@@ -8,8 +8,8 @@
     <meta name="description" content="">
 	<meta name="keywords" content="">
 	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?v=${v}">
-	<script type="text/javascript" src="${img}/resources/kissy/seed-min.js"></script>
-	<script type="text/javascript" src="${img}/statics/js/jquery.js"></script>
+	
+	<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 	
 	<script type="text/javascript">

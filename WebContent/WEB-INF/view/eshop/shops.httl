@@ -6,8 +6,8 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
-	<script type="text/javascript" src="resources/kissy/seed-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?_v=${v}">
+	
 </head>
 <body>
 	<div class="container">
@@ -22,7 +22,7 @@
 								<div class="bg-side">
 									<a href="javascript:;" class="avatar60">
 										<span class="avatarBg"></span>
-										<img src="resources/images/img8.jpg" alt=""> <i class="ui_icon i_yellowIdentify22">V认证</i>
+										<img src="${img}/resources/images/img8.jpg" alt=""> <i class="ui_icon i_yellowIdentify22">V认证</i>
 									</a>
 									 <a href="javascript:;" class="collection"><i class="ui_icon i_blueFavorite18"></i><span>收藏</span></a>
 								</div>
@@ -51,7 +51,7 @@
 								<div class="bg-side">
 									<a href="javascript:;" class="avatar60">
 										<span class="avatarBg"></span>
-										<img src="resources/images/img8.jpg" alt=""></a>
+										<img src="${img}/resources/images/img8.jpg" alt=""></a>
 									<a href="javascript:;" class="collection"> <i class="ui_icon i_blueFavorite18"></i>
 										<span>收藏</span>
 									</a>
@@ -81,7 +81,7 @@
 								<div class="bg-side">
 									<a href="javascript:;" class="avatar60">
 										<span class="avatarBg"></span>
-										<img src="resources/images/img8.jpg" alt=""></a>
+										<img src="${img}/resources/images/img8.jpg" alt=""></a>
 									<a href="javascript:;" class="collection"> <i class="ui_icon i_blueFavorite18"></i>
 										<span>收藏</span>
 									</a>
@@ -111,7 +111,7 @@
 								<div class="bg-side">
 									<a href="javascript:;" class="avatar60">
 										<span class="avatarBg"></span>
-										<img src="resources/images/img8.jpg" alt=""></a>
+										<img src="${img}/resources/images/img8.jpg" alt=""></a>
 									<a href="javascript:;" class="collection"> <i class="ui_icon i_blueFavorite18"></i>
 										<span>收藏</span>
 									</a>
@@ -141,7 +141,7 @@
 								<div class="bg-side">
 									<a href="javascript:;" class="avatar60">
 										<span class="avatarBg"></span>
-										<img src="resources/images/img8.jpg" alt=""></a>
+										<img src="${img}/resources/images/img8.jpg" alt=""></a>
 									<a href="javascript:;" class="collection"> <i class="ui_icon i_blueFavorite18"></i>
 										<span>收藏</span>
 									</a>

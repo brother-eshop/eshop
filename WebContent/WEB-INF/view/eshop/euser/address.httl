@@ -6,13 +6,13 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css?_v=${v}">
+	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js?_v=${v}"></script>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5P1c3eRMNlbZ1khNOu3vh1pT"></script>
-	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
-	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
+	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css?_v=${v}">
+	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js?_v=${v}"></script>
+	<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
+	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js?_v=${v}"></script>
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 	<script type="text/javascript">
 	$(document).ready(function(){

@@ -6,9 +6,9 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css">
-	<script type="text/javascript" src="{img}/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="{img}/resources/scripts/placeholder.js"></script>
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?_v=${v}">
+	<script type="text/javascript" src="{img}/statics/js/jquery.js?_v=${v}"></script>
+	<script type="text/javascript" src="{img}/resources/scripts/placeholder.js?_v=${v}"></script>
 	<script language="javascript" type="text/javascript">
     $(function(){
     	var canReg = true;

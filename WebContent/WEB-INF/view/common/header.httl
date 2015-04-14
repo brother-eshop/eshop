@@ -56,7 +56,7 @@
 	<div class="topBar">
 		<div class="wrap clearfix">
 			<div class="topL">
-				<a class="logo" href="/"><img src="/resources/images/logo.png" alt="云码" /></a>
+				<a class="logo" href="/"><img src="${img}/resources/images/logo.png" alt="云码" /></a>
 				<nav>
 					<ul id="topMenu">
 						<li class="current"><a href="#">首页</a></li>

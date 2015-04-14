@@ -6,11 +6,11 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/resources/styles/base.css">
-	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
-	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/resources/scripts/placeholder.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?_v=${v}">
+	
+	<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
+	<script type="text/javascript" src="${img}/resources/scripts/placeholder.js?_v=${v}"></script>
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 	<!--#var(com.eshop.model.mongodb.EShop eshop)-->
 	<script type="text/javascript">
@@ -340,7 +340,7 @@
 	<div class="tip">
 	  <div class="tiptop"><span>提示信息</span><a></a></div>  
     <div class="tipinfo">
-      <span><img src="/statics/images/ticon.png" /></span>
+      <span><img src="${img}/statics/images/ticon.png" /></span>
       <div class="tipright">
 			<p>是否确删除信息？</p>
 			<cite>如果是请点击确定按钮 ，否则请点取消。</cite>

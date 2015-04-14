@@ -7,11 +7,11 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
-	<link rel="stylesheet" type="text/css" href="resources/styles/new.css">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js"></script>
-	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js"></script>
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?_v=${v}">
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/new.css?_v=${v}">
+	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js?_v=${v}"></script>
+	<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
+	<script type="text/javascript" src="/eshop/resources/scripts/placeholder.js?_v=${v}"></script>
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 	
 	<script type="text/javascript">

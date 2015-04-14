@@ -6,11 +6,11 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="/resources/styles/base.css">
-	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?_v=${v}">
+	
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5P1c3eRMNlbZ1khNOu3vh1pT"></script>
-	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/statics/js/page.js"></script>
+	<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
+	<script type="text/javascript" src="${img}/statics/js/page.js?_v=${v}"></script>
 	<!--#var(com.eshop.model.mongodb.ShopAndGoods query)-->
 	<!--#set(com.eshop.model.mongodb.EUser user)-->
 	<script type="text/javascript">

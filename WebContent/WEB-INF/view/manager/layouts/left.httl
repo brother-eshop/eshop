@@ -3,8 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
-<link href="/statics/css/style.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" src="/statics/js/jquery.js"></script>
+<link href="${img}/statics/css/style.css?_v=${v}" rel="stylesheet" type="text/css" />
+<script language="JavaScript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
 
 <script type="text/javascript">
 $(function(){	
@@ -36,7 +36,7 @@ $(function(){
     <dl class="leftmenu">
     	<dd>
     		<div class="title">
-    			<span><img src="/statics/images/leftico01.png" /></span>用户管理一级
+    			<span><img src="${img}/statics/images/leftico01.png" /></span>用户管理一级
     		</div>
     	<ul class="menuson">
         <li><cite></cite><a href="/manager/user/list" target="rightFrame">用户管理</a><i></i></li>
