@@ -6,10 +6,9 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="/resources/styles/base.css">
-	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
-	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/resources/scripts/placeholder.js"></script>
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?_v=${v}">
+	<script type="text/javascript" src="${img}/statics/js/jquery.js"></script>
+	<script type="text/javascript" src="${img}/resources/scripts/placeholder.js"></script>
 	<script language="javascript" type="text/javascript">
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
     $(function(){
@@ -64,27 +63,6 @@
         	validateCode();
         });
     });
-    var websocket;
-    if ('WebSocket' in window) {
-        websocket = new WebSocket("ws://127.0.0.1/webSocketServer");
-    } else if ('MozWebSocket' in window) {
-        websocket = new MozWebSocket("ws://127.0.0.1/webSocketServer");
-    } else {
-        websocket = new SockJS("http://127.0.0.1/sockjs/webSocketServer");
-    }
-    websocket.onopen = function (evnt) {
-    	 console.log('open');
-    };
-    websocket.onmessage = function (evnt) {
-    	console.log('message', evnt.data);
-//        $("#msgcount").html("(<font color='red'>"+evnt.data+"</font>)")
-    	alert("--");
-    };
-    websocket.onerror = function (evnt) {
-    };
-    websocket.onclose = function (evnt) {
-    	console.log('close');
-    }
  </script>
 
 </head>
@@ -93,14 +71,14 @@
 		<header class="loginHeader">
     		<h1 class="header-hd" title="">
       			<a class="logo" role="logo">
-        			<img class="logo-img" src="/eshop/resources/images/logo.png" alt="">
+        			<img class="logo-img" src="${img}/resources/images/logo.png" alt="" />
       			</a>
     		</h1>
   		</header>
 		<div class="pageWrap">
 		<section class="wrap clearfix">
 			<aside class="loginBanner">
-      			<img class="img" src="https://static2.ele.me/forward/dist/img/account/banner-app.75596728.png" alt="">
+      			<img class="img" src="https://static2.ele.me/forward/dist/img/account/banner-app.75596728.png" alt="" />
     		</aside>
     		<div class="panel">
     			<div class="panel-hd clearfix">
@@ -109,7 +87,7 @@
     			<div class="panel-bd">
       				<form id="login_form" class="form" action="/login" method="post" autocomplete="off" novalidate="true">
         				<div class="form-item">
-          					<input id="login_username" value="${user.username}" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="">
+          					<input id="login_username" value="${user.username}" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="" />
           					<!--#if(name_error)-->
           					<div id="name_error" class="g-error-tip" style="display:block;">用户名不存在！</div>
           					<!--#else-->
@@ -117,7 +95,7 @@
           					 <!--#end-->
         				</div>
         				<div class="form-item">
-          					<input id="login_password" class="inputbox js_inputbox" value="${user.password}" name="password" type="password" minlength="6" maxlength="20" placeholder="密码" required="">
+          					<input id="login_password" class="inputbox js_inputbox" value="${user.password}" name="password" type="password" minlength="6" maxlength="20" placeholder="密码" required="" />
           					
           					<!--#if(password_error)-->
           						<div id="password_error" style="display:block;" class="g-error-tip">密码错误！</div>
@@ -126,7 +104,7 @@
           					 <!--#end-->
         				</div>
         				<div class="form-item clearfix">
-  							<input id="captcha_input" class="inputbox input-captcha" type="text" name="captcha" minlength="4" maxlength="4" placeholder="验证码" autocomplete="off" required="">
+  							<input id="captcha_input" class="inputbox input-captcha" type="text" name="captcha" minlength="4" maxlength="4" placeholder="验证码" autocomplete="off" required="" />
   							<!--#if(captcha_error)-->
   							<div id="captcha_error" class="g-error-tip">验证码错误</div>
   							<!--#else-->

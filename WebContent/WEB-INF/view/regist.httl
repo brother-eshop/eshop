@@ -6,10 +6,9 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<link rel="stylesheet" type="text/css" href="resources/styles/base.css">
-	<script type="text/javascript" src="/resources/kissy/seed-min.js"></script>
-	<script type="text/javascript" src="/statics/js/jquery.js"></script>
-	<script type="text/javascript" src="/resources/scripts/placeholder.js"></script>
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css">
+	<script type="text/javascript" src="{img}/statics/js/jquery.js"></script>
+	<script type="text/javascript" src="{img}/resources/scripts/placeholder.js"></script>
 	<script language="javascript" type="text/javascript">
     $(function(){
     	var canReg = true;
@@ -138,14 +137,14 @@
 		<header class="loginHeader">
     		<h1 class="header-hd" title="">
       			<a class="logo" role="logo" href="http://ele.me">
-        			<img class="logo-img" src="resources/images/logo.png" alt="">
+        			<img class="logo-img" src="{img}/resources/images/logo.png" alt="" />
       			</a>
     		</h1>
   		</header>
 		<div class="pageWrap">
 		<section class="wrap clearfix">
 			<aside class="loginBanner">
-      			<img class="img" src="https://static2.ele.me/forward/dist/img/account/banner-app.75596728.png" alt="">
+      			<img class="img" src="https://static2.ele.me/forward/dist/img/account/banner-app.75596728.png" alt="" />
     		</aside>
     		<div class="panel">
     			<div class="panel-hd clearfix">
@@ -154,23 +153,23 @@
     			<div class="panel-bd">
       				<form id="register_form" class="form" method="post" action="/regist" autocomplete="off" novalidate="true">
 	      				<div class="form-item">
-	  						<input id="register_email" class="inputbox js_inputbox async" name="email" type="email" placeholder="电子邮箱" required="">
+	  						<input id="register_email" class="inputbox js_inputbox async" name="email" type="email" placeholder="电子邮箱" required="" />
 	  					<div id="email_error" class="g-error-tip" style="display:none;"></div>
 						</div>	
 	      				<div class="form-item">
-          					<input id="register_username" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="">
+          					<input id="register_username" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="" />
           					<div id="username_error" class="g-error-tip" style="display:none;"></div>
         				</div>
         				<div class="form-item">
-          					<input id="register_password" class="inputbox js_inputbox" name="password" type="password" minlength="6" maxlength="20" placeholder="密码" required="">
+          					<input id="register_password" class="inputbox js_inputbox" name="password" type="password" minlength="6" maxlength="20" placeholder="密码" required="" />
           					<div id="password_error" class="g-error-tip" style="display:none;"></div>
         				</div>
         				<div class="form-item">
-          					<input id="register_repeat_password" class="inputbox js_inputbox" name="repeat" type="password" minlength="6" maxlength="20" placeholder="确认密码" required="">
+          					<input id="register_repeat_password" class="inputbox js_inputbox" name="repeat" type="password" minlength="6" maxlength="20" placeholder="确认密码" required="" />
           					<div id="repeat_error" class="g-error-tip" style="display:none;"></div>
         				</div>
         				<div class="form-item clearfix"> 
-  							<input id="captcha_input" class="inputbox input-captcha" type="text" name="captcha" minlength="4" maxlength="4" placeholder="验证码" autocomplete="off" required="">
+  							<input id="captcha_input" class="inputbox input-captcha" type="text" name="captcha" minlength="4" maxlength="4" placeholder="验证码" autocomplete="off" required="" />
   							<!--#if(captcha_error)-->
   								<div id="captcha_error" class="g-error-tip">验证吗错误</div>
   							<!--#else-->
@@ -194,25 +193,7 @@
   			</div>
 		</section>
 		</div>
-		<footer class="footer">
-			<section class="wrap clearfix">
-				<ul>
-					<li>
-						<a href="#">关于我们</a>
-					</li>
-					<li>
-						<a href="#">联系我们</a>
-					</li>
-					<li>
-						<a href="#">帮助中心</a>
-					</li>
-					<li>
-						<a href="#">免责声明</a>
-					</li>
-				</ul>
-				<p><a href="#">eshop</a>版权所有 © 2015-2020 eshop公司  京ICP备09083730号</p>
-			</section>
-		</footer>
+		${include("/common/footer.httl")}
 	</div>
 </body>
 </html>
