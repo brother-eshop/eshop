@@ -95,7 +95,8 @@ public class EshopController extends BaseController {
 		try {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if (user == null) {
-				return new ModelAndView("login.httl");
+				mav.setViewName("login.httl");
+				return mav;
 			}
 			EShop shop = eshopService.getEShopByUser(eshop.getUserId());
 			PageEntity page = new PageEntity();
@@ -123,7 +124,8 @@ public class EshopController extends BaseController {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			EShop shop = eshopService.getEShopByUser(query.getUserId());
 			if (user == null) {
-				return new ModelAndView("login.httl");
+				modelAndView.setViewName("login.httl");
+				return modelAndView;
 			}
 			this.setPage(page);
 			this.getPage().setPageSize(20);
@@ -145,7 +147,6 @@ public class EshopController extends BaseController {
 	@RequestMapping(value = "/regist", method = RequestMethod.POST)
 	public ModelAndView regist(EUser euser, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/index");
-		setVar(modelAndView);
 		String captcha = (String) this.getSessionAttribute(request, CoreConstant.RAND_CODE);
 		try {
 			if (!euser.getCaptcha().equals(captcha)) {
@@ -173,7 +174,6 @@ public class EshopController extends BaseController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(EUser euser, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("redirect:/index");
-		setVar(mav);
 		EUser user = euserService.getByUserName(euser);
 		String password = MD5.getMD5(euser.getPassword());
 		String captcha = (String) this.getSessionAttribute(request, CoreConstant.RAND_CODE);
@@ -211,7 +211,6 @@ public class EshopController extends BaseController {
 	@RequestMapping(value = "/shopSub", method = RequestMethod.POST)
 	public ModelAndView startShop(EShop eshop, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView("redirect:/euser/addGoods");
-		setVar(modelAndView);
 		try {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if (user == null) {
