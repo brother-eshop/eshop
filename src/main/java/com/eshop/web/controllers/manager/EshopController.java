@@ -2,6 +2,7 @@ package com.eshop.web.controllers.manager;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +28,7 @@ import com.eshop.service.mongodb.EShopService;
 import com.eshop.service.mongodb.EUserService;
 import com.eshop.service.mongodb.ShopAndGoodsService;
 import com.eshop.web.controllers.mongo.EUserController;
+import com.eshop.web.controllers.websocket.ClientInfo;
 
 @Controller
 public class EshopController extends BaseController {
@@ -41,6 +43,8 @@ public class EshopController extends BaseController {
 
 	@Autowired
 	private ShopAndGoodsService shopAndGoodsService;
+	
+	public static ConcurrentHashMap<String, ClientInfo> merchantSession = new ConcurrentHashMap<String, ClientInfo>();
 
 	@RequestMapping("/regist")
 	public ModelAndView regist() {
@@ -68,8 +72,9 @@ public class EshopController extends BaseController {
 		ModelAndView mav = new ModelAndView("index.httl");
 		setVar(mav);
 		EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
+		
 		if (user == null) {
-			mav.setViewName("index.httl");
+			mav.setViewName("redirect:/login");
 			return mav;
 		}
 		mav.addObject("user", user);
@@ -82,7 +87,7 @@ public class EshopController extends BaseController {
 		setVar(mav);
 		EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 		if (user == null) {
-			return new ModelAndView("login.httl");
+			return new ModelAndView("redirect:/login");
 		}
 		mav.addObject("user", user);
 		return mav;
@@ -95,7 +100,7 @@ public class EshopController extends BaseController {
 		try {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if (user == null) {
-				mav.setViewName("login.httl");
+				mav.setViewName("redirect:/login");
 				return mav;
 			}
 			EShop shop = eshopService.getEShopByUser(eshop.getUserId());
@@ -124,7 +129,7 @@ public class EshopController extends BaseController {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			EShop shop = eshopService.getEShopByUser(query.getUserId());
 			if (user == null) {
-				modelAndView.setViewName("login.httl");
+				modelAndView.setViewName("redirect:/login");
 				return modelAndView;
 			}
 			this.setPage(page);
@@ -214,7 +219,7 @@ public class EshopController extends BaseController {
 		try {
 			EUser user = (EUser) this.getSessionAttribute(request, CoreConstant.USER_SESSION_NAME);
 			if (user == null) {
-				return new ModelAndView("login.httl");
+				return new ModelAndView("redirect:/login");
 			}
 			modelAndView.addObject("user", user);
 			user.setIsShopper(1);

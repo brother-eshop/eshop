@@ -1,4 +1,5 @@
 <script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> 
+<link rel="stylesheet" type="text/css" href="${img}/resources/styles/new.css?v=${v}">
 <script type="text/javascript">
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
 //	$(document).ready(function(){
@@ -47,10 +48,24 @@
 //		}
 //	});
 	var ws = null;  
-    var url = null;  
-    var transports = [];  
-    var heartbeat_msg = 'heartbeat', heartbeat_interval = null, missed_heartbeats = 0,neworder_msg='neworder';
-    function connect() {  
+    var url = null; 
+    function updateUrl(urlPath) {  
+        if (urlPath.indexOf('sockjs') != -1) {  
+            url = urlPath;  
+        }  
+        else {  
+          if (window.location.protocol == 'http:') {  
+              url = 'ws://' + window.location.host + urlPath;  
+          } else {  
+              url = 'wss://' + window.location.host + urlPath;  
+          }  
+        }  
+    }  
+    updateUrl("/userLink");
+    var transports = ["websocket"];  
+    var username="${user.username}";
+    var heartbeat_msg = username, heartbeat_interval = null, missed_heartbeats = 0,neworder_msg='neworder';
+    function connect() { 
         if (!url) {  
             alert('Select whether to use W3C WebSocket or SockJS');  
             return;  
@@ -76,6 +91,9 @@
         	ws.close();
         };  
     }  
+    if(username!=""){
+    	connect();
+    }
     function heartBeat(ws){
     	 if (heartbeat_interval === null) {
              missed_heartbeats = 0;
@@ -96,18 +114,7 @@
          }
          
     }
-    function updateUrl(urlPath) {  
-        if (urlPath.indexOf('sockjs') != -1) {  
-            url = urlPath;  
-        }  
-        else {  
-          if (window.location.protocol == 'http:') {  
-              url = 'ws://' + window.location.host + urlPath;  
-          } else {  
-              url = 'wss://' + window.location.host + urlPath;  
-          }  
-        }  
-    }  
+    
 </script>
 <div class="ecartInfo">
 	<div id="ecartTable"></div>

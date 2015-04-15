@@ -103,7 +103,7 @@ public class EUserController extends BaseController {
 		EUser user = (EUser) this.getSessionAttribute(request,
 				CoreConstant.USER_SESSION_NAME);
 		if (user == null) {
-			mav.setViewName("login.httl");
+			mav.setViewName("redirect:/login");
 			return mav;
 		}
 		mav.addObject("user", user);
@@ -113,7 +113,7 @@ public class EUserController extends BaseController {
 	@RequestMapping("/commitePwd")
 	public ModelAndView commitePwd(HttpServletRequest request,
 			HttpServletResponse response, ResetPwdParams pwd) {
-		ModelAndView mav = new ModelAndView("login.httl");
+		ModelAndView mav = new ModelAndView("redirect:/login");
 		setVar(mav);
 		EUser user = (EUser) this.getSessionAttribute(request,
 				CoreConstant.USER_SESSION_NAME);
@@ -140,7 +140,7 @@ public class EUserController extends BaseController {
 		EUser user = (EUser) this.getSessionAttribute(request,
 				CoreConstant.USER_SESSION_NAME);
 		if (user == null) {
-			mav.setViewName("login.httl");
+			mav.setViewName("redirect:/login");
 			return mav;
 		}
 		mav.addObject("user", user);
@@ -154,7 +154,7 @@ public class EUserController extends BaseController {
 		EUser user = (EUser) this.getSessionAttribute(request,
 				CoreConstant.USER_SESSION_NAME);
 		if (user == null) {
-			mav.setViewName("login.httl");
+			mav.setViewName("redirect:/login");
 			return mav;
 		}
 		// List<ECartItem> items = geItems(user.getId());
@@ -176,7 +176,7 @@ public class EUserController extends BaseController {
 				CoreConstant.USER_SESSION_NAME);
 		setVar(mav);
 		if (user == null) {
-			return new ModelAndView("login.httl");
+			return new ModelAndView("redirect:/login");
 		}
 		// List<ECartItem> items = geItems(user.getId());
 		ecartItem = ecartItemService.findById(ecartItem.getId(),
@@ -252,7 +252,7 @@ public class EUserController extends BaseController {
 		EUser user = (EUser) this.getSessionAttribute(request,
 				CoreConstant.USER_SESSION_NAME);
 		if (user == null) {
-			mav.setViewName("login.httl");
+			mav.setViewName("redirect:/login");
 			return mav;
 		}
 		EUserAddress euserAddress = euserAddressService
@@ -324,7 +324,7 @@ public class EUserController extends BaseController {
 		EUser user = (EUser) this.getSessionAttribute(request,
 				CoreConstant.USER_SESSION_NAME);
 		if (user == null) {
-			mav.setViewName("login.httl");
+			mav.setViewName("redirect:/login");
 			return mav;
 		}
 		EShop eshop = eshopService.getEShopByUser(user.getId());
@@ -447,7 +447,7 @@ public class EUserController extends BaseController {
 			EUser user = (EUser) this.getSessionAttribute(request,
 					CoreConstant.USER_SESSION_NAME);
 			if (user == null) {
-				modelAndView.setViewName("login.httl");
+				modelAndView.setViewName("redirect:/login");
 				return modelAndView;
 			}
 			euserAddress.setUserId(user.getId());
@@ -467,7 +467,7 @@ public class EUserController extends BaseController {
 			EUser user = (EUser) this.getSessionAttribute(request,
 					CoreConstant.USER_SESSION_NAME);
 			if (user == null) {
-				modelAndView.setViewName("login.httl");
+				modelAndView.setViewName("redirect:/login");
 				return modelAndView;
 			}
 			euserAddress.setUserId(user.getId());
@@ -556,7 +556,7 @@ public class EUserController extends BaseController {
 		EUser user = (EUser) this.getSessionAttribute(request,
 				CoreConstant.USER_SESSION_NAME);
 		if (user == null) {
-			mav.setViewName("login.httl");
+			mav.setViewName("redirect:/login");
 			return mav;
 		}
 		List<EOrder> orders = eorderService.findList(Criteria.where("userId")
@@ -573,7 +573,7 @@ public class EUserController extends BaseController {
 		EUser user = (EUser) this.getSessionAttribute(request,
 				CoreConstant.USER_SESSION_NAME);
 		if (user == null) {
-			mav.setViewName("login.httl");
+			mav.setViewName("redirect:/login");
 			return mav;
 		}
 		List<EOrder> orders = eorderService.findList(Criteria
@@ -590,7 +590,7 @@ public class EUserController extends BaseController {
 		EUser user = (EUser) this.getSessionAttribute(request,
 				CoreConstant.USER_SESSION_NAME);
 		if (user == null) {
-			mav.setViewName("login.httl");
+			mav.setViewName("redirect:/login");
 			return mav;
 		}
 		List<EUserAddress> addressList = euserAddressService

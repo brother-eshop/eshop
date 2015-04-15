@@ -68,13 +68,7 @@
 </head>
 <body>
 	<div class="container">
-		<header class="loginHeader">
-    		<h1 class="header-hd" title="">
-      			<a class="logo" role="logo">
-        			<img class="logo-img" src="${img}/resources/images/logo.png" alt="" />
-      			</a>
-    		</h1>
-  		</header>
+	${include("/common/header.httl")}
 		<div class="pageWrap">
 		<section class="wrap clearfix">
 			<aside class="loginBanner">
