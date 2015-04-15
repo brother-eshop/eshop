@@ -171,8 +171,8 @@ public class EshopController extends BaseController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView login(EUser euser, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/doLogin", method = RequestMethod.POST)
+	public ModelAndView doLogin(EUser euser, HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("redirect:/index");
 		EUser user = euserService.getByUserName(euser);
 		String password = MD5.getMD5(euser.getPassword());

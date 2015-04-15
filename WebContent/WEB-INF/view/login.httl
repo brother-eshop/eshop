@@ -85,7 +85,7 @@
       				<h2 class="title">登陆</h2>
     			</div>
     			<div class="panel-bd">
-      				<form id="login_form" class="form" action="/login" method="post" autocomplete="off" novalidate="true">
+      				<form id="login_form" class="form" action="/doLogin" method="post" autocomplete="off" novalidate="true">
         				<div class="form-item">
           					<input id="login_username" value="${user.username}" class="inputbox js_inputbox async" name="username" type="text" minlength="5" maxlength="16" placeholder="用户名" required="" />
           					<!--#if(name_error)-->

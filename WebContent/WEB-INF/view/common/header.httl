@@ -1,89 +1,144 @@
+<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script> 
 <script type="text/javascript">
 	<!--#var(com.eshop.model.mongodb.EUser user)-->
-	$(document).ready(function(){
-		$.ajax({
-			type: "post", 
-			contentType : 'application/json',  
-			url: "/euser/getMyECartItems",
-			success: function(data){
-				showItems(data);
-			},
-			error: function (){
-				alert("error")
-			}
-		});
-		$('.tMsg').bind('mouseover',function(){
-			$('.ecartInfo').show();
-		});
-		$('.tMsg').bind('mouseout',function(){
-			$('.ecartInfo').hide();
-		});
-		$('.ecartInfo').bind('mouseover',function(){
-			$('.ecartInfo').show();
-		});
-		$('.ecartInfo').bind('mouseout',function(){
-			$('.ecartInfo').hide();
-		});
-		
-		$('.ecartInfo').css('left',$(".tMsg").offset().left).css('top',$(".tMsg").offset().top+20);
-		
-		var showItems = function(items){
-			var total = 0;
-			var goodsTotal=0
-			var table = $('<table style="line-height: 1.5em;">').appendTo('#ecartTable');
-			$(items).each(function(i,item){
-				var tr = $('<tr>').appendTo(table);
-				$('<td>').html('<img title='+item.goods.goodsName+' src="/coco.jpg" style="display: block;width: 30px;height: 30px;">').appendTo(tr);
-				$('<td style="white-space:normal;padding: 0;">').html(item.goods.goodsName).appendTo(tr);
-//				var countInp = $('<input size=3>').val(item.goodsCount);
-//				$('<td>').append(countInp).appendTo(tr);
-				$('<td>').html("¥"+item.goods.outPrice+"×"+item.goodsCount).appendTo(tr);
-				total = total +item.goodsCount*item.goods.outPrice;
-				goodsTotal = goodsTotal + item.goodsCount;
-			});
-			$('#totalPay').html(total);
-			$('#msgNum').html(goodsTotal);
-		}
-	});
+//	$(document).ready(function(){
+//		$.ajax({
+//			type: "post", 
+//			contentType : 'application/json',  
+//			url: "/eshop/euser/getMyECartItems",
+//			success: function(data){
+//				showItems(data);
+//			},
+//			error: function (){
+//				alert("error")
+//			}
+//		});
+//		$('.tMsg').bind('mouseover',function(){
+//			$('.ecartInfo').show();
+//		});
+//		$('.tMsg').bind('mouseout',function(){
+//			$('.ecartInfo').hide();
+//		});
+//		$('.ecartInfo').bind('mouseover',function(){
+//			$('.ecartInfo').show();
+//		});
+//		$('.ecartInfo').bind('mouseout',function(){
+//			$('.ecartInfo').hide();
+//		});
+//		
+//		$('.ecartInfo').css('left',$(".tMsg").offset().left).css('top',$(".tMsg").offset().top+20);
+//		
+//		var showItems = function(items){
+//			var total = 0;
+//			var goodsTotal=0
+//			var table = $('<table style="line-height: 1.5em;">').appendTo('#ecartTable');
+//			$(items).each(function(i,item){
+//				var tr = $('<tr>').appendTo(table);
+//				$('<td>').html('<img title='+item.goods.goodsName+' src="/coco.jpg" style="display: block;width: 30px;height: 30px;">').appendTo(tr);
+//				$('<td style="white-space:normal;padding: 0;">').html(item.goods.goodsName).appendTo(tr);
+////				var countInp = $('<input size=3>').val(item.goodsCount);
+////				$('<td>').append(countInp).appendTo(tr);
+//				$('<td>').html("¥"+item.goods.outPrice+"×"+item.goodsCount).appendTo(tr);
+//				total = total +item.goodsCount*item.goods.outPrice;
+//				goodsTotal = goodsTotal + item.goodsCount;
+//			});
+//			$('#totalPay').html(total);
+//			$('#msgNum').html(goodsTotal);
+//		}
+//	});
+	var ws = null;  
+    var url = null;  
+    var transports = [];  
+    var heartbeat_msg = 'heartbeat', heartbeat_interval = null, missed_heartbeats = 0,neworder_msg='neworder';
+    function connect() {  
+        if (!url) {  
+            alert('Select whether to use W3C WebSocket or SockJS');  
+            return;  
+        }  
+        try{
+            ws = (url.indexOf('sockjs') != -1) ?   
+                new SockJS(url, undefined, {protocols_whitelist: transports}) : new WebSocket(url);
+        }catch(e){
+        	console.warn('server is not alive!');
+        }
+        heartBeat(ws);
+        ws.onopen = function () {  
+        	console.log("websocket------open")
+        };  
+        ws.onmessage = function (event) {  
+            if (event.data == heartbeat_msg) {
+                missed_heartbeats = 0;
+            }else if(event.data == neworder_msg){
+            	alert('您有新订单,请注意接单！');
+            }
+        };  
+        ws.onclose = function (event) {
+        	ws.close();
+        };  
+    }  
+    function heartBeat(ws){
+    	 if (heartbeat_interval === null) {
+             missed_heartbeats = 0;
+             heartbeat_interval = setInterval(function() {
+             	console.info("heartbeat is running!");
+                 missed_heartbeats++;
+                 if (missed_heartbeats >= 3){
+                 	console.warn("Too many missed heartbeats.prepare to reconnect");
+                 	clearInterval(heartbeat_interval);
+                     heartbeat_interval = null;
+                     connect();
+                     return;
+                 }
+                 if(ws.readyState == 1){
+                 	ws.send(heartbeat_msg);
+                 }
+             }, 5000);
+         }
+         
+    }
+    function updateUrl(urlPath) {  
+        if (urlPath.indexOf('sockjs') != -1) {  
+            url = urlPath;  
+        }  
+        else {  
+          if (window.location.protocol == 'http:') {  
+              url = 'ws://' + window.location.host + urlPath;  
+          } else {  
+              url = 'wss://' + window.location.host + urlPath;  
+          }  
+        }  
+    }  
 </script>
 <div class="ecartInfo">
 	<div id="ecartTable"></div>
 	<div class="ecartFooter">
-		总计：<a id="totalPay"></a>元<a id="saveEShop" href="/euser/cart" target="_blank" style="float:right;" class="btn_blue30">去结算</a>
+		总计：<a id="totalPay"></a>元<a href="/euser/cart" target="_blank" style="float:right;" class="btn_blue30">去结算</a>
 	</div>
 </div>
 <header class="header">
-	<div class="topBar">
+	<div class="headerTop">
 		<div class="wrap clearfix">
 			<div class="topL">
-				<a class="logo" href="/"><img src="${img}/resources/images/logo.png" alt="云码" /></a>
 				<nav>
 					<ul id="topMenu">
-						<li class="current"><a href="#">首页</a></li>
-						<li><a href="/startShop" target="_black">店铺入驻</a></li>
+						<li><a href="/index">首页</a></li>
+						<!--#if(user&&user.isShopper!=1)-->
+						<li><a>|</a></li>
+						<li><a href="startShop" target="_black">店铺入驻</a></li>
+						<!--#end-->
                 	</ul>				
 				</nav>
 			</div>
+			<!--#if(user)-->
 			<div class="topR">
-				<div class="tMsg">
-            		<span class="msgNum" id="msgNum"></span>
-            		<a href="javascript:;" class="i_car">购物车</a>                            
-                	<div class="tMsgBox">
-                		<ul class="tMsgList">
-                			<li><a href="#">asdfghfgjkl</a></li>
-                			<li><a href="#">asdfghfgjkl</a></li>
-                			<li><a href="#">asdfghfgjkl</a></li>
-                			<li><a href="#">asdfghfgjkl</a></li>
-                		</ul>
-                	</div>
-            	</div>
 				<!--登陆后-->
 				<div class="tLogin">
-					<a href="/euser/ucenter">${user.username}</a>
+					<a href="euser/ucenter"><img src="${img}/resources/images/people.png">&nbsp;&nbsp;${user.username}</a>
 					&nbsp;&nbsp;
-					<a href="/logout">退出</a>
+					<a href="logout">退出</a>
 				</div>
 			</div>
+			<!--#end-->
 		</div>
 	</div>
 </header>

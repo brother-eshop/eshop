@@ -178,7 +178,7 @@
   							<img class="captcha-img" src="/ran/random" id="captch-img" title="点击刷新验证码" />
 						</div>
         				<div class="form-helper form-text">
-          					<a class="g-link" href="/eshop/agreement" target="_blank">使用条款和协议</a>
+          					<a class="g-link" href="agreement" target="_blank">使用条款和协议</a>
         				</div>
         				<button class="g-btn g-btn-l g-btn-submit" id="reg_submit">同意协议并注册</button>
      				 </form>

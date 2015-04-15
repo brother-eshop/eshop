@@ -656,7 +656,7 @@ public class EUserController extends BaseController {
 		setVar(mav);
 		if (checkParam(key)) {
 			EUser user = euserService.findById(euser.getId(), EUser.class);
-			user.setPassword(MD5.getMD5(user.getPassword()));
+			user.setPassword(MD5.getMD5(euser.getPassword()));
 			euserService.save(user);
 		} else {
 			mav.setViewName("/error/error_msg.httl");
