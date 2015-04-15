@@ -33,6 +33,19 @@
 				}
 			});
 		});
+		var getCartItem = function(){
+			$.ajax({
+				type: "post", 
+				contentType : 'application/json',  
+				url: "/euser/getMyECartItems",
+				success: function(data){
+					$('#shopping-amount').html(data.length);
+				},
+				error: function (){
+					alert("error")
+				}
+			});
+		}();
 	});
 	</script>
 </head>
@@ -51,10 +64,10 @@
 			</div>
 			<!--input type="text" id="searchInput"  placeholder="住宅楼/写字楼搜索附近商店" size=40 name="address" />
 			<a id="search_button" class="btn_blue30">搜索</a-->
-			<div class="cart">
+			<a href="/euser/cart" class="cart">
 				<i class="ci-count" id="shopping-amount">0</i>
 				<img style="height:30px;" src="${img}/resources/images/shopping.png">
-			</div>
+			</a>
 		</div>
 		
 		<!--div class="left250">

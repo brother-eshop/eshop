@@ -91,7 +91,7 @@
         	ws.close();
         };  
     }  
-    if(username!=""){
+    if(username!=""&&"${user.isShopper}"==1){
     	connect();
     }
     function heartBeat(ws){
@@ -131,7 +131,7 @@
 						<li><a href="/index">首页</a></li>
 						<!--#if(user&&user.isShopper!=1)-->
 						<li><a>|</a></li>
-						<li><a href="startShop" target="_black">店铺入驻</a></li>
+						<li><a href="/startShop" target="_black">店铺入驻</a></li>
 						<!--#end-->
                 	</ul>				
 				</nav>
@@ -140,9 +140,9 @@
 			<div class="topR">
 				<!--登陆后-->
 				<div class="tLogin">
-					<a href="euser/ucenter"><img src="${img}/resources/images/people.png">&nbsp;&nbsp;${user.username}</a>
+					<a href="/euser/ucenter"><img src="${img}/resources/images/people.png">&nbsp;&nbsp;${user.username}</a>
 					&nbsp;&nbsp;
-					<a href="logout">退出</a>
+					<a href="/logout">退出</a>
 				</div>
 			</div>
 			<!--#end-->
