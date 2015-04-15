@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7, IE=9" /> 
+<title>重置密码邮件</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<!--[if lt IE 9]><script src="http://img.383cloud.com/static/js/common/html5.js?v=1401851843882"></script><![endif]-->
+<link href="$img/resources/styles/basic.css" rel="stylesheet">
+</head>
+<body>
+<section id="wrapper">
+	<header id="header" class="clearfix">
+
+        <div class="top_con clearfix">
+            <div class="logo">
+                <h1><a href="/"><img src="$ctximg/resources/images/cloudLogo.png""></a></h1>
+            </div>
+            <div class="login_tit">宅速乐找回密码验证邮件</div>
+        </div><!-- /top_con -->
+</header><!-- /header -->
+
+</section>
+<section class="login border_orange clearfix">
+    <div class="login_mian clearfix">
+        <div class="edm">           
+            <h2>亲爱的#if($nickName) $nickName #else 会员 #end：</h2>
+            <p>感谢您使用<a href="http://www.zsule.com">宅速乐</a>会员密码找回功能。
+            <p class="not_open">请点击下面链接，修改您的密码：<br /><a href="$!activeUrl">$!activeUrl </a></p>
+            <div class="group">
+                <p>yunmar 账号通知</p>
+                <p>$!nowdate</p>
+            </div>
+            <div class="grounp_con">
+                <p>如果您并未发过此请求，请忽略此邮件，无需进一步采取任何操作。</p>
+                <p>这是一封系统自动发出的邮件，请不要直接回复。</p>
+                <p>妥善保管好您的邮箱，避免账户被他人盗用</p>
+                <p>这是一封系统自动发出的邮件，请不要直接回复，如有疑问请联系管理员：$!adminEmail</p>
+            </div>
+        </div>
+    </div>
+</section><!-- / login -->
+</body>
+</html>

@@ -81,4 +81,38 @@
         <task:scheduled ref="userSessionJob" method="removeInvalideSession" cron="0/30 * * * * ?"/>   
 	</task:scheduled-tasks> 
 	<bean id="userSessionJob" class="com.eshop.service.manager.UserSessionJob"/> 
+	
+	
+	<bean id="emailExecutorPool" class="com.eshop.frameworks.core.mail.EmailExecutorPool">
+		<property name="poolSize" value="5"/>
+	</bean>
+	<!-- 邮件发送线程类-->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<property name="host" value="${email.host}" />
+		<property name="username" value="${email.username}"></property>
+		<property name="password" value="${email.password}"></property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">${email.smtp.auth}</prop>
+				<prop key="mail.smtp.timeout">${email.smtp.timeout}</prop>
+				<!--
+					   <prop key="mail.smtp.starttls.enable">true</prop>
+					   <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+					   <prop key="mail.smtp.socketFactory.fallback">false</prop>
+					   -->
+			</props>
+		</property>
+	</bean>
+	<bean id="simpleMailMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from">
+			<value>${email.default.from}</value>
+		</property>
+	</bean>
+	<bean id="mailSenderService" class="com.eshop.frameworks.core.mail.MailSenderService">
+		<property name="emailExecutorPool" ref="emailExecutorPool" />
+		<property name="mailSender" ref="mailSender" />
+		<property name="simpleMailMessage" ref="simpleMailMessage" />
+		<property name="velocityEngine" ref="velocityEngine" />
+	</bean>
 </beans>

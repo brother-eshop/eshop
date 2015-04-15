@@ -1,6 +1,8 @@
 package com.eshop.common.util.security;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * @ClassName net.sns.framework.core.util.Security.Base64
@@ -439,5 +441,16 @@ public class Base64 {
 			ex.printStackTrace();
 			return "";
 		}
+	}
+	
+	
+	public static String encodeURL(String str) throws UnsupportedEncodingException {
+		String url = encode(str);
+		return URLEncoder.encode(url, "UTF-8");
+	}
+	
+	public static String decodeURL(String cryptoStr) throws UnsupportedEncodingException {
+		String url = URLDecoder.decode(cryptoStr, "UTF-8");
+		return decode(url);
 	}
 }

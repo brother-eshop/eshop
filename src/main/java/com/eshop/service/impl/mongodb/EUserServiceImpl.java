@@ -30,10 +30,15 @@ public class EUserServiceImpl extends AbstractService<EUser, String> implements
 	public EUser getByUserName(EUser euser) {
 		return euserDao.findOne(Criteria.where("username").is(euser.getUsername()), EUser.class);
 	}
-
+	
+	@Override
+	public EUser getByEmail(String email) {
+		return euserDao.findOne(Criteria.where("email").is(email), EUser.class);
+	}
+	
 	@Override
 	public EUser getByEmail(EUser euser) {
-		return euserDao.findOne(Criteria.where("email").is(euser.getEmail()), EUser.class);
+		return getByEmail(euser.getEmail());
 	}
 
 	@Override

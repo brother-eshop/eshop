@@ -18,9 +18,6 @@ import com.eshop.frameworks.core.entity.MongoEntity;
 @EqualsAndHashCode(callSuper = false)
 public class EUser extends MongoEntity{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1827485253454394482L;
 
 	@Id
@@ -56,5 +53,7 @@ public class EUser extends MongoEntity{
 	private Date regTime;
 	
 	private String captcha;
+	//是否发送了找回密码邮件，确保重设密码连接只一次生效用
+	private Boolean isSendPwdMail = false;
 	
 }

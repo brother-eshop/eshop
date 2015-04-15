@@ -6,9 +6,7 @@
     <title>eshop</title>
     <meta name="description" content="">
 	<meta name="keywords" content="">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js?_v=${v}"></script>
-	<link rel="stylesheet" type="text/css" href="/eshop/resources/styles/base.css?_v=${v}">
-	<script type="text/javascript" src="/eshop/resources/kissy/seed-min.js?_v=${v}"></script>
+	<link rel="stylesheet" type="text/css" href="${img}/resources/styles/base.css?_v=${v}">
 	<script type="text/javascript" src="${img}/statics/js/jquery.js?_v=${v}"></script>
 </head>
 <body>
@@ -22,24 +20,24 @@
 				<div class="left250">
 					<div class="snTitle">个人</div>
 					<ul class="snList">
-						<li><a href="/eshop/euser/ucenter"><i class="ui_icon i_grxx"></i><span>个人中心</span></a></li>
-						<li class="current"><a href="/eshop/euser/resetPwd"><i class="ui_icon i_wdtx"></i><span>修改密码</span></a></li>
-						<li><a href="/eshop/euser/myBills"><i class="ui_icon i_zhaq"></i><span>我的订单</span></a></li>
-						<li><a href="/eshop/euser/address"><i class="ui_icon i_zhbd"></i><span>地址管理</span></a></li>
+						<li><a href="/euser/ucenter"><i class="ui_icon i_grxx"></i><span>个人中心</span></a></li>
+						<li class="current"><a href="/euser/resetPwd"><i class="ui_icon i_wdtx"></i><span>修改密码</span></a></li>
+						<li><a href="/euser/myBills"><i class="ui_icon i_zhaq"></i><span>我的订单</span></a></li>
+						<li><a href="/euser/address"><i class="ui_icon i_zhbd"></i><span>地址管理</span></a></li>
 					</ul>
 					<div class="snTitle">店铺</div>
 					<ul class="snList">
-						<li><a href="/eshop/euser/shopManage"><i class="ui_icon i_wdjf"></i><span>店铺管理</span></a></li>
+						<li><a href="/euser/shopManage"><i class="ui_icon i_wdjf"></i><span>店铺管理</span></a></li>
 						<li><a href="/manager/shopperGoods/goodsManage"><i class="ui_icon i_wdjf"></i><span>商品管理</span></a></li>
-						<li><a href="/eshop/euser/addGoods"><i class="ui_icon i_wdjf"></i><span>添加商品</span></a></li>
-						<li><a href="/eshop/euser/shopBills"><i class="ui_icon i_wdjf"></i><span>历史订单</span></a></li>
+						<li><a href="/euser/addGoods"><i class="ui_icon i_wdjf"></i><span>添加商品</span></a></li>
+						<li><a href="/euser/shopBills"><i class="ui_icon i_wdjf"></i><span>历史订单</span></a></li>
 						<!--li><a href="/user/listPointRecords"><i class="ui_icon i_wdjf"></i><span>开始接单</span></a></li-->
 					</ul>
 				</div>
 				<div class="right720">
 					<div class="radius">
 						<div class="blueLineS"><span class="lineS_current">修改密码</span></div>
-							<form method="post" action="/eshop/euser/commitePwd" id="pwdForm" class="setForm">
+							<form method="post" action="/euser/commitePwd" id="pwdForm" class="setForm">
 								<section>
 									<ul>
 										<li>

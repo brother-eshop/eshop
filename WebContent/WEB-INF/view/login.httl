@@ -117,7 +117,7 @@
           						<input class="login-remember" type="checkbox" name="remember" checked="">
            						下次自动登录
         					</label-->
-        					<a class="g-link" href="/forgetPassword">忘记密码了？</a>
+        					<a class="g-link" href="/euser/findPwd">忘记密码了？</a>
       					</div>
         				<button class="g-btn g-btn-l g-btn-submit" id="login_submit">登录</button>
      				 </form>
