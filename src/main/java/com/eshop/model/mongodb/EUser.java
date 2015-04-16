@@ -23,7 +23,7 @@ public class EUser extends MongoEntity{
 	@Id
 	private String id;
 	
-	@Indexed(unique=false,name="user_name",direction=IndexDirection.ASCENDING)
+	@Indexed(unique=true,name="user_name",direction=IndexDirection.ASCENDING)
 	private String username;
 	
 	@Indexed(unique=false,name="user_password",direction=IndexDirection.ASCENDING)
@@ -55,5 +55,9 @@ public class EUser extends MongoEntity{
 	private String captcha;
 	//是否发送了找回密码邮件，确保重设密码连接只一次生效用
 	private Boolean isSendPwdMail = false;
+	//烟销售认证
+	private Boolean isSmokeCert=false;
+	//营业执照认证
+	private Boolean isBusinessCert=false;
 	
 }
