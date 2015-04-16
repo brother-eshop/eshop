@@ -1,0 +1,35 @@
+<script>
+$("#upLogo").uploadify({
+                'uploader'       : '/resources/js/uploadify/uploadify.swf', //是组件自带的flash，用于打开选取本地文件的按钮 
+                'script'         : '${uploadServerUrl}/groupLogo',//处理上传的路径，
+                'cancelImg'      : '${ctximg}/resources/js/uploadify/cancel.png',//取消上传文件的按钮图片，就是个叉叉
+                'folder'         : 'uploads',//上传文件的目录
+                'fileDataName'   : 'officeAttachment',//和input的name属性值保持一致就好，Struts2就能处理了
+                'queueID'        : 'officefileQueue',
+                'auto'           : true,//是否选取文件后自动上传
+                'multi'          : false,//是否支持多文件上传
+                'simUploadLimit' : 1,//每次最大上传文件数
+                'buttonText'     : 'BROWSE',//按钮上的文字
+                'buttonImg'      : '${ctximg}/resources/images/common/selectFile.png',
+                'width'			 : 86,
+                'height'		 : 30,
+                'displayData'    : 'percentage',//有speed和percentage两种，一个显示速度，一个显示完成百分比 
+                'fileDesc'       : '支持格式:bmp/gif/jpg/tif/png', //如果配置了以下的'fileExt'属性，那么这个属性是必须的 
+                'fileExt'        : '*.bmp;*.gif;*.jpg;*.tif;*.png',//允许的格式
+                'wmode'			 : 'transparent',
+               	'onSelect'         : function (){ 					
+				},
+                'onComplete'     : function (event, queueID, fileObj, response, data){
+              		var da =  $.parseJSON(response);
+               		if (da.error == 0) {					                  									
+          			 	$('#showPic').attr("src",da.smallUrl);  
+            		 	$("#groupIcon").val(da.localSmallUrl);         			 
+            		 	$("#groupVar1").val(da.localLargeUrl);         			 
+					} else if(da.error==-3) {
+						salert("上传文件尺寸太小，不允许上传。");
+					}else {
+						salert("只能上传gif,jpg,jpeg,png,bmp的图片。");
+					}
+                }
+            });
+</script>
